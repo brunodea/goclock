@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import android.content.Context;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -29,16 +27,17 @@ public class ClockFragment extends Fragment {
 		View v = inflater.inflate(R.layout.clock, container, false);
 		mTextViewCurrentTime = (TextView) v.findViewById(R.id.textview_current_time);
 		
-		mCountDownTimer = new CountDownTimer(TimeSettings.MAIN_TIME_SEC, 1000) {
+		mCountDownTimer = new CountDownTimer(TimeSettings.MAIN_TIME_SEC*1000, 1) {
 			@Override
 			public void onTick(long millisUntilFinished) {
-				SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+				SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss.SSS", Locale.getDefault());
 				Date d = new Date(millisUntilFinished);
 				mTextViewCurrentTime.setText(format.format(d));
 			}
 			
 			@Override
 			public void onFinish() {
+				mTextViewCurrentTime.setText(getResources().getString(R.string.time_over));
 			}
 		};
 		mCountDownTimer.start();
