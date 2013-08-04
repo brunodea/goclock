@@ -25,11 +25,16 @@ public class Clock {
 	}
 	
 	public void pauseTimer() {
+		if(mTimeRule.isTimeOver())
+			return;		
 		mCountDownTimer.cancel();
 		mMillisUntilFinished = mTimeRule.onPause(mMillisUntilFinished);
 	}
 	
 	public void resumeTimer() {
+		if(mTimeRule.isTimeOver())
+			return;
+		
 		mCountDownTimer = new CountDownTimer(mMillisUntilFinished, 100) {
 			@Override
 			public void onTick(long millisUntilFinished) {

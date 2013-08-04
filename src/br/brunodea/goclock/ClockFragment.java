@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import br.brunodea.goclock.timerule.ByoYomiTimeRule;
+import br.brunodea.goclock.timerule.CanadianTimeRule;
 
 public class ClockFragment extends Fragment {
 	
@@ -28,7 +28,8 @@ public class ClockFragment extends Fragment {
 	public void onCreate(Bundle savedInstancesState) {
 		super.onCreate(savedInstancesState);
 		mCurrBaseColorBlack = false;
-		mClock = new Clock(new ByoYomiTimeRule(20*1000, 10*1000, 3), mTimeHandler);
+		//mClock = new Clock(new ByoYomiTimeRule(20*1000, 10*1000, 3), mTimeHandler);
+		mClock = new Clock(new CanadianTimeRule(20*1000, 30*1000, 3), mTimeHandler);
 	}
 	
 	public void setUpsideDown() {
