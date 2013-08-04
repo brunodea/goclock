@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    
-    
+    <fragment android:name="br.brunodea.goclock.ClockFragment"
+        android:id="@+id/white_frag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"/>
+    <fragment android:name="br.brunodea.goclock.ClockFragment"
+        android:id="@+id/black_frag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"/>
 </LinearLayout>
