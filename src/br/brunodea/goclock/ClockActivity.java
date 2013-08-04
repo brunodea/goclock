@@ -52,15 +52,17 @@ public class ClockActivity extends FragmentActivity {
 		if(mCurrentTurn == Turn.NONE) {
 			mCurrentTurn = Turn.BLACK;
 			mClockFragmentBlack.resumeTimer();
-			mClockFragmentWhite.setTimeLeftText();
+			mClockFragmentWhite.setTimeTextInfos();
 		} else if(mCurrentTurn == Turn.BLACK) {
 			mCurrentTurn = Turn.WHITE;
 			mClockFragmentBlack.pauseTimer();
+			mClockFragmentBlack.setTimeTextInfos();
 			mClockFragmentWhite.resumeTimer();
 		} else if(mCurrentTurn == Turn.WHITE) {
 			mCurrentTurn = Turn.BLACK;
-			mClockFragmentBlack.resumeTimer();
 			mClockFragmentWhite.pauseTimer();
+			mClockFragmentWhite.setTimeTextInfos();
+			mClockFragmentBlack.resumeTimer();
 		}
 	}
 
