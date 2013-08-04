@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -16,7 +18,10 @@ public class ClockFragment extends Fragment {
 	
 	private TextView mTextViewCurrentTime;
 	private CountDownTimer mCountDownTimer;
-	
+
+	public void setUpsideDown() {
+		mTextViewCurrentTime.setRotation(180.f);
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,9 +41,7 @@ public class ClockFragment extends Fragment {
 			public void onFinish() {
 			}
 		};
-		
 		mCountDownTimer.start();
-		
 		return v;
 	}
 }
