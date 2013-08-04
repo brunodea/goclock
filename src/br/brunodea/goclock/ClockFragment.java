@@ -1,9 +1,6 @@
 package br.brunodea.goclock;
 
 import android.graphics.Color;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 
@@ -18,6 +16,8 @@ public class ClockFragment extends Fragment {
 	
 	private TextView mTextViewTimeLeft;
 	private TextView mTextViewByoYomiInfo;
+	
+	private LinearLayout mLinearLayoutClock;
 	
 	private boolean mCurrBaseColorBlack;
 	
@@ -31,8 +31,8 @@ public class ClockFragment extends Fragment {
 	}
 	
 	public void setUpsideDown() {
-		mTextViewTimeLeft.setRotation(180.f);
-		mTextViewByoYomiInfo.setRotation(180.f);
+		mLinearLayoutClock.setScaleX(-1.f);
+		mLinearLayoutClock.setScaleY(-1.f);
 	}
 	
 	public void setBaseColorBlack() {
@@ -72,6 +72,7 @@ public class ClockFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceBundle) {
 		View v = inflater.inflate(R.layout.clock, container, false);
+		mLinearLayoutClock = (LinearLayout) v.findViewById(R.id.linearlayout_clock);
 		mTextViewTimeLeft = (TextView) v.findViewById(R.id.textview_time_left);
 		mTextViewByoYomiInfo = (TextView) v.findViewById(R.id.textview_byoyomi_info);
 		
