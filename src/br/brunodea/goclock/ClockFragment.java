@@ -2,6 +2,7 @@ package br.brunodea.goclock;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -23,10 +24,10 @@ public class ClockFragment extends Fragment {
 		View v = inflater.inflate(R.layout.clock, container, false);
 		mTextViewCurrentTime = (TextView) v.findViewById(R.id.textview_current_time);
 		
-		final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 		mCountDownTimer = new CountDownTimer(TimeSettings.MAIN_TIME_SEC, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
+				SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
 				Date d = new Date(millisUntilFinished);
 				mTextViewCurrentTime.setText(format.format(d));
 			}
@@ -36,6 +37,7 @@ public class ClockFragment extends Fragment {
 			}
 		};
 		
+		mCountDownTimer.start();
 		
 		return v;
 	}
