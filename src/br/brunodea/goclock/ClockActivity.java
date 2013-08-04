@@ -7,7 +7,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class ClockActivity extends FragmentActivity {
-
+	
+	private ClockFragment mClockFragmentBlack;
+	private ClockFragment mClockFragmentWhite;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -16,6 +19,11 @@ public class ClockActivity extends FragmentActivity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_clock);
+
+		mClockFragmentBlack = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.black_frag);
+		mClockFragmentWhite = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.white_frag);
+		
+		mClockFragmentWhite.setUpsideDown();
 	}
 
 	@Override
