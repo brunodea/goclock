@@ -5,11 +5,11 @@
     android:orientation="vertical"
     android:gravity="center" >
 
-	<TextView android:id="@+id/textview_current_time"
+	<TextView android:id="@+id/textview_time_left"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center"
-	    android:text="@string/time_over"
-	    android:textSize="@dimen/current_time_font_size"/>
+	    android:text="@string/tap_to_start"
+	    android:textSize="@dimen/time_left_font_size"/>
     
 </LinearLayout>
