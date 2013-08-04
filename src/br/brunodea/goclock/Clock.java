@@ -1,10 +1,10 @@
 package br.brunodea.goclock;
 
-import br.brunodea.goclock.timerule.TimeRule;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import br.brunodea.goclock.timerule.TimeRule;
 
 public class Clock {
 	public static final int TIME_OVER = 0;

@@ -1,7 +1,5 @@
 package br.brunodea.goclock.timerule;
 
-import br.brunodea.goclock.App;
-import br.brunodea.goclock.R;
 
 public class ByoYomiTimeRule extends TimeRule {
 	private int mByoYomiPeriods;
@@ -31,6 +29,13 @@ public class ByoYomiTimeRule extends TimeRule {
 	}
 	@Override
 	public String byoYomiInfo() {
-		return App.instance().getString(R.string.periods_left)+": "+mByoYomiPeriods;
+		String text = "";
+		if(isMainTimeOver()) {
+			text = "("+mByoYomiPeriods+")";
+			if(mByoYomiPeriods == 1) {
+				text = "F";
+			}
+		}
+		return text;
 	}
 }

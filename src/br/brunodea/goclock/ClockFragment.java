@@ -64,10 +64,11 @@ public class ClockFragment extends Fragment {
 	}
 	
 	private void setTimeLeftText() {
-		mTextViewTimeLeft.setText(mClock.formattedTimeLeft());
+		mTextViewTimeLeft.setText(mClock.formattedTimeLeft()+" "+
+				mClock.getTimeRule().byoYomiInfo());
 	}
 	private void setByoYomiInfoText() {
-		mTextViewByoYomiInfo.setText(mClock.getTimeRule().byoYomiInfo());
+		//mTextViewByoYomiInfo.setText(mClock.getTimeRule().byoYomiInfo());
 	}
 	
 	@Override

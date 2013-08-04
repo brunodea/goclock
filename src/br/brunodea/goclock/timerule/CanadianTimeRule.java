@@ -36,7 +36,11 @@ public class CanadianTimeRule extends TimeRule {
 
 	@Override
 	public String byoYomiInfo() {
-		return App.instance().getString(R.string.stones_left)+": "+mCurrStones;
+		String text = "";
+		if(isMainTimeOver()) {
+			text = "("+mCurrStones+")";
+		}
+		return text;
 	}
 
 }

@@ -3,19 +3,19 @@
     android:id="@+id/linearlayout_clock"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center" >
+    android:gravity="center"
+    android:orientation="vertical">
 
 	<TextView android:id="@+id/textview_time_left"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_gravity="center"
 	    android:text="@string/tap_to_start"
+	    android:layout_gravity="center"
 	    android:textSize="@dimen/time_left_font_size"/>
     
 	<TextView android:id="@+id/textview_byoyomi_info"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_gravity="left"
-	    android:textSize="@dimen/byoyomi_info_font_size"/>
+	    android:layout_gravity="center"
+	    android:textSize="@dimen/time_left_font_size"/>  
 </LinearLayout>
