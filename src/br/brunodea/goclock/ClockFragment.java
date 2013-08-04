@@ -1,6 +1,7 @@
 package br.brunodea.goclock;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -75,6 +76,10 @@ public class ClockFragment extends Fragment {
 		mLinearLayoutClock = (LinearLayout) v.findViewById(R.id.linearlayout_clock);
 		mTextViewTimeLeft = (TextView) v.findViewById(R.id.textview_time_left);
 		mTextViewByoYomiInfo = (TextView) v.findViewById(R.id.textview_byoyomi_info);
+		
+		Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "fonts/digital_clock.ttf");
+		mTextViewTimeLeft.setTypeface(tf);
+		mTextViewByoYomiInfo.setTypeface(tf);
 		
 		return v;
 	}
