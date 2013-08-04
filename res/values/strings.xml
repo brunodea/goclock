@@ -8,4 +8,17 @@
 	<string name="tap_to_start">Tap to Start</string>
 	<string name="periods_left">Periods Left</string>
 	<string name="stones_left">Stones Left</string>
+	<string name="byoyomi">Byo-Yomi</string>
+	<string name="byoyomi_summary">Time until a stone is placed.</string>
+	<string name="periods">Periods</string>
+	<string name="extra_time">Extra time</string>
+	<string name="main_time">Main Time</string>
+	<string name="main_time_summary">Main time in seconds.</string>
+	<string name="set">Set</string>
+	<string name="cancel">Cancel</string>
+	<string name="time_rule_to_use">Time rule to use</string>
+	<string name="timerule">Time Rule</string>
+	<string name="canadian">Canadian</string>
+	<string name="rules">Rules</string>
+	<string name="reset_clock">Reset Clock</string>
 </resources>

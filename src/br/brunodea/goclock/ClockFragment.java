@@ -92,6 +92,11 @@ public class ClockFragment extends Fragment {
 	public void resumeTimer() {
 		mClock.resumeTimer();
 	}
+	public void reset() {
+		mTextViewTimeLeft.setText(getActivity().getString(R.string.tap_to_start));
+		mClock.reset();
+	}
+	
 	private void playNotificationSound() {
 		//TODO
 	}

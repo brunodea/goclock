@@ -4,6 +4,8 @@ import br.brunodea.goclock.App;
 import br.brunodea.goclock.R;
 
 public class CanadianTimeRule extends TimeRule {
+	public static final String CANADIAN_RULE = App.instance().getString(R.string.canadian);
+	public static final String CANADIAN_KEY = "canadian_rule";
 
 	private int mStonesPerByoYomi;
 	private int mCurrStones;

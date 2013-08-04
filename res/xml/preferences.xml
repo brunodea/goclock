@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory 
+        android:key="byoyomi_category_key"
+        android:title="@string/byoyomi">
+         <br.brunodea.goclock.preferences.TimeDialogPreference
+            android:key="byoyomi_maintime_key"
+            android:title="@string/main_time"/>
+         <br.brunodea.goclock.preferences.TimeDialogPreference
+            android:key="byoyomi_extratime_key"
+            android:title="@string/extra_time"/>
+         <EditTextPreference
+             android:key="byoyomi_periods_key"
+             android:title="@string/periods"
+             android:numeric="integer"/>
+	</PreferenceCategory>
+	<PreferenceCategory 
+	    android:key="timerule_category_key"
+	    android:title="@string/timerule">
+		<ListPreference 
+		    android:key="timerules_key"
+		    android:title="@string/time_rule_to_use"/>
+	    
+	    
+	</PreferenceCategory>
+</PreferenceScreen>

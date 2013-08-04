@@ -1,6 +1,7 @@
 package br.brunodea.goclock.timerule;
 
-public abstract class TimeRule {
+
+public abstract class TimeRule {	
 	private long mMainTimeMilliS;	
 	private long mByoYomiTimeMilliS;
 
@@ -38,5 +39,5 @@ public abstract class TimeRule {
 	}
 	public abstract void onByoYomiTimeOver();
 	public abstract long onPause(long millisUntilFinished);
-	public abstract String byoYomiInfo();
+	public abstract String byoYomiInfo();	
 }

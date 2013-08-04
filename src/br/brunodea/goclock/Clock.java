@@ -65,6 +65,15 @@ public class Clock {
 	public TimeRule getTimeRule() {
 		return mTimeRule;
 	}
+	public void setTimeRule(TimeRule time_rule) {
+		mTimeRule = time_rule;
+		reset();
+	}
+	
+	public void reset() {
+		mMillisUntilFinished = mTimeRule.getMainTime();
+		mCountDownTimer.cancel();
+	}
 	
 	private Handler time_over_handler = new Handler() {
 		@Override

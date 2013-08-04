@@ -1,16 +1,19 @@
 package br.brunodea.goclock;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import br.brunodea.goclock.preferences.TimePreferenceActivity;
 
 public class ClockActivity extends FragmentActivity {
-	
+	public static final int SHOW_PREFERENCES_REQUEST_CODE = 0;
 	private ClockFragment mClockFragmentBlack;
 	private ClockFragment mClockFragmentWhite;
 	
@@ -70,6 +73,18 @@ public class ClockActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.clock, menu);
+		return true;
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.action_settings:
+			Intent i = new Intent(this, TimePreferenceActivity.class);
+			startActivityForResult(i, SHOW_PREFERENCES_REQUEST_CODE);
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 		return true;
 	}
 }

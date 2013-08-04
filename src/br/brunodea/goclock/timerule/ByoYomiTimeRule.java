@@ -1,7 +1,12 @@
 package br.brunodea.goclock.timerule;
 
+import br.brunodea.goclock.App;
+import br.brunodea.goclock.R;
 
 public class ByoYomiTimeRule extends TimeRule {
+	public static final String BYOYOMI_RULE = App.instance().getString(R.string.byoyomi);
+	public static final String BYOYOMI_KEY = "byoyomi_key";
+
 	private int mByoYomiPeriods;
 	
 	public ByoYomiTimeRule(long milliSMainTime, 
