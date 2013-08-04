@@ -13,8 +13,7 @@
     <TextView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=":"
-        android:textSize="@dimen/time_left_font_size"/>
+        android:text=":"/>
     
     <NumberPicker
         android:id="@+id/np_min"
@@ -24,8 +23,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=":"
-        android:textSize="@dimen/time_left_font_size"/>
+        android:text=":"/>
     
     <NumberPicker
         android:id="@+id/np_sec"
