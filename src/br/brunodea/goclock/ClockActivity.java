@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.Window;
+import android.view.WindowManager;
 
 public class ClockActivity extends FragmentActivity {
 
@@ -12,6 +13,8 @@ public class ClockActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_clock);
 	}
 
