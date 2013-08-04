@@ -1,5 +1,5 @@
 package br.brunodea.goclock;
 
 public class TimeSettings {
-	static int MAIN_TIME_SEC = 60;
+	static int MAIN_TIME_SEC = 20;
 }

@@ -32,7 +32,7 @@ public class ClockActivity extends FragmentActivity {
 		mClockFragmentBlack = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.black_frag);
 		mClockFragmentWhite = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.white_frag);
 		
-		mClockFragmentBlack.invertColors();
+		mClockFragmentBlack.setBaseColorBlack();
 		mClockFragmentWhite.setUpsideDown();
 		
 		mCurrentTurn = Turn.NONE;
