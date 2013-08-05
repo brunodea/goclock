@@ -1,13 +1,10 @@
 package br.brunodea.goclock;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.concurrent.TimeUnit;
-
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import br.brunodea.goclock.timerule.TimeRule;
+import br.brunodea.goclock.util.Util;
 
 public class Clock {
 	public static final int TIME_OVER = 0;
@@ -34,10 +31,7 @@ public class Clock {
 		mMillisUntilFinished = mTimeRule.onPause(mMillisUntilFinished);
 	}
 	
-	public void resumeTimer() {
-		if(mTimeRule.isTimeOver())
-			return;
-		
+	private void initCountDownTimer() {
 		mCountDownTimer = new CountDownTimer(mMillisUntilFinished, 100) {
 			@Override
 			public void onTick(long millisUntilFinished) {
@@ -58,33 +52,21 @@ public class Clock {
 				time_over_handler.sendEmptyMessage(msg.what);
 			}
 		};
+	}
+	public void resumeTimer() {
+		if(mTimeRule.isTimeOver())
+			return;
+		
+		initCountDownTimer();
 		mCountDownTimer.start();
 	}
 	
 	public String formattedTimeLeft() {
-		NumberFormat nf = new DecimalFormat("00");
-		int h = (int) TimeUnit.MILLISECONDS.toHours(mMillisUntilFinished);
-		int m = (int) TimeUnit.MILLISECONDS.toMinutes(mMillisUntilFinished) -
-				(int) TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(mMillisUntilFinished));
-		int s = (int) TimeUnit.MILLISECONDS.toSeconds(mMillisUntilFinished) - 
-				(int) TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(mMillisUntilFinished));
-		
-		return nf.format(h)+":"+nf.format(m)+":"+nf.format(s);
+		return Util.formattedTime(mMillisUntilFinished);
 	}
-	
+
 	public TimeRule getTimeRule() {
 		return mTimeRule;
-	}
-	public void setTimeRule(TimeRule time_rule) {
-		mTimeRule = time_rule;
-		reset();
-	}
-	
-	public void reset() {
-		mMillisUntilFinished = mTimeRule.getMainTime();
-		if(mCountDownTimer != null) {
-			mCountDownTimer.cancel();
-		}
 	}
 	
 	private Handler time_over_handler = new Handler() {

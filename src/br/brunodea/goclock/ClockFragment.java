@@ -24,6 +24,7 @@ public class ClockFragment extends Fragment {
 	private boolean mCurrBaseColorBlack;
 	
 	private Clock mClock;
+	private Handler mTimeHandler;
 	
 	@Override
 	public void onCreate(Bundle savedInstancesState) {
@@ -64,14 +65,16 @@ public class ClockFragment extends Fragment {
 	
 	public void setTimeTextInfos() {
 		setTimeLeftText();
-		setByoYomiInfoText();
+		setByoYomiCurrentInfoText();
 	}
 	
 	private void setTimeLeftText() {
 		mTextViewTimeLeft.setText(mClock.formattedTimeLeft());
 	}
-	private void setByoYomiInfoText() {
-		mTextViewByoYomiInfo.setText(mClock.getTimeRule().byoYomiInfo());
+	private void setByoYomiCurrentInfoText() {
+		mTextViewByoYomiInfo.setTextSize(getActivity().getResources()
+				.getDimension(R.dimen.time_left_font_size));
+		mTextViewByoYomiInfo.setText(mClock.getTimeRule().currentExtraInfo());
 	}
 	
 	@Override
@@ -86,7 +89,15 @@ public class ClockFragment extends Fragment {
 		mTextViewTimeLeft.setTypeface(tf);
 		mTextViewByoYomiInfo.setTypeface(tf);
 		
+		initialTextValues();
+		
 		return v;
+	}
+	
+	private void initialTextValues() {
+		mTextViewTimeLeft.setText(mClock.formattedTimeLeft());
+		mTextViewByoYomiInfo.setText(mClock.getTimeRule().extraInfo());
+		mTextViewByoYomiInfo.setTextSize(getActivity().getResources().getDimension(R.dimen.byoyomi_info_font_size));
 	}
 	
 	public void pauseTimer() {
@@ -96,28 +107,30 @@ public class ClockFragment extends Fragment {
 		mClock.resumeTimer();
 	}
 	public void reset() {
-		mTextViewTimeLeft.setText(getActivity().getString(R.string.tap_to_start));
-		mTextViewByoYomiInfo.setText("");
-		mClock.reset();
+		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
+		initTimeHandler();
+		initialTextValues();
 	}
 	
 	private void playNotificationSound() {
 		//TODO
 	}
 	
-	private Handler mTimeHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			if(msg.what == Clock.TIME_OVER) {
-				mTextViewTimeLeft.setText(getResources().getString(R.string.time_over));
-				mTextViewByoYomiInfo.setText("");
-			} else if(msg.what == Clock.MAIN_TIME_OVER) {
-				playNotificationSound();
-			} else if(msg.what == Clock.BYO_YOMI_TIME_OVER) {
-				playNotificationSound();
-			} else if(msg.what == Clock.ON_TICK) {
-				setTimeTextInfos();
+	private void initTimeHandler() {
+		mTimeHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				if(msg.what == Clock.TIME_OVER) {
+					mTextViewTimeLeft.setText(getResources().getString(R.string.time_over));
+					mTextViewByoYomiInfo.setText("");
+				} else if(msg.what == Clock.MAIN_TIME_OVER) {
+					playNotificationSound();
+				} else if(msg.what == Clock.BYO_YOMI_TIME_OVER) {
+					playNotificationSound();
+				} else if(msg.what == Clock.ON_TICK) {
+					setTimeTextInfos();
+				}
 			}
-		}
-	};
+		};
+	}
 }
