@@ -26,8 +26,9 @@ public class Clock {
 	
 	public void pauseTimer() {
 		if(mTimeRule.isTimeOver())
-			return;		
-		mCountDownTimer.cancel();
+			return;	
+		if(mCountDownTimer != null)
+			mCountDownTimer.cancel();
 		mMillisUntilFinished = mTimeRule.onPause(mMillisUntilFinished);
 	}
 	

@@ -113,6 +113,7 @@ public class ClockFragment extends Fragment {
 		mClock.resumeTimer();
 	}
 	public void reset() {
+		pauseTimer();
 		initTimeHandler();
 		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
 		initialTextValues();
