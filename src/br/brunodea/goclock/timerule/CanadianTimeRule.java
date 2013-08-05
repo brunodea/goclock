@@ -39,7 +39,7 @@ public class CanadianTimeRule extends TimeRule {
 
 	@Override
 	public String currentExtraInfo() {
-		String text = "";
+		String text = extraInfo();
 		if(isMainTimeOver()) {
 			text = "("+mCurrStones+")";
 		}

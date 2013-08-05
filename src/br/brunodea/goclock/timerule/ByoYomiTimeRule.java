@@ -37,7 +37,7 @@ public class ByoYomiTimeRule extends TimeRule {
 	}
 	@Override
 	public String currentExtraInfo() {
-		String text = "";
+		String text = extraInfo();
 		if(isMainTimeOver()) {
 			text = "("+mByoYomiPeriodsLeft+")";
 			if(mByoYomiPeriodsLeft == 1) {
