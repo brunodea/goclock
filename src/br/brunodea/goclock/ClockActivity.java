@@ -82,6 +82,11 @@ public class ClockActivity extends FragmentActivity {
 			Intent i = new Intent(this, TimePreferenceActivity.class);
 			startActivityForResult(i, SHOW_PREFERENCES_REQUEST_CODE);
 			break;
+		case R.id.action_reset_clock:
+			mCurrentTurn = Turn.NONE;
+			mClockFragmentBlack.reset();
+			mClockFragmentWhite.reset();
+			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

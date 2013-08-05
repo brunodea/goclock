@@ -2,23 +2,18 @@ package br.brunodea.goclock.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import br.brunodea.goclock.App;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
 import br.brunodea.goclock.timerule.TimeRule;
 import br.brunodea.goclock.util.Util;
 
-public class GoClockPreferences {
-	private static final String SHARED_PREF_NAME = "br.brunodea.goclock.GoClock";
-	
+public class GoClockPreferences {	
 	private static String getStringPreference(Context c, String key, String def) {
-		SharedPreferences s = c.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+		SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(c);
 		return s.getString(key, def);
 	}
-	private static int getIntegerPreference(Context c, String key, int def) {
-		SharedPreferences s = c.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-		return s.getInt(key, def);
-	}	
 	
 	public static String getByoYomiMainTimeString() {
 		return getStringPreference(App.instance(), "byoyomi_maintime_key", 
@@ -35,16 +30,28 @@ public class GoClockPreferences {
 		return Util.timeStringToMillis(getByoYomiExtraTimeString());
 	}
 	public static int getByoYomiPeriods() {
-		return getIntegerPreference(App.instance(), "byoyomi_periods_key", 1);
+		return Integer.parseInt(getStringPreference(App.instance(), "byoyomi_periods_key", "3"));
 	}
 	
-	public static String getTimeRuleString() {
+	private static String getTimeRuleKeyString() {
 		return getStringPreference(App.instance(), "timerules_key", 
 				ByoYomiTimeRule.BYOYOMI_KEY);
 	}
+	
+	public static String getTimeRuleString() {
+		TimeRule tr = getTimeRule();
+		String res = "";
+		if(tr instanceof ByoYomiTimeRule) {
+			res = ByoYomiTimeRule.BYOYOMI_RULE;
+		} else if(tr instanceof CanadianTimeRule) {
+			res = CanadianTimeRule.CANADIAN_RULE;
+		}
+		
+		return res;
+	}
 
 	public static TimeRule getTimeRule() {
-		String tr = getTimeRuleString();
+		String tr = getTimeRuleKeyString();
 		TimeRule time_rule = null;
 		if(tr.equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
 			time_rule = createByoYomiTimeRule();

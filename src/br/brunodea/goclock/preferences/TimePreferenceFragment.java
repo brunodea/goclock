@@ -9,7 +9,6 @@ import android.preference.PreferenceFragment;
 import br.brunodea.goclock.R;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
-import br.brunodea.goclock.timerule.TimeRule;
 
 public class TimePreferenceFragment extends PreferenceFragment implements OnPreferenceChangeListener {
 	
@@ -42,6 +41,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		String []values = {ByoYomiTimeRule.BYOYOMI_KEY, CanadianTimeRule.CANADIAN_KEY};
 		mTimeRuleList.setEntries(entries);
 		mTimeRuleList.setEntryValues(values);
+		mTimeRuleList.setDefaultValue(ByoYomiTimeRule.BYOYOMI_KEY);
 	}
 	
 	private void setListeners() {
@@ -55,8 +55,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 	private void setPreValues() {
 		mByoYomiMainTime.setSummary(GoClockPreferences.getByoYomiMainTimeString());
 		mByoYomiExtraTime.setSummary(GoClockPreferences.getByoYomiExtraTimeString());
-		mByoYomiPeriods.setSummary(GoClockPreferences.getByoYomiPeriods()+" "+
-		getActivity().getString(R.string.periods));
+		mByoYomiPeriods.setSummary(GoClockPreferences.getByoYomiPeriods()+"");
 		
 		mTimeRuleList.setSummary(GoClockPreferences.getTimeRuleString());
 	}
@@ -69,8 +68,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		} else if(preference == mByoYomiExtraTime) {
 			preference.setSummary(newValue.toString());
 		} else if(preference == mByoYomiPeriods) {
-			preference.setSummary(GoClockPreferences.getByoYomiPeriods()+" "+
-					getActivity().getString(R.string.periods));
+			preference.setSummary(newValue.toString());
 		} else if(preference == mTimeRuleList) {
 			preference.setSummary(GoClockPreferences.getTimeRuleString());
 		} else {

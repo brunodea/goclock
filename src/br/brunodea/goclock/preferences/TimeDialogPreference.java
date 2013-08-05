@@ -1,5 +1,8 @@
 package br.brunodea.goclock.preferences;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
@@ -35,7 +38,7 @@ public class TimeDialogPreference extends DialogPreference {
     mSecPicker = (NumberPicker) v.findViewById(R.id.np_sec);
 
     mHourPicker.setMinValue(0);
-    mHourPicker.setMaxValue(999);
+    mHourPicker.setMaxValue(72);
     
     mMinPicker.setMinValue(0);
     mMinPicker.setMaxValue(59);
@@ -64,7 +67,8 @@ public class TimeDialogPreference extends DialogPreference {
       lastMinute=mMinPicker.getValue();
       lastSecond=mSecPicker.getValue();
       
-      String time = lastHour+":"+lastMinute+":"+lastSecond;
+      NumberFormat nf = new DecimalFormat("00");
+      String time = nf.format(lastHour)+":"+nf.format(lastMinute)+":"+nf.format(lastSecond);
       
       if (callChangeListener(time)) {
     	  persistString(time);
