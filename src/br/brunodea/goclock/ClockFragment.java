@@ -66,15 +66,20 @@ public class ClockFragment extends Fragment {
 	
 	public void setTimeTextInfos() {
 		setTimeLeftText();
-		setByoYomiCurrentInfoText();
+		setByoYomiInfoText();
 	}
 	
 	private void setTimeLeftText() {
 		mTextViewTimeLeft.setText(mClock.formattedTimeLeft());
 	}
-	private void setByoYomiCurrentInfoText() {
-		mTextViewByoYomiInfo.setTextSize(getActivity().getResources()
-				.getDimension(R.dimen.time_left_font_size));
+	private void setByoYomiInfoText() {
+		if(mClock.getTimeRule().isMainTimeOver()) {
+			mTextViewByoYomiInfo.setTextSize(getActivity().getResources()
+					.getDimension(R.dimen.time_left_font_size));
+		} else {
+			mTextViewByoYomiInfo.setTextSize(getActivity().getResources()
+					.getDimension(R.dimen.byoyomi_info_font_size));
+		}
 		mTextViewByoYomiInfo.setText(mClock.getTimeRule().currentExtraInfo());
 	}
 	
