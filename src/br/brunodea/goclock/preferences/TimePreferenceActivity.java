@@ -16,5 +16,6 @@ public class TimePreferenceActivity extends Activity {
 		getFragmentManager().beginTransaction()
 			.replace(android.R.id.content, new TimePreferenceFragment())
 			.commit();
+		setResult(Activity.RESULT_OK);
 	}
 }

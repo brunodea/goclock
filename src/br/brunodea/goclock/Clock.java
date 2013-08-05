@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
-import android.text.format.DateUtils;
 import br.brunodea.goclock.timerule.TimeRule;
 
 public class Clock {

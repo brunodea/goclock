@@ -15,6 +15,7 @@ public class GoClockPreferences {
 		return s.getString(key, def);
 	}
 	
+	/* Byo Yomi */
 	public static String getByoYomiMainTimeString() {
 		return getStringPreference(App.instance(), "byoyomi_maintime_key", 
 				"00:10:00");
@@ -30,9 +31,34 @@ public class GoClockPreferences {
 		return Util.timeStringToMillis(getByoYomiExtraTimeString());
 	}
 	public static int getByoYomiPeriods() {
-		return Integer.parseInt(getStringPreference(App.instance(), "byoyomi_periods_key", "3"));
+		return Integer.parseInt(getStringPreference(App.instance(), "byoyomi_periods_key", 
+				"3"));
 	}
 	
+	/////////////////////////////////////////////////////////////
+	/* Canadian */
+	public static String getCanadianMainTimeString() {
+		return getStringPreference(App.instance(), "canadian_maintime_key", 
+				"00:10:00");
+	}
+	public static long getCanadianMainTimeMillis() {
+		return Util.timeStringToMillis(getCanadianMainTimeString());
+	}
+	public static String getCanadianExtraTimeString() {
+		return getStringPreference(App.instance(), "canadian_extratime_key", 
+				"00:01:00");
+	}
+	public static long getCanadianExtraTimeMillis() {
+		return Util.timeStringToMillis(getCanadianExtraTimeString());
+	}
+	public static int getCanadianStones() {
+		return Integer.parseInt(getStringPreference(App.instance(), "canadian_stones_key", 
+				"10"));
+				
+	}
+	
+	/////////////////////////////////////////////////////////////
+	/* Time Rule */
 	private static String getTimeRuleKeyString() {
 		return getStringPreference(App.instance(), "timerules_key", 
 				ByoYomiTimeRule.BYOYOMI_KEY);
@@ -56,7 +82,7 @@ public class GoClockPreferences {
 		if(tr.equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
 			time_rule = createByoYomiTimeRule();
 		} else if(tr.equals(CanadianTimeRule.CANADIAN_KEY)) {
-			
+			time_rule = createCanadianTimeRule();
 		} else {
 			time_rule = createByoYomiTimeRule();
 		}
@@ -68,6 +94,7 @@ public class GoClockPreferences {
 				getByoYomiExtraTimeMillis(), getByoYomiPeriods());
 	}
 	private static TimeRule createCanadianTimeRule() {
-		return null;
+		return new CanadianTimeRule(getCanadianMainTimeMillis(),
+				getCanadianExtraTimeMillis(), getCanadianStones());
 	}
 }

@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.preferences.TimePreferenceActivity;
 
 public class ClockActivity extends FragmentActivity {
@@ -83,13 +84,27 @@ public class ClockActivity extends FragmentActivity {
 			startActivityForResult(i, SHOW_PREFERENCES_REQUEST_CODE);
 			break;
 		case R.id.action_reset_clock:
-			mCurrentTurn = Turn.NONE;
-			mClockFragmentBlack.reset();
-			mClockFragmentWhite.reset();
+			resetClocks();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if(requestCode == SHOW_PREFERENCES_REQUEST_CODE) {
+			resetClocks();
+			mClockFragmentBlack.setTimeRule(GoClockPreferences.getTimeRule());
+			mClockFragmentWhite.setTimeRule(GoClockPreferences.getTimeRule());
+		}
+	}
+	
+	private void resetClocks() {
+		mCurrentTurn = Turn.NONE;
+		mClockFragmentBlack.reset();
+		mClockFragmentWhite.reset();
 	}
 }

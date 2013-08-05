@@ -16,6 +16,10 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 	private TimeDialogPreference mByoYomiExtraTime;
 	private EditTextPreference mByoYomiPeriods;
 	
+	private TimeDialogPreference mCanadianMainTime;
+	private TimeDialogPreference mCanadianExtraTime;
+	private EditTextPreference mCanadianStones;
+	
 	private ListPreference mTimeRuleList;
 	
 	@Override
@@ -34,6 +38,14 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 				getPreferenceScreen().findPreference("byoyomi_extratime_key");
 		mByoYomiPeriods = (EditTextPreference)
 				getPreferenceScreen().findPreference("byoyomi_periods_key");
+		
+		mCanadianMainTime = (TimeDialogPreference)
+				getPreferenceScreen().findPreference("canadian_maintime_key");
+		mCanadianExtraTime = (TimeDialogPreference)
+				getPreferenceScreen().findPreference("canadian_extratime_key");
+		mCanadianStones = (EditTextPreference)
+				getPreferenceManager().findPreference("canadian_stones_key");
+		
 		mTimeRuleList = (ListPreference)
 				getPreferenceScreen().findPreference("timerules_key");
 		
@@ -49,6 +61,10 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mByoYomiExtraTime.setOnPreferenceChangeListener(this);
 		mByoYomiPeriods.setOnPreferenceChangeListener(this);
 
+		mCanadianMainTime.setOnPreferenceChangeListener(this);
+		mCanadianExtraTime.setOnPreferenceChangeListener(this);
+		mCanadianStones.setOnPreferenceChangeListener(this);
+		
 		mTimeRuleList.setOnPreferenceChangeListener(this);
 	}
 	
@@ -56,6 +72,10 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mByoYomiMainTime.setSummary(GoClockPreferences.getByoYomiMainTimeString());
 		mByoYomiExtraTime.setSummary(GoClockPreferences.getByoYomiExtraTimeString());
 		mByoYomiPeriods.setSummary(GoClockPreferences.getByoYomiPeriods()+"");
+		
+		mCanadianMainTime.setSummary(GoClockPreferences.getCanadianMainTimeString());
+		mCanadianExtraTime.setSummary(GoClockPreferences.getCanadianExtraTimeString());
+		mCanadianStones.setSummary(GoClockPreferences.getCanadianStones()+"");
 		
 		mTimeRuleList.setSummary(GoClockPreferences.getTimeRuleString());
 	}
