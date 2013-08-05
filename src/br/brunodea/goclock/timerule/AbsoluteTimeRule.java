@@ -21,8 +21,11 @@ public class AbsoluteTimeRule extends TimeRule {
 	}
 
 	@Override
-	public String byoYomiInfo() {
+	public String currentExtraInfo() {
 		return "";
 	}
-
+	@Override
+	public String extraInfo() {
+		return ABSOLUTE_RULE;
+	}
 }

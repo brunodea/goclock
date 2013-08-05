@@ -2,23 +2,26 @@ package br.brunodea.goclock.timerule;
 
 import br.brunodea.goclock.App;
 import br.brunodea.goclock.R;
+import br.brunodea.goclock.util.Util;
 
 public class ByoYomiTimeRule extends TimeRule {
 	public static final String BYOYOMI_RULE = App.instance().getString(R.string.byoyomi);
 	public static final String BYOYOMI_KEY = "byoyomi_key";
 
 	private int mByoYomiPeriods;
+	private int mByoYomiPeriodsLeft;
 	
 	public ByoYomiTimeRule(long milliSMainTime, 
 			long milliSByoYomiTimeMilliS, int byoYomiPeriods) {
 		super(milliSMainTime, milliSByoYomiTimeMilliS);
 		mByoYomiPeriods = byoYomiPeriods;
+		mByoYomiPeriodsLeft = mByoYomiPeriods;
 	}
 	
 	@Override
 	public void onByoYomiTimeOver() {
-		mByoYomiPeriods -= 1;
-		if(mByoYomiPeriods <= 0) {
+		mByoYomiPeriodsLeft -= 1;
+		if(mByoYomiPeriodsLeft <= 0) {
 			mTimeOver = true;
 		}
 	}
@@ -33,14 +36,19 @@ public class ByoYomiTimeRule extends TimeRule {
 		return millisUntilFinished;
 	}
 	@Override
-	public String byoYomiInfo() {
+	public String currentExtraInfo() {
 		String text = "";
 		if(isMainTimeOver()) {
-			text = "("+mByoYomiPeriods+")";
-			if(mByoYomiPeriods == 1) {
+			text = "("+mByoYomiPeriodsLeft+")";
+			if(mByoYomiPeriodsLeft == 1) {
 				text = "F";
 			}
 		}
 		return text;
+	}
+
+	@Override
+	public String extraInfo() {
+		return BYOYOMI_RULE+" "+Util.formattedTime(getByoYomiTime())+" ("+mByoYomiPeriods+")";
 	}
 }

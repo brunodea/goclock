@@ -2,6 +2,7 @@ package br.brunodea.goclock.timerule;
 
 import br.brunodea.goclock.App;
 import br.brunodea.goclock.R;
+import br.brunodea.goclock.util.Util;
 
 public class CanadianTimeRule extends TimeRule {
 	public static final String CANADIAN_RULE = App.instance().getString(R.string.canadian);
@@ -37,12 +38,17 @@ public class CanadianTimeRule extends TimeRule {
 	}
 
 	@Override
-	public String byoYomiInfo() {
+	public String currentExtraInfo() {
 		String text = "";
 		if(isMainTimeOver()) {
 			text = "("+mCurrStones+")";
 		}
 		return text;
+	}
+
+	@Override
+	public String extraInfo() {
+		return CANADIAN_RULE+" "+Util.formattedTime(getByoYomiTime())+" ("+mStonesPerByoYomi+")";
 	}
 
 }
