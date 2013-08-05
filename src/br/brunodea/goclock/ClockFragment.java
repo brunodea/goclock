@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import br.brunodea.goclock.preferences.GoClockPreferences;
-import br.brunodea.goclock.timerule.CanadianTimeRule;
 import br.brunodea.goclock.timerule.TimeRule;
 
 public class ClockFragment extends Fragment {
@@ -69,11 +68,10 @@ public class ClockFragment extends Fragment {
 	}
 	
 	private void setTimeLeftText() {
-		mTextViewTimeLeft.setText(mClock.formattedTimeLeft()+" "+
-				mClock.getTimeRule().byoYomiInfo());
+		mTextViewTimeLeft.setText(mClock.formattedTimeLeft());
 	}
 	private void setByoYomiInfoText() {
-		//mTextViewByoYomiInfo.setText(mClock.getTimeRule().byoYomiInfo());
+		mTextViewByoYomiInfo.setText(mClock.getTimeRule().byoYomiInfo());
 	}
 	
 	@Override
