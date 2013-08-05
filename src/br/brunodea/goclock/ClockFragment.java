@@ -30,6 +30,7 @@ public class ClockFragment extends Fragment {
 	public void onCreate(Bundle savedInstancesState) {
 		super.onCreate(savedInstancesState);
 		mCurrBaseColorBlack = false;
+		initTimeHandler();
 		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
 	}
 	
