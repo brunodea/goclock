@@ -97,6 +97,7 @@ public class ClockFragment extends Fragment {
 	}
 	public void reset() {
 		mTextViewTimeLeft.setText(getActivity().getString(R.string.tap_to_start));
+		mTextViewByoYomiInfo.setText("");
 		mClock.reset();
 	}
 	
