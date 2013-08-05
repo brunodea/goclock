@@ -98,8 +98,6 @@ public class ClockActivity extends FragmentActivity {
 		
 		if(requestCode == SHOW_PREFERENCES_REQUEST_CODE) {
 			resetClocks();
-			mClockFragmentBlack.setTimeRule(GoClockPreferences.getTimeRule());
-			mClockFragmentWhite.setTimeRule(GoClockPreferences.getTimeRule());
 		}
 	}
 	
