@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import br.brunodea.goclock.App;
+import br.brunodea.goclock.timerule.AbsoluteTimeRule;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
 import br.brunodea.goclock.timerule.TimeRule;
@@ -58,6 +59,16 @@ public class GoClockPreferences {
 	}
 	
 	/////////////////////////////////////////////////////////////
+	/* Absolute */
+	public static String getAbsoluteMainTimeString() {
+		return getStringPreference(App.instance(), "absolute_maintime_key",
+				"00:10:00");
+	}
+	public static long getAbsoluteMainTimeMillis() {
+		return Util.timeStringToMillis(getAbsoluteMainTimeString());
+	}
+	
+	/////////////////////////////////////////////////////////////
 	/* Time Rule */
 	private static String getTimeRuleKeyString() {
 		return getStringPreference(App.instance(), "timerules_key", 
@@ -65,12 +76,14 @@ public class GoClockPreferences {
 	}
 	
 	public static String getTimeRuleString() {
-		TimeRule tr = getTimeRule();
-		String res = "";
-		if(tr instanceof ByoYomiTimeRule) {
+		String tr = getTimeRuleKeyString();
+		String res = ByoYomiTimeRule.BYOYOMI_RULE;
+		if(tr.equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
 			res = ByoYomiTimeRule.BYOYOMI_RULE;
-		} else if(tr instanceof CanadianTimeRule) {
+		} else if(tr.equals(CanadianTimeRule.CANADIAN_KEY)) {
 			res = CanadianTimeRule.CANADIAN_RULE;
+		} else if(tr.equals(AbsoluteTimeRule.ABSOLUTE_KEY)) {
+			res = AbsoluteTimeRule.ABSOLUTE_RULE;
 		}
 		
 		return res;
@@ -83,6 +96,8 @@ public class GoClockPreferences {
 			time_rule = createByoYomiTimeRule();
 		} else if(tr.equals(CanadianTimeRule.CANADIAN_KEY)) {
 			time_rule = createCanadianTimeRule();
+		} else if(tr.equals(AbsoluteTimeRule.ABSOLUTE_KEY)) {
+			time_rule = createAbsoluteTimeRule();
 		} else {
 			time_rule = createByoYomiTimeRule();
 		}
@@ -96,5 +111,8 @@ public class GoClockPreferences {
 	private static TimeRule createCanadianTimeRule() {
 		return new CanadianTimeRule(getCanadianMainTimeMillis(),
 				getCanadianExtraTimeMillis(), getCanadianStones());
+	}
+	private static TimeRule createAbsoluteTimeRule() {
+		return new AbsoluteTimeRule(getAbsoluteMainTimeMillis());
 	}
 }

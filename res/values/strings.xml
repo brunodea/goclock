@@ -22,4 +22,5 @@
 	<string name="rules">Rules</string>
 	<string name="reset_clock">Reset Clock</string>
 	<string name="stones">Stones</string>
+	<string name="absolute">Absolute</string>
 </resources>

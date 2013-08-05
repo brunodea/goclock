@@ -35,4 +35,12 @@
              android:title="@string/stones"
              android:numeric="integer"/>
 	</PreferenceCategory>
+	
+	<PreferenceCategory 
+	    android:key="absolute_category_key"
+	    android:title="@string/absolute">
+         <br.brunodea.goclock.preferences.TimeDialogPreference
+            android:key="absolute_maintime_key"
+            android:title="@string/main_time"/>
+	</PreferenceCategory>
 </PreferenceScreen>

@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import br.brunodea.goclock.R;
+import br.brunodea.goclock.timerule.AbsoluteTimeRule;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
 
@@ -19,6 +20,8 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 	private TimeDialogPreference mCanadianMainTime;
 	private TimeDialogPreference mCanadianExtraTime;
 	private EditTextPreference mCanadianStones;
+	
+	private TimeDialogPreference mAbsoluteMainTime;
 	
 	private ListPreference mTimeRuleList;
 	
@@ -46,11 +49,16 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mCanadianStones = (EditTextPreference)
 				getPreferenceManager().findPreference("canadian_stones_key");
 		
+		mAbsoluteMainTime = (TimeDialogPreference)
+				getPreferenceScreen().findPreference("absolute_maintime_key");
+		
 		mTimeRuleList = (ListPreference)
 				getPreferenceScreen().findPreference("timerules_key");
 		
-		String []entries = {ByoYomiTimeRule.BYOYOMI_RULE, CanadianTimeRule.CANADIAN_RULE};
-		String []values = {ByoYomiTimeRule.BYOYOMI_KEY, CanadianTimeRule.CANADIAN_KEY};
+		String []entries = {ByoYomiTimeRule.BYOYOMI_RULE, CanadianTimeRule.CANADIAN_RULE,
+				AbsoluteTimeRule.ABSOLUTE_RULE};
+		String []values = {ByoYomiTimeRule.BYOYOMI_KEY, CanadianTimeRule.CANADIAN_KEY,
+				AbsoluteTimeRule.ABSOLUTE_KEY};
 		mTimeRuleList.setEntries(entries);
 		mTimeRuleList.setEntryValues(values);
 		mTimeRuleList.setDefaultValue(ByoYomiTimeRule.BYOYOMI_KEY);
@@ -65,6 +73,8 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mCanadianExtraTime.setOnPreferenceChangeListener(this);
 		mCanadianStones.setOnPreferenceChangeListener(this);
 		
+		mAbsoluteMainTime.setOnPreferenceChangeListener(this);
+		
 		mTimeRuleList.setOnPreferenceChangeListener(this);
 	}
 	
@@ -77,23 +87,14 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mCanadianExtraTime.setSummary(GoClockPreferences.getCanadianExtraTimeString());
 		mCanadianStones.setSummary(GoClockPreferences.getCanadianStones()+"");
 		
+		mAbsoluteMainTime.setSummary(GoClockPreferences.getAbsoluteMainTimeString());
+		
 		mTimeRuleList.setSummary(GoClockPreferences.getTimeRuleString());
 	}
 
 	@Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
-		boolean ok = true;
-		if(preference == mByoYomiMainTime) {
-			preference.setSummary(newValue.toString());
-		} else if(preference == mByoYomiExtraTime) {
-			preference.setSummary(newValue.toString());
-		} else if(preference == mByoYomiPeriods) {
-			preference.setSummary(newValue.toString());
-		} else if(preference == mTimeRuleList) {
-			preference.setSummary(GoClockPreferences.getTimeRuleString());
-		} else {
-			ok = false;
-		}
-		return ok;
+		preference.setSummary(newValue.toString());
+		return true;
 	}
 }
