@@ -91,10 +91,23 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		
 		mTimeRuleList.setSummary(GoClockPreferences.getTimeRuleString());
 	}
+	
+	private void setTimeRuleListSummaryFromValue(String value) {
+		CharSequence summary = "";
+		for(int i = 0; i < mTimeRuleList.getEntryValues().length; i++) {
+			if(mTimeRuleList.getEntryValues()[i].equals(value)) {
+				summary = mTimeRuleList.getEntries()[i];
+			}
+		}
+		mTimeRuleList.setSummary(summary);
+	}
 
 	@Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 		preference.setSummary(newValue.toString());
+		if(preference == mTimeRuleList) {
+			setTimeRuleListSummaryFromValue(newValue.toString());
+		}
 		return true;
 	}
 }

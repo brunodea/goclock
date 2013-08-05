@@ -74,7 +74,7 @@ public class GoClockPreferences {
 		return getStringPreference(App.instance(), "timerules_key", 
 				ByoYomiTimeRule.BYOYOMI_KEY);
 	}
-	
+
 	public static String getTimeRuleString() {
 		String tr = getTimeRuleKeyString();
 		String res = ByoYomiTimeRule.BYOYOMI_RULE;
