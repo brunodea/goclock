@@ -49,7 +49,7 @@ public class ByoYomiTimeRule extends TimeRule {
 
 	@Override
 	public String extraInfo() {
-		return BYOYOMI_RULE+" "+Util.formattedTime(getByoYomiTime())+" ("+mByoYomiPeriods+")";
+		return BYOYOMI_RULE+"\n"+Util.formattedTime(getByoYomiTime())+" ("+mByoYomiPeriods+")";
 	}
 	
 	@Override

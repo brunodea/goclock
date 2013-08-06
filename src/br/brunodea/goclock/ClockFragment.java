@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.timerule.TimeRule;
@@ -19,19 +18,16 @@ public class ClockFragment extends Fragment {
 	private TextView mTextViewTimeLeft;
 	private TextView mTextViewByoYomiInfo;
 	
-	private LinearLayout mLinearLayoutClock;
+	private View mClockView;
 	
 	private boolean mCurrBaseColorBlack;
 	
 	private Clock mClock;
 	private Handler mTimeHandler;
 	
-	private boolean mainTimeOver;
-	
 	@Override
 	public void onCreate(Bundle savedInstancesState) {
 		super.onCreate(savedInstancesState);
-		mainTimeOver = false;
 		mCurrBaseColorBlack = false;
 		initTimeHandler();
 		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
@@ -42,8 +38,8 @@ public class ClockFragment extends Fragment {
 	}
 	
 	public void setUpsideDown() {
-		mLinearLayoutClock.setScaleX(-1.f);
-		mLinearLayoutClock.setScaleY(-1.f);
+		mClockView.setScaleX(-1.f);
+		mClockView.setScaleY(-1.f);
 	}
 	
 	public void setBaseColorBlack() {
@@ -78,7 +74,7 @@ public class ClockFragment extends Fragment {
 	private void setByoYomiInfoText() {
 		if(mClock.getTimeRule().isMainTimeOver()) {
 			mTextViewByoYomiInfo.setTextSize(getActivity().getResources()
-					.getDimension(R.dimen.time_left_font_size));
+					.getDimension(R.dimen.byoyomi_curr_info_font_size));
 		} else {
 			mTextViewByoYomiInfo.setTextSize(getActivity().getResources()
 					.getDimension(R.dimen.byoyomi_info_font_size));
@@ -90,7 +86,7 @@ public class ClockFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceBundle) {
 		View v = inflater.inflate(R.layout.clock, container, false);
-		mLinearLayoutClock = (LinearLayout) v.findViewById(R.id.linearlayout_clock);
+		mClockView = v;
 		mTextViewTimeLeft = (TextView) v.findViewById(R.id.textview_time_left);
 		mTextViewByoYomiInfo = (TextView) v.findViewById(R.id.textview_byoyomi_info);
 		
@@ -113,6 +109,13 @@ public class ClockFragment extends Fragment {
 		mTextViewTimeLeft.setText(mClock.formattedTimeLeft());
 		mTextViewByoYomiInfo.setText(mClock.getTimeRule().extraInfo());
 		mTextViewByoYomiInfo.setTextSize(getActivity().getResources().getDimension(R.dimen.byoyomi_info_font_size));
+		if(mCurrBaseColorBlack) {
+			mTextViewTimeLeft.setTextColor(Color.WHITE);
+			mTextViewByoYomiInfo.setTextColor(Color.WHITE);
+		} else {
+			mTextViewTimeLeft.setTextColor(Color.BLACK);
+			mTextViewByoYomiInfo.setTextColor(Color.BLACK);
+		}
 	}
 	
 	public void pauseTimer() {
@@ -141,13 +144,11 @@ public class ClockFragment extends Fragment {
 					mTextViewByoYomiInfo.setText("");
 				} else if(msg.what == Clock.MAIN_TIME_OVER) {
 					playNotificationSound();
-					
-					mainTimeOver = true;
 				} else if(msg.what == Clock.BYO_YOMI_TIME_OVER) {
 					playNotificationSound();
 				} else if(msg.what == Clock.ON_TICK) {
 					setTimeTextInfos();
-				} else if(msg.what == Clock.IS_SUDDEN_DEATH && mainTimeOver) {
+				} else if(msg.what == Clock.IS_SUDDEN_DEATH && mClock.getTimeRule().isMainTimeOver()) {
 					mTextViewTimeLeft.setTextColor(Color.RED);
 					mTextViewByoYomiInfo.setTextColor(Color.RED);
 				} else if(msg.what == Clock.NOT_SUDDEN_DEATH) {

@@ -4,6 +4,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="time_left_font_size">75sp</dimen>
+    <dimen name="time_left_font_size">80sp</dimen>
     <dimen name="byoyomi_info_font_size">22sp</dimen>
+    <dimen name="byoyomi_curr_info_font_size">50sp</dimen>
+    <dimen name="byoyomi_info_margin">50dp</dimen>
 </resources>
