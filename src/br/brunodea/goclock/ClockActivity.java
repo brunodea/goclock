@@ -17,7 +17,8 @@ public class ClockActivity extends FragmentActivity {
 	public static final int SHOW_PREFERENCES_REQUEST_CODE = 0;
 	private ClockFragment mClockFragmentBlack;
 	private ClockFragment mClockFragmentWhite;
-	private MediaPlayer mMediaPlayer;
+	private MediaPlayer mMediaPlayerSuddenDeath;
+	private MediaPlayer mMediaPlayerPushButton;
 	
 	private enum Turn {
 		NONE, WHITE, BLACK;
@@ -41,9 +42,10 @@ public class ClockActivity extends FragmentActivity {
 		mClockFragmentBlack.setBaseColorBlack();
 		mClockFragmentWhite.setUpsideDown();
 
-		mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.snd002_amp);
-		mClockFragmentBlack.setMediaPlayer(mMediaPlayer);
-		mClockFragmentWhite.setMediaPlayer(mMediaPlayer);
+		mMediaPlayerPushButton = MediaPlayer.create(getApplicationContext(), R.raw.pushbutton);
+		mMediaPlayerSuddenDeath = MediaPlayer.create(getApplicationContext(), R.raw.snd002_amp);
+		mClockFragmentBlack.setMediaPlayer(mMediaPlayerSuddenDeath);
+		mClockFragmentWhite.setMediaPlayer(mMediaPlayerSuddenDeath);
 		
 		mCurrentTurn = Turn.NONE;
 		
@@ -55,6 +57,7 @@ public class ClockActivity extends FragmentActivity {
 					if(mClockFragmentBlack.isTimeOver() || mClockFragmentWhite.isTimeOver()) {
 						resetClocks();
 					} else {
+						mMediaPlayerPushButton.start();
 						nextTurn();
 					}
 				}
@@ -115,5 +118,11 @@ public class ClockActivity extends FragmentActivity {
 		mCurrentTurn = Turn.NONE;
 		mClockFragmentBlack.reset();
 		mClockFragmentWhite.reset();
+	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mMediaPlayerSuddenDeath.release();
+		mMediaPlayerPushButton.release();
 	}
 }
