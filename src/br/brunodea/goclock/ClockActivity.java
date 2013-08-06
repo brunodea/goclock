@@ -29,7 +29,7 @@ public class ClockActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.snd001);
+		mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.snd002);
 		
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
