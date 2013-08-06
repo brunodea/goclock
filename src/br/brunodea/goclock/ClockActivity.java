@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.preferences.TimePreferenceActivity;
 
 public class ClockActivity extends FragmentActivity {
@@ -81,6 +80,7 @@ public class ClockActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case R.id.action_settings:
+			resetClocks();
 			Intent i = new Intent(this, TimePreferenceActivity.class);
 			startActivityForResult(i, SHOW_PREFERENCES_REQUEST_CODE);
 			break;
