@@ -59,7 +59,7 @@
 	        android:key="keep_screen_on_key"
 	        android:title="@string/keep_screen_on"
 	        android:summaryOn="@string/keep_screen_on_summary_on"
-	        android:summaryOff="@string/keep_screen_on_summary_on"
+	        android:summaryOff="@string/keep_screen_on_summary_off"
 	        android:defaultValue="true"/>
 	    
 	    <CheckBoxPreference 
