@@ -41,18 +41,18 @@ public class Clock {
 		mCountDownTimer = new CountDownTimer(mMillisUntilFinished, 100) {
 			@Override
 			public void onTick(long millisUntilFinished) {
-				mTicks++;
+				mTicks += 1;
 				
-				mMillisUntilFinished = millisUntilFinished;
-				mTimeHandler.sendEmptyMessage(ON_TICK);
 				
 				if(mTimeRule.isSuddenDeath(millisUntilFinished) && mTicks >= 9) {
 					mTimeHandler.sendEmptyMessage(IS_SUDDEN_DEATH);
-				} else {
+				} else if(!mTimeRule.isSuddenDeath(millisUntilFinished)) {
 					mTimeHandler.sendEmptyMessage(NOT_SUDDEN_DEATH);
 				}
-				
-				if(mTicks >= 10) {
+
+				mMillisUntilFinished = millisUntilFinished;
+				mTimeHandler.sendEmptyMessage(ON_TICK);
+				if(mTicks >= 9) {
 					mTicks = 0;
 				}
 			}

@@ -53,7 +53,11 @@ public class ClockActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				if(v == l) {
-					nextTurn();
+					if(mClockFragmentBlack.isTimeOver() || mClockFragmentWhite.isTimeOver()) {
+						resetClocks();
+					} else {
+						nextTurn();
+					}
 				}
 			}
 		});
