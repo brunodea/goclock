@@ -58,7 +58,7 @@ public class CanadianTimeRule extends TimeRule {
 		if(secPerStone <= 5) {
 			return true;
 		}
-		
+
 		return false;
 	}
 }

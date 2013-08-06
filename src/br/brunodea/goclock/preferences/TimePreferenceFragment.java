@@ -30,8 +30,9 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
 		bindGUI();
+		setValues();
 		setListeners();
-		setPreValues();
+		setSummaries();
 	}
 	
 	private void bindGUI() {
@@ -61,7 +62,6 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 				AbsoluteTimeRule.ABSOLUTE_KEY};
 		mTimeRuleList.setEntries(entries);
 		mTimeRuleList.setEntryValues(values);
-		mTimeRuleList.setDefaultValue(ByoYomiTimeRule.BYOYOMI_KEY);
 	}
 	
 	private void setListeners() {
@@ -78,7 +78,21 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mTimeRuleList.setOnPreferenceChangeListener(this);
 	}
 	
-	private void setPreValues() {
+	private void setValues() {
+		mByoYomiMainTime.setValues(GoClockPreferences.getByoYomiMainTimeString());
+		mByoYomiExtraTime.setValues(GoClockPreferences.getByoYomiExtraTimeString());
+		mByoYomiPeriods.setText(GoClockPreferences.getByoYomiPeriods()+"");
+		
+		mCanadianMainTime.setValues(GoClockPreferences.getCanadianMainTimeString());
+		mCanadianExtraTime.setValues(GoClockPreferences.getCanadianExtraTimeString());
+		mCanadianStones.setText(GoClockPreferences.getCanadianStones()+"");
+
+		mAbsoluteMainTime.setValues(GoClockPreferences.getAbsoluteMainTimeString());
+		
+		mTimeRuleList.setValue(GoClockPreferences.getTimeRuleKeyString());
+	}
+	
+	private void setSummaries() {
 		mByoYomiMainTime.setSummary(GoClockPreferences.getByoYomiMainTimeString());
 		mByoYomiExtraTime.setSummary(GoClockPreferences.getByoYomiExtraTimeString());
 		mByoYomiPeriods.setSummary(GoClockPreferences.getByoYomiPeriods()+"");
@@ -86,8 +100,8 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mCanadianMainTime.setSummary(GoClockPreferences.getCanadianMainTimeString());
 		mCanadianExtraTime.setSummary(GoClockPreferences.getCanadianExtraTimeString());
 		mCanadianStones.setSummary(GoClockPreferences.getCanadianStones()+"");
-		
 		mAbsoluteMainTime.setSummary(GoClockPreferences.getAbsoluteMainTimeString());
+		
 		
 		mTimeRuleList.setSummary(GoClockPreferences.getTimeRuleString());
 	}

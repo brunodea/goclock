@@ -88,7 +88,7 @@ public class TimeDialogPreference extends DialogPreference {
     if (restoreValue) {
       if (defaultValue==null) {
     	  
-        time=getPersistedString("00:10:00");
+        time=getPersistedString("00:00:00");
       }
       else {
         time=getPersistedString(defaultValue.toString());
@@ -101,5 +101,11 @@ public class TimeDialogPreference extends DialogPreference {
     lastHour=Util.getHour(time);
     lastMinute=Util.getMinute(time);
     lastSecond=Util.getSecond(time);
+  }
+  
+  public void setValues(String time) {
+	    lastHour=Util.getHour(time);
+	    lastMinute=Util.getMinute(time);
+	    lastSecond=Util.getSecond(time);	  
   }
 }
