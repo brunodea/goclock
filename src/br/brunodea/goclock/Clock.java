@@ -11,6 +11,8 @@ public class Clock {
 	public static final int MAIN_TIME_OVER = 1;
 	public static final int BYO_YOMI_TIME_OVER = 2;
 	public static final int ON_TICK = 3;
+	public static final int IS_SUDDEN_DEATH = 4;
+	public static final int NOT_SUDDEN_DEATH = 5;
 	
 	private CountDownTimer mCountDownTimer;
 	private long mMillisUntilFinished;
@@ -38,6 +40,12 @@ public class Clock {
 			public void onTick(long millisUntilFinished) {
 				mMillisUntilFinished = millisUntilFinished;
 				mTimeHandler.sendEmptyMessage(ON_TICK);
+				
+				if(mTimeRule.isSuddenDeath(millisUntilFinished)) {
+					mTimeHandler.sendEmptyMessage(IS_SUDDEN_DEATH);
+				} else {
+					mTimeHandler.sendEmptyMessage(NOT_SUDDEN_DEATH);
+				}
 			}
 			
 			@Override

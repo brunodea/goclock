@@ -26,9 +26,12 @@ public class ClockFragment extends Fragment {
 	private Clock mClock;
 	private Handler mTimeHandler;
 	
+	private boolean mainTimeOver;
+	
 	@Override
 	public void onCreate(Bundle savedInstancesState) {
 		super.onCreate(savedInstancesState);
+		mainTimeOver = false;
 		mCurrBaseColorBlack = false;
 		initTimeHandler();
 		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
@@ -51,7 +54,7 @@ public class ClockFragment extends Fragment {
 	}
 	public void setBaseColorWhite() {
 		mTextViewTimeLeft.setTextColor(Color.BLACK);
-		mTextViewByoYomiInfo.setTextColor(Color.WHITE);
+		mTextViewByoYomiInfo.setTextColor(Color.BLACK);
 		getView().setBackgroundColor(Color.WHITE);
 		mCurrBaseColorBlack = false;
 	}
@@ -138,10 +141,21 @@ public class ClockFragment extends Fragment {
 					mTextViewByoYomiInfo.setText("");
 				} else if(msg.what == Clock.MAIN_TIME_OVER) {
 					playNotificationSound();
+					
+					mainTimeOver = true;
 				} else if(msg.what == Clock.BYO_YOMI_TIME_OVER) {
 					playNotificationSound();
 				} else if(msg.what == Clock.ON_TICK) {
 					setTimeTextInfos();
+				} else if(msg.what == Clock.IS_SUDDEN_DEATH && mainTimeOver) {
+					mTextViewTimeLeft.setTextColor(Color.RED);
+					mTextViewByoYomiInfo.setTextColor(Color.RED);
+				} else if(msg.what == Clock.NOT_SUDDEN_DEATH) {
+					if(mCurrBaseColorBlack) {
+						setBaseColorBlack();
+					} else {
+						setBaseColorWhite();
+					}
 				}
 			}
 		};

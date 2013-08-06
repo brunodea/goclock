@@ -22,7 +22,7 @@ public class AbsoluteTimeRule extends TimeRule {
 
 	@Override
 	public String currentExtraInfo() {
-		return "";
+		return "SD";
 	}
 	@Override
 	public String extraInfo() {
