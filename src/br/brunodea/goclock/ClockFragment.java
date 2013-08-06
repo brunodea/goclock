@@ -15,7 +15,7 @@ import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.timerule.TimeRule;
 
 public class ClockFragment extends Fragment {
-	
+
 	private TextView mTextViewTimeLeft;
 	private TextView mTextViewByoYomiInfo;
 	
@@ -166,17 +166,21 @@ public class ClockFragment extends Fragment {
 				} else if(msg.what == Clock.ON_TICK) {
 					setTimeTextInfos();
 				} else if(msg.what == Clock.IS_SUDDEN_DEATH && mClock.getTimeRule().isMainTimeOver()) {
-					adjustBaseColor();
-					if(!mIsBGRed) {
-						getView().setBackgroundColor(Color.RED);
-						mIsBGRed = true;
-					} else {
-						mIsBGRed = false;
-						mTextViewTimeLeft.setTextColor(Color.RED);
-						mTextViewByoYomiInfo.setTextColor(Color.RED);
+					if(GoClockPreferences.blinkOnSuddenDeath()) {
+						adjustBaseColor();
+						if(!mIsBGRed) {
+							getView().setBackgroundColor(Color.RED);
+							mIsBGRed = true;
+						} else {
+							mIsBGRed = false;
+							mTextViewTimeLeft.setTextColor(Color.RED);
+							mTextViewByoYomiInfo.setTextColor(Color.RED);
+						}
 					}
-					if(mMediaPlayer != null) {
-						mMediaPlayer.start();
+					if(GoClockPreferences.beepOnSuddenDeath()) {
+						if(mMediaPlayer != null) {
+							mMediaPlayer.start();
+						}
 					}
 				} else if(msg.what == Clock.NOT_SUDDEN_DEATH) {
 				}

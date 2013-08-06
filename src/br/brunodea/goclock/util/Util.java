@@ -4,6 +4,10 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.concurrent.TimeUnit;
 
+import android.app.Activity;
+import android.view.WindowManager;
+import br.brunodea.goclock.preferences.GoClockPreferences;
+
 public class Util {
 	/**
 	 * 
@@ -48,5 +52,37 @@ public class Util {
 		
 		return nf.format(h)+":"+nf.format(m)+":"+nf.format(s);
 		
+	}
+	
+	/**
+	 * Ajusta o modo fullscreen em uma activity de acordo com as preferências do usuário.
+	 * @param activity
+	 */
+	public static void adjustActivityFullscreenMode(Activity activity) {
+		if(GoClockPreferences.getFullscreen()) {
+			activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+		}
+		else {
+			activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+			activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+	}
+	public static void adjustActivityFullscreenMode(Activity activity, boolean fullscreen) {
+		if(fullscreen) {
+			activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+		}
+		else {
+			activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+			activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+	}
+	public static void adjustActivityKeepScreenOn(Activity activity) {
+		if(GoClockPreferences.getKeepScreenOn()) {
+			activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		} else {
+			activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		}
 	}
 }
