@@ -100,6 +100,12 @@ public class ClockFragment extends Fragment {
 		return v;
 	}
 	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		pauseTimer();
+	}
+	
 	private void initialTextValues() {
 		mTextViewTimeLeft.setText(mClock.formattedTimeLeft());
 		mTextViewByoYomiInfo.setText(mClock.getTimeRule().extraInfo());
