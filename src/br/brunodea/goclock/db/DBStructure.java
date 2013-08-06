@@ -1,15 +1,19 @@
 package br.brunodea.goclock.db;
 
+import java.util.ArrayList;
+
 import android.util.Pair;
 
+@SuppressWarnings("unchecked")
 public class DBStructure {
-	
 	public static String createTablesScript() {
-		return new TimeRulesTable().creationScript();
+		return new TimeRulesTable().creationScript()+"\n"+
+				new ByoYomiPresetTable().creationScript()+"\n"+
+				new CanadianPresetTable().creationScript()+"\n"+
+				new AbsolutePresetTable().creationScript();
 	}
-	
 	protected static abstract class BaseTable {
-		public static final String ID_COLUMN = "id";
+		public static final String ID_COLUMN = "_id";
 		
 		public abstract String tableName();
 		protected String createScript(Pair<String,String>... cols) {
@@ -63,6 +67,75 @@ public class DBStructure {
 		public String creationScript() {
 			return createScript(createPair(TIME_RULE_COLUMN, "text not null"));
 		}
+	}
+	
+	public abstract static class BasePresetTable extends BaseTable {
+		public static final String TIME_RULE_COLUMN = "time_rule_id";
+		public static final String PRESET_NAME_COLUMN = "name";
+		public static final String MAIN_TIME = "main_time";
+		public static final String EXTRA_TIME = "extra_time";
 		
+		protected abstract ArrayList<Pair<String,String>> specificCreationPairs();
+		
+		@Override
+		public String creationScript() {
+			ArrayList<Pair<String,String>> pairs = new ArrayList<Pair<String,String>>();
+			pairs.add(createPair(TIME_RULE_COLUMN, "integer"));
+			pairs.add(createPair(PRESET_NAME_COLUMN, "text not null"));
+			pairs.add(createPair(MAIN_TIME, "text not null"));
+			pairs.add(createPair(EXTRA_TIME, "text not null"));
+
+			pairs.addAll(specificCreationPairs());
+			
+			pairs.add(createPair("foreign key ("+TIME_RULE_COLUMN+")", 
+					"references "+TimeRulesTable.TABLE_NAME+"("+TimeRulesTable.ID_COLUMN+")"));
+			
+			return createScript((Pair<String, String>[]) pairs.toArray());
+		}
+	}
+	
+	public static class ByoYomiPresetTable extends BasePresetTable {
+		public static final String BYOYOMI_PRESET_TABLE_NAME = "byoyomi_presets";
+		public static final String BYOYOMI_PERIODS_COLUMN = "periods";
+		
+		@Override
+		public String tableName() {
+			return BYOYOMI_PRESET_TABLE_NAME;
+		}
+
+		@Override
+		protected ArrayList<Pair<String, String>> specificCreationPairs() {
+			ArrayList<Pair<String,String>> pairs = new ArrayList<Pair<String,String>>();
+			pairs.add(createPair(BYOYOMI_PERIODS_COLUMN, "integer not null"));
+			
+			return pairs;
+		}
+	}
+	public static class CanadianPresetTable extends BasePresetTable {
+		public static final String CANADIAN_PRESET_TABLE_NAME = "canadian_presets";
+		public static final String STONES_PER_ETRA_TIME = "stones";
+		@Override
+		protected ArrayList<Pair<String, String>> specificCreationPairs() {
+			ArrayList<Pair<String,String>> pairs = new ArrayList<Pair<String,String>>();
+			pairs.add(createPair(STONES_PER_ETRA_TIME, "integer not null"));
+			return pairs;
+		}
+
+		@Override
+		public String tableName() {
+			return CANADIAN_PRESET_TABLE_NAME;
+		}
+	}
+	public static class AbsolutePresetTable extends BasePresetTable {
+		public static final String ABSOLUTE_PRESET_TABLE_NAME = "absolute_presets";
+		@Override
+		protected ArrayList<Pair<String, String>> specificCreationPairs() {
+			return new ArrayList<Pair<String,String>>();
+		}
+
+		@Override
+		public String tableName() {
+			return ABSOLUTE_PRESET_TABLE_NAME;
+		}
 	}
 }
