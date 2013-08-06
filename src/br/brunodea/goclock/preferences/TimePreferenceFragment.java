@@ -147,7 +147,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		if(preference == mTimeRuleList) {
 			setTimeRuleListSummaryFromValue(newValue.toString());
 		} else if(preference == mFullscrenMode) {
-			mListener.onFullscreenModePreferenceChange(mFullscrenMode.isChecked());
+			mListener.onFullscreenModePreferenceChange((Boolean)newValue);
 		}
 		return true;
 	}
