@@ -151,10 +151,6 @@ public class ClockFragment extends Fragment {
 		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
 		initialTextValues();
 	}
-	
-	private void playNotificationSound() {
-		//TODO
-	}
 
 	private void initTimeHandler() {
 		mTimeHandler = new Handler() {
@@ -166,9 +162,7 @@ public class ClockFragment extends Fragment {
 					mTextViewTimeLeft.setTextColor(Color.RED);
 					mTextViewByoYomiInfo.setText("");
 				} else if(msg.what == Clock.MAIN_TIME_OVER) {
-					playNotificationSound();
 				} else if(msg.what == Clock.BYO_YOMI_TIME_OVER) {
-					playNotificationSound();
 				} else if(msg.what == Clock.ON_TICK) {
 					setTimeTextInfos();
 				} else if(msg.what == Clock.IS_SUDDEN_DEATH && mClock.getTimeRule().isMainTimeOver()) {
