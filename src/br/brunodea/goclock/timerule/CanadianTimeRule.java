@@ -50,5 +50,15 @@ public class CanadianTimeRule extends TimeRule {
 	public String extraInfo() {
 		return CANADIAN_RULE+" "+Util.formattedTime(getByoYomiTime())+" ("+mStonesPerByoYomi+")";
 	}
-
+	
+	@Override
+	public boolean isSuddenDeath(long millisUntilFinished) {
+		int secPerStone = (int)((millisUntilFinished/1000L)/mCurrStones);
+		
+		if(secPerStone <= 5) {
+			return true;
+		}
+		
+		return false;
+	}
 }

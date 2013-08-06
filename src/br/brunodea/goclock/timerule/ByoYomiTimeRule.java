@@ -41,7 +41,7 @@ public class ByoYomiTimeRule extends TimeRule {
 		if(isMainTimeOver()) {
 			text = "("+mByoYomiPeriodsLeft+")";
 			if(mByoYomiPeriodsLeft == 1) {
-				text = "F";
+				text = "SD";
 			}
 		}
 		return text;
@@ -50,5 +50,14 @@ public class ByoYomiTimeRule extends TimeRule {
 	@Override
 	public String extraInfo() {
 		return BYOYOMI_RULE+" "+Util.formattedTime(getByoYomiTime())+" ("+mByoYomiPeriods+")";
+	}
+	
+	@Override
+	public boolean isSuddenDeath(long millisUntilFinished) {
+		if(mByoYomiPeriodsLeft == 1) {
+			return true;
+		}
+		
+		return false;
 	}
 }
