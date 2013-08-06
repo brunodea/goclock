@@ -2,6 +2,7 @@ package br.brunodea.goclock;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,12 +26,17 @@ public class ClockFragment extends Fragment {
 	private Clock mClock;
 	private Handler mTimeHandler;
 	
+	private MediaPlayer mMediaPlayer;
 	@Override
 	public void onCreate(Bundle savedInstancesState) {
 		super.onCreate(savedInstancesState);
 		mCurrBaseColorBlack = false;
 		initTimeHandler();
 		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
+	}
+	
+	public void setMediaPlayer(MediaPlayer mp) {
+		mMediaPlayer = mp;
 	}
 	
 	public void setTimeRule(TimeRule time_rule) {
@@ -151,6 +157,10 @@ public class ClockFragment extends Fragment {
 				} else if(msg.what == Clock.IS_SUDDEN_DEATH && mClock.getTimeRule().isMainTimeOver()) {
 					mTextViewTimeLeft.setTextColor(Color.RED);
 					mTextViewByoYomiInfo.setTextColor(Color.RED);
+					
+					if(mMediaPlayer != null) {
+						mMediaPlayer.start();
+					}
 				} else if(msg.what == Clock.NOT_SUDDEN_DEATH) {
 					if(mCurrBaseColorBlack) {
 						setBaseColorBlack();

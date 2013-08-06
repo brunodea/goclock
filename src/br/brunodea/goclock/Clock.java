@@ -19,6 +19,8 @@ public class Clock {
 	private TimeRule mTimeRule;
 	
 	private Handler mTimeHandler;
+	
+	private int mTicks;
 
 	public Clock(TimeRule time_rule, Handler time_handler) {
 		mTimeRule = time_rule;
@@ -38,13 +40,19 @@ public class Clock {
 		mCountDownTimer = new CountDownTimer(mMillisUntilFinished, 100) {
 			@Override
 			public void onTick(long millisUntilFinished) {
+				mTicks++;
+				
 				mMillisUntilFinished = millisUntilFinished;
 				mTimeHandler.sendEmptyMessage(ON_TICK);
 				
-				if(mTimeRule.isSuddenDeath(millisUntilFinished)) {
+				if(mTimeRule.isSuddenDeath(millisUntilFinished) && mTicks >= 10) {
 					mTimeHandler.sendEmptyMessage(IS_SUDDEN_DEATH);
 				} else {
 					mTimeHandler.sendEmptyMessage(NOT_SUDDEN_DEATH);
+				}
+				
+				if(mTicks >= 10) {
+					mTicks = 0;
 				}
 			}
 			

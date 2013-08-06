@@ -1,6 +1,7 @@
 package br.brunodea.goclock;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -16,6 +17,7 @@ public class ClockActivity extends FragmentActivity {
 	public static final int SHOW_PREFERENCES_REQUEST_CODE = 0;
 	private ClockFragment mClockFragmentBlack;
 	private ClockFragment mClockFragmentWhite;
+	private MediaPlayer mMediaPlayer;
 	
 	private enum Turn {
 		NONE, WHITE, BLACK;
@@ -26,6 +28,8 @@ public class ClockActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.snd001);
 		
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
@@ -38,6 +42,9 @@ public class ClockActivity extends FragmentActivity {
 		
 		mClockFragmentBlack.setBaseColorBlack();
 		mClockFragmentWhite.setUpsideDown();
+		
+		mClockFragmentBlack.setMediaPlayer(mMediaPlayer);
+		mClockFragmentWhite.setMediaPlayer(mMediaPlayer);
 		
 		mCurrentTurn = Turn.NONE;
 		
