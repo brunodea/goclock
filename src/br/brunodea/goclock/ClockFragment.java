@@ -119,6 +119,7 @@ public class ClockFragment extends Fragment {
 	public void onDestroy() {
 		super.onDestroy();
 		pauseTimer();
+		mMediaPlayer.stop();
 	}
 	
 	private void initialTextValues() {
