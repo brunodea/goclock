@@ -140,7 +140,7 @@ public class ClockFragment extends Fragment {
 	private void playNotificationSound() {
 		//TODO
 	}
-	
+
 	private void initTimeHandler() {
 		mTimeHandler = new Handler() {
 			@Override

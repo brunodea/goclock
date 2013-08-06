@@ -26,6 +26,7 @@ public class Clock {
 		mTimeRule = time_rule;
 		mMillisUntilFinished = time_rule.getMainTime();
 		mTimeHandler = time_handler;
+		mTicks = 0;
 	}
 	
 	public void pauseTimer() {
@@ -45,7 +46,7 @@ public class Clock {
 				mMillisUntilFinished = millisUntilFinished;
 				mTimeHandler.sendEmptyMessage(ON_TICK);
 				
-				if(mTimeRule.isSuddenDeath(millisUntilFinished) && mTicks >= 10) {
+				if(mTimeRule.isSuddenDeath(millisUntilFinished) && mTicks >= 9) {
 					mTimeHandler.sendEmptyMessage(IS_SUDDEN_DEATH);
 				} else {
 					mTimeHandler.sendEmptyMessage(NOT_SUDDEN_DEATH);
