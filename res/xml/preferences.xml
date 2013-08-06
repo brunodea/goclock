@@ -43,4 +43,40 @@
             android:key="absolute_maintime_key"
             android:title="@string/main_time"/>
 	</PreferenceCategory>
+	
+	<PreferenceCategory 
+	    android:key="general_category_key"
+	    android:title="@string/general"
+	    android:persistent="false">
+	    
+	    <SwitchPreference 
+	        android:key="fullscreen_key"
+	        android:title="@string/fullscreen_mode"
+	        android:summaryOn="@string/fullscreen_summary_on"
+	        android:summaryOff="@string/fullscreen_summary_off"
+	        android:defaultValue="true"/>
+	    <SwitchPreference 
+	        android:key="keep_screen_on_key"
+	        android:title="@string/keep_screen_on"
+	        android:summaryOn="@string/keep_screen_on_summary_on"
+	        android:summaryOff="@string/keep_screen_on_summary_off"
+	        android:defaultValue="true"/>
+	    
+	    <CheckBoxPreference 
+	        android:key="blink_on_sudden_death_key"
+	        android:title="@string/blink_on_sudden_death"
+	        android:summary="@string/blink_on_sd_summary"
+	        android:defaultValue="true"/>
+	    <CheckBoxPreference 
+	        android:key="beep_on_sudden_death_key"
+	        android:title="@string/beep_on_sudden_death"
+	        android:summary="@string/beep_on_sudden_death_summary"
+	        android:defaultValue="true"/>
+	    
+	    <CheckBoxPreference 
+	        android:key="button_sound_on_tap_key"
+	        android:title="@string/button_sound_on_tap"
+	        android:summary="@string/button_sound_on_tap_summary"
+	        android:defaultValue="true"/>
+	</PreferenceCategory>
 </PreferenceScreen>

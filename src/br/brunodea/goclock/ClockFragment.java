@@ -15,13 +15,14 @@ import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.timerule.TimeRule;
 
 public class ClockFragment extends Fragment {
-	
+
 	private TextView mTextViewTimeLeft;
 	private TextView mTextViewByoYomiInfo;
 	
 	private View mClockView;
 	
 	private boolean mCurrBaseColorBlack;
+	private boolean mIsBGRed;
 	
 	private Clock mClock;
 	private Handler mTimeHandler;
@@ -33,6 +34,7 @@ public class ClockFragment extends Fragment {
 		mCurrBaseColorBlack = false;
 		initTimeHandler();
 		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
+		mIsBGRed = false;
 	}
 	
 	public void setMediaPlayer(MediaPlayer mp) {
@@ -59,6 +61,14 @@ public class ClockFragment extends Fragment {
 		mTextViewByoYomiInfo.setTextColor(Color.BLACK);
 		getView().setBackgroundColor(Color.WHITE);
 		mCurrBaseColorBlack = false;
+	}
+	
+	private void adjustBaseColor() {
+		if(mCurrBaseColorBlack) {
+			setBaseColorBlack();
+		} else {
+			setBaseColorWhite();
+		}
 	}
 	
 	public void invertColors() {
@@ -125,10 +135,15 @@ public class ClockFragment extends Fragment {
 	}
 	
 	public void pauseTimer() {
+		adjustBaseColor();
+		mIsBGRed = false;
 		mClock.pauseTimer();
 	}
 	public void resumeTimer() {
 		mClock.resumeTimer();
+	}
+	public boolean isTimeOver() {
+		return mClock.getTimeRule().isTimeOver();
 	}
 	public void reset() {
 		pauseTimer();
@@ -136,37 +151,38 @@ public class ClockFragment extends Fragment {
 		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
 		initialTextValues();
 	}
-	
-	private void playNotificationSound() {
-		//TODO
-	}
 
 	private void initTimeHandler() {
 		mTimeHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				if(msg.what == Clock.TIME_OVER) {
+					adjustBaseColor();
 					mTextViewTimeLeft.setText(getResources().getString(R.string.time_over));
+					mTextViewTimeLeft.setTextColor(Color.RED);
 					mTextViewByoYomiInfo.setText("");
 				} else if(msg.what == Clock.MAIN_TIME_OVER) {
-					playNotificationSound();
 				} else if(msg.what == Clock.BYO_YOMI_TIME_OVER) {
-					playNotificationSound();
 				} else if(msg.what == Clock.ON_TICK) {
 					setTimeTextInfos();
 				} else if(msg.what == Clock.IS_SUDDEN_DEATH && mClock.getTimeRule().isMainTimeOver()) {
-					mTextViewTimeLeft.setTextColor(Color.RED);
-					mTextViewByoYomiInfo.setTextColor(Color.RED);
-					
-					if(mMediaPlayer != null) {
-						mMediaPlayer.start();
+					if(GoClockPreferences.blinkOnSuddenDeath()) {
+						adjustBaseColor();
+						if(!mIsBGRed) {
+							getView().setBackgroundColor(Color.RED);
+							mIsBGRed = true;
+						} else {
+							mIsBGRed = false;
+							mTextViewTimeLeft.setTextColor(Color.RED);
+							mTextViewByoYomiInfo.setTextColor(Color.RED);
+						}
+					}
+					if(GoClockPreferences.beepOnSuddenDeath()) {
+						if(mMediaPlayer != null) {
+							mMediaPlayer.start();
+						}
 					}
 				} else if(msg.what == Clock.NOT_SUDDEN_DEATH) {
-					if(mCurrBaseColorBlack) {
-						setBaseColorBlack();
-					} else {
-						setBaseColorWhite();
-					}
 				}
 			}
 		};

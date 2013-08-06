@@ -11,13 +11,16 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.preferences.TimePreferenceActivity;
+import br.brunodea.goclock.util.Util;
 
 public class ClockActivity extends FragmentActivity {
 	public static final int SHOW_PREFERENCES_REQUEST_CODE = 0;
 	private ClockFragment mClockFragmentBlack;
 	private ClockFragment mClockFragmentWhite;
-	private MediaPlayer mMediaPlayer;
+	private MediaPlayer mMediaPlayerSuddenDeath;
+	private MediaPlayer mMediaPlayerPushButton;
 	
 	private enum Turn {
 		NONE, WHITE, BLACK;
@@ -29,12 +32,14 @@ public class ClockActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.snd002);
-		
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		if(GoClockPreferences.getFullscreen()) {
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+		if(GoClockPreferences.getKeepScreenOn()) {
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		}
 		setContentView(R.layout.activity_clock);
 		
 		mClockFragmentBlack = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.black_frag);
@@ -42,9 +47,11 @@ public class ClockActivity extends FragmentActivity {
 		
 		mClockFragmentBlack.setBaseColorBlack();
 		mClockFragmentWhite.setUpsideDown();
-		
-		mClockFragmentBlack.setMediaPlayer(mMediaPlayer);
-		mClockFragmentWhite.setMediaPlayer(mMediaPlayer);
+
+		mMediaPlayerPushButton = MediaPlayer.create(getApplicationContext(), R.raw.pushbutton_amp);
+		mMediaPlayerSuddenDeath = MediaPlayer.create(getApplicationContext(), R.raw.snd002_amp);
+		mClockFragmentBlack.setMediaPlayer(mMediaPlayerSuddenDeath);
+		mClockFragmentWhite.setMediaPlayer(mMediaPlayerSuddenDeath);
 		
 		mCurrentTurn = Turn.NONE;
 		
@@ -53,7 +60,14 @@ public class ClockActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				if(v == l) {
-					nextTurn();
+					if(mClockFragmentBlack.isTimeOver() || mClockFragmentWhite.isTimeOver()) {
+						resetClocks();
+					} else {
+						if(GoClockPreferences.buttonSoundOnTap()) {
+							mMediaPlayerPushButton.start();
+						}
+						nextTurn();
+					}
 				}
 			}
 		});
@@ -105,6 +119,8 @@ public class ClockActivity extends FragmentActivity {
 		
 		if(requestCode == SHOW_PREFERENCES_REQUEST_CODE) {
 			resetClocks();
+			Util.adjustActivityFullscreenMode(this);
+			Util.adjustActivityKeepScreenOn(this);
 		}
 	}
 	
@@ -112,5 +128,13 @@ public class ClockActivity extends FragmentActivity {
 		mCurrentTurn = Turn.NONE;
 		mClockFragmentBlack.reset();
 		mClockFragmentWhite.reset();
+	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if(mMediaPlayerSuddenDeath != null)
+			mMediaPlayerSuddenDeath.release();
+		if(mMediaPlayerPushButton != null)
+			mMediaPlayerPushButton.release();
 	}
 }

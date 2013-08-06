@@ -15,6 +15,10 @@ public class GoClockPreferences {
 		SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(c);
 		return s.getString(key, def);
 	}
+	private static boolean getBooleanPreference(Context c, String key, boolean def) {
+		SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(c);
+		return s.getBoolean(key, def);
+	}
 	
 	/* Byo Yomi */
 	public static String getByoYomiMainTimeString() {
@@ -114,5 +118,22 @@ public class GoClockPreferences {
 	}
 	private static TimeRule createAbsoluteTimeRule() {
 		return new AbsoluteTimeRule(getAbsoluteMainTimeMillis());
+	}
+	/////////////////////////////////////////////////////////////
+	/* General */
+	public static boolean getFullscreen() {
+		return getBooleanPreference(App.instance(), "fullscreen_key", true);
+	}
+	public static boolean getKeepScreenOn() {
+		return getBooleanPreference(App.instance(), "keep_screen_on_key", true);
+	}
+	public static boolean blinkOnSuddenDeath() {
+		return getBooleanPreference(App.instance(), "blink_on_sudden_death_key", true);
+	}
+	public static boolean beepOnSuddenDeath() {
+		return getBooleanPreference(App.instance(), "beep_on_sudden_death_key", true);
+	}
+	public static boolean buttonSoundOnTap() {
+		return getBooleanPreference(App.instance(), "button_sound_on_tap_key", true);
 	}
 }

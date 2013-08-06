@@ -1,9 +1,11 @@
 package br.brunodea.goclock.preferences;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.SwitchPreference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import br.brunodea.goclock.R;
@@ -12,6 +14,12 @@ import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
 
 public class TimePreferenceFragment extends PreferenceFragment implements OnPreferenceChangeListener {
+	
+	public interface MyOnFullscreenModePreferenceChangeListener {
+		public void onFullscreenModePreferenceChange(boolean fullscreen);
+	}
+	
+	private MyOnFullscreenModePreferenceChangeListener mListener;
 	
 	private TimeDialogPreference mByoYomiMainTime;
 	private TimeDialogPreference mByoYomiExtraTime;
@@ -25,6 +33,8 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 	
 	private ListPreference mTimeRuleList;
 	
+	private SwitchPreference mFullscrenMode;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,6 +43,17 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		setValues();
 		setListeners();
 		setSummaries();
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mListener = (MyOnFullscreenModePreferenceChangeListener) activity;
+		} catch(ClassCastException	e) {
+			throw new ClassCastException(activity.toString()+ 
+					" must implement MyOnPreferenceChangeListener");
+		}
 	}
 	
 	private void bindGUI() {
@@ -55,6 +76,9 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		
 		mTimeRuleList = (ListPreference)
 				getPreferenceScreen().findPreference("timerules_key");
+
+		mFullscrenMode = (SwitchPreference)
+				getPreferenceScreen().findPreference("fullscreen_key");
 		
 		String []entries = {ByoYomiTimeRule.BYOYOMI_RULE, CanadianTimeRule.CANADIAN_RULE,
 				AbsoluteTimeRule.ABSOLUTE_RULE};
@@ -76,6 +100,8 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mAbsoluteMainTime.setOnPreferenceChangeListener(this);
 		
 		mTimeRuleList.setOnPreferenceChangeListener(this);
+		
+		mFullscrenMode.setOnPreferenceChangeListener(this);
 	}
 	
 	private void setValues() {
@@ -102,7 +128,6 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mCanadianStones.setSummary(GoClockPreferences.getCanadianStones()+"");
 		mAbsoluteMainTime.setSummary(GoClockPreferences.getAbsoluteMainTimeString());
 		
-		
 		mTimeRuleList.setSummary(GoClockPreferences.getTimeRuleString());
 	}
 	
@@ -121,6 +146,8 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		preference.setSummary(newValue.toString());
 		if(preference == mTimeRuleList) {
 			setTimeRuleListSummaryFromValue(newValue.toString());
+		} else if(preference == mFullscrenMode) {
+			mListener.onFullscreenModePreferenceChange((Boolean)newValue);
 		}
 		return true;
 	}
