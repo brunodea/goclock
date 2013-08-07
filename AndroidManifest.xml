@@ -25,8 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="br.brunodea.goclock.preferences.TimePreferenceActivity">
-        </activity>
+        <activity android:name="br.brunodea.goclock.preferences.TimePreferenceActivity"/>
+        <activity android:name="br.brunodea.goclock.PresetsListActivity"/>
         <provider android:name="br.brunodea.goclock.db.GoClockContentProvider"
             android:authorities="br.brunodea.provider.goclock"/>
     </application>

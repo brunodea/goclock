@@ -92,7 +92,7 @@ public class GoClockPreferences {
 		
 		return res;
 	}
-
+	
 	public static TimeRule getTimeRule() {
 		String tr = getTimeRuleKeyString();
 		TimeRule time_rule = null;

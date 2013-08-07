@@ -17,6 +17,7 @@ import br.brunodea.goclock.util.Util;
 
 public class ClockActivity extends FragmentActivity {
 	public static final int SHOW_PREFERENCES_REQUEST_CODE = 0;
+	public static final int PRESETS_REQUEST_CODE = 0;
 	private ClockFragment mClockFragmentBlack;
 	private ClockFragment mClockFragmentWhite;
 	private MediaPlayer mMediaPlayerSuddenDeath;
@@ -102,14 +103,16 @@ public class ClockActivity extends FragmentActivity {
 		switch(item.getItemId()) {
 		case R.id.action_settings:
 			resetClocks();
-			Intent i = new Intent(this, TimePreferenceActivity.class);
-			startActivityForResult(i, SHOW_PREFERENCES_REQUEST_CODE);
+			startActivityForResult(new Intent(this, TimePreferenceActivity.class),
+					SHOW_PREFERENCES_REQUEST_CODE);
 			break;
 		case R.id.action_reset_clock:
 			resetClocks();
 			break;
 		case R.id.action_presets:
 			resetClocks();
+			startActivityForResult(new Intent(this, PresetsListActivity.class),
+					PRESETS_REQUEST_CODE);
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -124,6 +127,10 @@ public class ClockActivity extends FragmentActivity {
 			resetClocks();
 			Util.adjustActivityFullscreenMode(this);
 			Util.adjustActivityKeepScreenOn(this);
+		} else if(requestCode == PRESETS_REQUEST_CODE) {
+			if(resultCode == RESULT_OK) {
+				resetClocks();
+			}
 		}
 	}
 	

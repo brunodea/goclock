@@ -7,6 +7,10 @@ import java.util.concurrent.TimeUnit;
 import android.app.Activity;
 import android.view.WindowManager;
 import br.brunodea.goclock.preferences.GoClockPreferences;
+import br.brunodea.goclock.timerule.AbsoluteTimeRule;
+import br.brunodea.goclock.timerule.ByoYomiTimeRule;
+import br.brunodea.goclock.timerule.CanadianTimeRule;
+import br.brunodea.goclock.timerule.TimeRule;
 
 public class Util {
 	/**
@@ -84,5 +88,31 @@ public class Util {
 		} else {
 			activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
+	}
+	
+	public static TimeRule timeRuleFactory(String timerule_key, String main_time,
+			String extra_time, String extra_info) {
+		TimeRule tr = null;
+		long main_millis = 0;
+		long extra_millis = 0;
+		if(!main_time.equals(""))
+			main_millis = timeStringToMillis(main_time);
+		if(!extra_time.equals(""))
+			extra_millis = timeStringToMillis(extra_time);
+		if(timerule_key.equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
+			int periods = 1;
+			if(!extra_info.equals(""))
+				Integer.parseInt(extra_info);
+			tr = new ByoYomiTimeRule(main_millis, extra_millis, periods);
+		} else if(timerule_key.equals(CanadianTimeRule.CANADIAN_KEY)) {
+			int stones = 1;
+			if(!extra_info.equals(""))
+				stones = Integer.parseInt(extra_info);
+			tr = new CanadianTimeRule(main_millis, extra_millis, stones);
+		} else if(timerule_key.equals(AbsoluteTimeRule.ABSOLUTE_KEY)) {
+			tr = new AbsoluteTimeRule(main_millis);
+		}
+		
+		return tr;
 	}
 }
