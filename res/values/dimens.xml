@@ -8,4 +8,6 @@
     <dimen name="byoyomi_info_font_size">22sp</dimen>
     <dimen name="byoyomi_curr_info_font_size">50sp</dimen>
     <dimen name="byoyomi_info_margin">50dp</dimen>
+    <dimen name="preset_name">22sp</dimen>
+    <dimen name="preset_info">18sp</dimen>
 </resources>

@@ -4,6 +4,14 @@ import java.util.ArrayList;
 
 import android.util.Pair;
 
+/**
+ * Estrutura do DB
+ * TimeRulesTable - time_rules(_id,name);
+ * BasePresetTable - presets(_id, time_rule_id,name,main_time,extra_time,extra_info);
+ * ByoYomiPresetTable - byoyomi_presets(_id, time_rule_id,name,main_time,extra_time,periods);
+ * CanadianPresetTable - canadian_presets(_id,time_rule_id,name,main_time,extra_time,stones);
+ * AbsolutePresetTable - absolute_presets(_id,time_rule_id,name,main_time,extra_time);
+ */
 @SuppressWarnings("unchecked")
 public class DBStructure {
 	public static String createTablesScript() {
@@ -95,12 +103,12 @@ public class DBStructure {
 	}
 	
 	public static class ByoYomiPresetTable extends BasePresetTable {
-		public static final String BYOYOMI_PRESET_TABLE_NAME = "byoyomi_presets";
+		public static final String TABLE_NAME = "byoyomi_presets";
 		public static final String BYOYOMI_PERIODS_COLUMN = "periods";
 		
 		@Override
 		public String tableName() {
-			return BYOYOMI_PRESET_TABLE_NAME;
+			return TABLE_NAME;
 		}
 
 		@Override
@@ -112,7 +120,7 @@ public class DBStructure {
 		}
 	}
 	public static class CanadianPresetTable extends BasePresetTable {
-		public static final String CANADIAN_PRESET_TABLE_NAME = "canadian_presets";
+		public static final String TABLE_NAME = "canadian_presets";
 		public static final String STONES_PER_ETRA_TIME = "stones";
 		@Override
 		protected ArrayList<Pair<String, String>> specificCreationPairs() {
@@ -123,11 +131,11 @@ public class DBStructure {
 
 		@Override
 		public String tableName() {
-			return CANADIAN_PRESET_TABLE_NAME;
+			return TABLE_NAME;
 		}
 	}
 	public static class AbsolutePresetTable extends BasePresetTable {
-		public static final String ABSOLUTE_PRESET_TABLE_NAME = "absolute_presets";
+		public static final String TABLE_NAME = "absolute_presets";
 		@Override
 		protected ArrayList<Pair<String, String>> specificCreationPairs() {
 			return new ArrayList<Pair<String,String>>();
@@ -135,7 +143,7 @@ public class DBStructure {
 
 		@Override
 		public String tableName() {
-			return ABSOLUTE_PRESET_TABLE_NAME;
+			return TABLE_NAME;
 		}
 	}
 }

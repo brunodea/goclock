@@ -10,10 +10,12 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 import br.brunodea.goclock.db.DBStructure.AbsolutePresetTable;
+import br.brunodea.goclock.db.DBStructure.BasePresetTable;
 import br.brunodea.goclock.db.DBStructure.BaseTable;
 import br.brunodea.goclock.db.DBStructure.ByoYomiPresetTable;
 import br.brunodea.goclock.db.DBStructure.CanadianPresetTable;
 import br.brunodea.goclock.db.DBStructure.TimeRulesTable;
+import br.brunodea.goclock.timerule.AbsoluteTimeRule;
 
 public class GoClockContentProvider extends ContentProvider {
 	public static final String PROVIDER_NAME = "br.brunodea.provider.goclock";
@@ -26,6 +28,8 @@ public class GoClockContentProvider extends ContentProvider {
 			Uri.parse("content://"+PROVIDER_NAME+"/"+CanadianPresetTable.TABLE_NAME);
 	public static final Uri CONTENT_URI_ABSOLUTE_PRESETS =
 			Uri.parse("content://"+PROVIDER_NAME+"/"+AbsolutePresetTable.TABLE_NAME);
+	public static final Uri CONTENT_URI_ALL =
+			Uri.parse("content://"+PROVIDER_NAME+"/all");
 	
 	private static final int TIME_RULES = 1;
 	private static final int TIME_RULES_ID = 2;
@@ -35,6 +39,7 @@ public class GoClockContentProvider extends ContentProvider {
 	private static final int CANADIAN_PRESETS_ID = 6;
 	private static final int ABSOLUTE_PRESETS = 7;
 	private static final int ABSOLUTE_PRESETS_ID = 8;
+	private static final int ALL_RULES = 9;
 	
 	private static final UriMatcher URI_MATCHER;
 	
@@ -48,6 +53,7 @@ public class GoClockContentProvider extends ContentProvider {
 		URI_MATCHER.addURI(PROVIDER_NAME, CanadianPresetTable.TABLE_NAME+"/#", CANADIAN_PRESETS_ID);
 		URI_MATCHER.addURI(PROVIDER_NAME, AbsolutePresetTable.TABLE_NAME, ABSOLUTE_PRESETS);
 		URI_MATCHER.addURI(PROVIDER_NAME, AbsolutePresetTable.TABLE_NAME+"/#", ABSOLUTE_PRESETS_ID);
+		URI_MATCHER.addURI(PROVIDER_NAME, "all", ALL_RULES);
 	}
 	
 	private GoClockDBOpenHelper mDBOpenHelper;
@@ -55,7 +61,7 @@ public class GoClockContentProvider extends ContentProvider {
 	
 	private interface OnUriMatcherMatchInterface {
 		public Object onUriMatcherMatch(String table_name, boolean is_single_item,
-				Uri content_uri);
+				boolean all_rules, Uri content_uri);
 	}
 	
 	@Override
@@ -80,7 +86,7 @@ public class GoClockContentProvider extends ContentProvider {
 		int deleteCount = (Integer) matchUri(uri, new OnUriMatcherMatchInterface() {
 			@Override
 			public Object onUriMatcherMatch(String table_name, boolean is_single_row,
-					Uri content_uri) {
+					boolean all_rules, Uri content_uri) {
 				String s = "1";
 				if(selection != null) {
 					s = new String(selection);
@@ -103,7 +109,7 @@ public class GoClockContentProvider extends ContentProvider {
 		String type = (String)matchUri(uri, new OnUriMatcherMatchInterface() {
 			@Override
 			public Object onUriMatcherMatch(String table_name, boolean is_single_item,
-					Uri content_uri) {
+					boolean all_rules, Uri content_uri) {
 				return "vnd.android.cursor."+(is_single_item ? "item" : "dir")+
 						"/vnd.brunodea."+table_name;
 			}
@@ -116,7 +122,7 @@ public class GoClockContentProvider extends ContentProvider {
 		Object obj = matchUri(uri, new OnUriMatcherMatchInterface() {
 			@Override
 			public Object onUriMatcherMatch(String table_name, boolean is_single_item,
-					Uri content_uri) {
+					boolean all_rules, Uri content_uri) {
 				// To add empty rows to your database by passing in an empty
 				// Content Values object you must use the null column hack
 				// parameter to specify the name of the column that can be
@@ -142,14 +148,18 @@ public class GoClockContentProvider extends ContentProvider {
 		return (Cursor) matchUri(uri, new OnUriMatcherMatchInterface() {
 			@Override
 			public Object onUriMatcherMatch(String table_name, boolean is_single_row,
-					Uri content_uri) {
+					boolean all_rules, Uri content_uri) {
 				SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 				if(is_single_row) {
 					String rowID = uri.getPathSegments().get(1);
 					qb.appendWhere(BaseTable.ID_COLUMN+"="+rowID);
 				}
+				String so = new String(sortOrder);
+				if(all_rules) {
+					so = BasePresetTable.PRESET_NAME_COLUMN;
+				}
 				qb.setTables(table_name);
-				return qb.query(mDB, projection, selection, selectionArgs, null, null, sortOrder);
+				return qb.query(mDB, projection, selection, selectionArgs, null, null, so);
 			}
 		});
 	}
@@ -160,7 +170,7 @@ public class GoClockContentProvider extends ContentProvider {
 		int updateCount = (Integer) matchUri(uri, new OnUriMatcherMatchInterface() {
 			@Override
 			public Object onUriMatcherMatch(String table_name, boolean is_single_item,
-					Uri content_uri) {
+					boolean all_rules, Uri content_uri) {
 				String s = new String(selection);
 				if(is_single_item) {
 					String rowID = uri.getPathSegments().get(1);
@@ -180,6 +190,7 @@ public class GoClockContentProvider extends ContentProvider {
 	private Object matchUri(Uri uri, OnUriMatcherMatchInterface on_uri_match) {
 		String table_name = "";
 		boolean is_single_item = false;
+		boolean all_rules = false;
 		Uri content_uri = null;
 		switch(URI_MATCHER.match(uri)) {
 		case TIME_RULES:
@@ -218,9 +229,14 @@ public class GoClockContentProvider extends ContentProvider {
 			is_single_item = true;
 			content_uri = CONTENT_URI_ABSOLUTE_PRESETS;
 			break;
+		case ALL_RULES:
+			table_name = ByoYomiPresetTable.TABLE_NAME+","+CanadianPresetTable.TABLE_NAME+","+AbsolutePresetTable.TABLE_NAME;
+			all_rules = true;
+			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: "+uri);
 		}
-		return on_uri_match.onUriMatcherMatch(table_name, is_single_item, content_uri);
+		return on_uri_match.onUriMatcherMatch(table_name, is_single_item, 
+				all_rules, content_uri);
 	}
 }

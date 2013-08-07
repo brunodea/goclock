@@ -10,4 +10,9 @@
 	    android:orderInCategory="0"
 	    android:showAsAction="ifRoom"
 	    android:title="@string/reset_clock"/>
+	<item
+	    android:id="@+id/action_presets"
+	    android:orderInCategory="1"
+	    android:showAsAction="ifRoom"
+	    android:title="@string/use_preset"/>
 </menu>

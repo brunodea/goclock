@@ -36,4 +36,5 @@
 	<string name="beep_on_sudden_death">Beep on sudden death</string>
 	<string name="button_sound_on_tap">Button sound on tap</string>
 	<string name="button_sound_on_tap_summary">Play a push button sound when tapping the clock.</string>
+	<string name="use_preset">Use preset</string>
 </resources>

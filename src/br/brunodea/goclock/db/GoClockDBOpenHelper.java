@@ -6,13 +6,13 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class GoClockDBOpenHelper extends SQLiteOpenHelper {
+	public static final String DB_NAME = "goclock.db";
+	public static final int DB_VERSION = 1;
+	
 	public GoClockDBOpenHelper(Context context, String name,
 			CursorFactory factory, int version) {
 		super(context, name, factory, version);
 	}
-
-	private static final String DB_NAME = "goclock.db";
-	private static final int DB_VERSION = 1;
 	
 	// Called when no database exists in disk and the helper class needs
 	// to create a new one.

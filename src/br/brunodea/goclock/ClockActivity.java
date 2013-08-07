@@ -108,6 +108,9 @@ public class ClockActivity extends FragmentActivity {
 		case R.id.action_reset_clock:
 			resetClocks();
 			break;
+		case R.id.action_presets:
+			resetClocks();
+			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
