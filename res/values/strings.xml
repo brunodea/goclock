@@ -44,4 +44,6 @@
 	<string name="error">Error</string>
 	<string name="name_cannot_be_empty">Name cannot be empty.</string>
 	<string name="pause_clock">Pause clock</string>
+	<string name="delete">Delete</string>
+	<string name="delete_success">Deleted with success!</string>
 </resources>

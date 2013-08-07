@@ -7,11 +7,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -40,16 +45,18 @@ public class PresetsListActivity extends ListActivity {
 		setContentView(R.layout.preset_activity);
 		initGUI();
 		
+		registerForContextMenu(getListView());
+		
 		Cursor cursor = getContentResolver().query(GoClockContentProvider.CONTENT_URI_PRESETS, 
 				null, null, null, PresetTable.NAME);
-		
+		cursor.setNotificationUri(getContentResolver(), GoClockContentProvider.CONTENT_URI_PRESETS);
 		setListAdapter(new PresetCursorAdapter(this, cursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER));
 	}
 	
 	private void initGUI(){
 		mButtonAdd = (Button)findViewById(R.id.button_add_preset);
 		mEditTextNewPreset = (EditText)findViewById(R.id.edittext_new_preset);
-		
+
 		mButtonAdd.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -109,6 +116,30 @@ public class PresetsListActivity extends ListActivity {
 		GoClockPreferences.setTimeRule(t);
 		setResult(Activity.RESULT_OK);
 		finish();
+	}
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.preset_context_menu, menu);
+    }
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info;
+		try {
+			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		} catch (ClassCastException e) {
+			Log.e("", "bad menuInfo", e);
+			return false;
+		}
+		Cursor c = (Cursor) getListAdapter().getItem(info.position);
+		int id = c.getInt(c.getColumnIndex(PresetTable.ID_COLUMN));
+		int count = getContentResolver().delete(GoClockContentProvider.CONTENT_URI_PRESETS, 
+				PresetTable.ID_COLUMN+"=?", new String[]{String.valueOf(id)});
+		if(count > 0) {
+			Toast.makeText(this, getResources().getString(R.string.delete_success),
+					Toast.LENGTH_SHORT).show();
+		}
+		return true;
 	}
 	private class PresetCursorAdapter extends CursorAdapter {
 		private LayoutInflater mLayoutInflater;
