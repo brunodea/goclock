@@ -98,6 +98,30 @@ public class GoClockPreferences {
 		return res;
 	}
 	
+	public static void setTimeRule(TimeRule time_rule) {
+		String tr = time_rule.getTimeRuleKey();
+		setStringPreference(App.instance(), "timerules_key", tr);
+		String maintime_key = "byoyomi_maintime_key";
+		String extratime_key = "byoyomi_extratime_key";
+		if(tr.equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
+			setStringPreference(App.instance(), "byoyomi_periods_key", 
+					((ByoYomiTimeRule)time_rule).getPeriods()+"");
+		} else if(tr.equals(CanadianTimeRule.CANADIAN_KEY)) {
+			maintime_key = "canadian_maintime_key";
+			extratime_key = "canadian_extratime_key";
+			setStringPreference(App.instance(), "canadian_stones_key", 
+					((CanadianTimeRule)time_rule).getStones()+"");
+		}
+		if(tr.equals(AbsoluteTimeRule.ABSOLUTE_KEY)) {
+			maintime_key = "absolute_maintime_key";
+		} else {
+			setStringPreference(App.instance(), extratime_key,
+					Util.formattedTime(time_rule.getByoYomiTime()));
+		}
+		setStringPreference(App.instance(), maintime_key,
+				Util.formattedTime(time_rule.getMainTime()));
+	}
+	
 	public static TimeRule getTimeRule() {
 		String tr = getTimeRuleKeyString();
 		TimeRule time_rule = null;
