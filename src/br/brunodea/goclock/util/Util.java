@@ -115,4 +115,32 @@ public class Util {
 		
 		return tr;
 	}
+	
+	//obviamente o cursor tem que estar corretamente na tabela...
+	public static TimeRule timeRuleFromCursor(Cursor c, ContentResolver res) {
+		TimeRule time_rule = null;
+		int time_rule_id = c.getInt(c.getColumnIndex(PresetTable.TIME_RULE_COLUMN));
+		
+		Uri rowAddress = ContentUris.withAppendedId(GoClockContentProvider.CONTENT_URI_TIME_RULES, 
+				time_rule_id);
+		Cursor time_rule_cursor = res.query(rowAddress,
+				new String[] {TimeRulesTable.TIME_RULE_COLUMN}, null, null, null);
+		if(time_rule_cursor.moveToFirst()) {
+			String time_rule_key = time_rule_cursor.getString(time_rule_cursor
+					.getColumnIndex(TimeRulesTable.TIME_RULE_COLUMN));
+			
+			time_rule_cursor.close();
+
+			String maintime = c.getString(c.getColumnIndex(PresetTable.MAIN_TIME));
+			String extratime = c.getString(c.getColumnIndex(PresetTable.EXTRA_TIME));
+			String extrainfo = c.getString(c.getColumnIndex(PresetTable.EXTRA_INFO));
+			
+			time_rule = Util.timeRuleFactory(time_rule_key, maintime, 
+					extratime, extrainfo);
+		} else {
+			Log.e("PresetCursorAdapter.bindView", "time_rule with id "+time_rule_id+" not found.");
+		}
+		
+		return time_rule;
+	}
 }
