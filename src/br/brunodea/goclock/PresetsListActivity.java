@@ -41,8 +41,9 @@ public class PresetsListActivity extends ListActivity {
 		
 		setContentView(R.layout.preset_activity);
 		initGUI();
+		
 		Cursor cursor = getContentResolver().query(GoClockContentProvider.CONTENT_URI_PRESETS, 
-				null, null, null, PresetTable.PRESET_NAME);
+				null, null, null, PresetTable.NAME);
 		
 		setListAdapter(new PresetCursorAdapter(this, cursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER));
 	}
@@ -64,10 +65,11 @@ public class PresetsListActivity extends ListActivity {
 				if(msg.equals("")) {
 					TimeRule curr = GoClockPreferences.getTimeRule();
 					String extra = "0";
-					if(GoClockPreferences.getTimeRuleKeyString().equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
+					String time_rule_key = GoClockPreferences.getTimeRuleKeyString(); 
+					if(time_rule_key.equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
 						ByoYomiTimeRule b = (ByoYomiTimeRule) curr;
 						extra = b.getPeriods()+"";
-					} else if(GoClockPreferences.getTimeRuleKeyString().equals(CanadianTimeRule.CANADIAN_KEY)) {
+					} else if(time_rule_key.equals(CanadianTimeRule.CANADIAN_KEY)) {
 						CanadianTimeRule c = (CanadianTimeRule) curr;
 						extra = c.getStones()+"";
 					}
@@ -75,15 +77,13 @@ public class PresetsListActivity extends ListActivity {
 					String extratime = Util.formattedTime(curr.getByoYomiTime());
 					
 					ContentValues values = new ContentValues();
-					values.put(PresetTable.PRESET_NAME, name);
+					values.put(PresetTable.NAME, name);
 					values.put(PresetTable.MAIN_TIME, maintime);
 					values.put(PresetTable.EXTRA_TIME, extratime);
 					values.put(PresetTable.EXTRA_INFO, extra);
 					
 					getContentResolver().insert(GoClockContentProvider.CONTENT_URI_PRESETS, values);
 					msg = getResources().getString(R.string.add_new_preset);
-					
-					setListAdapter(getListAdapter());
 				}
 				Toast.makeText(PresetsListActivity.this, msg, Toast.LENGTH_LONG).show();
 			}
@@ -92,7 +92,7 @@ public class PresetsListActivity extends ListActivity {
 	
 	private boolean presetNameAlreadyTaken(String name) {
 		Cursor cursor = getContentResolver().query(GoClockContentProvider.CONTENT_URI_PRESETS,
-				new String[]{PresetTable.PRESET_NAME}, PresetTable.PRESET_NAME+"=?", 
+				new String[]{PresetTable.NAME}, PresetTable.NAME+"=?", 
 				new String[] {name}, null);
 		boolean taken = cursor.moveToFirst();
 		
@@ -123,7 +123,7 @@ public class PresetsListActivity extends ListActivity {
 				
 				time_rule_cursor.close();
 				
-				String name = c.getString(c.getColumnIndex(PresetTable.PRESET_NAME));
+				String name = c.getString(c.getColumnIndex(PresetTable.NAME));
 				String maintime = c.getString(c.getColumnIndex(PresetTable.MAIN_TIME));
 				String extratime = c.getString(c.getColumnIndex(PresetTable.EXTRA_TIME));
 				String extrainfo = c.getString(c.getColumnIndex(PresetTable.EXTRA_INFO));

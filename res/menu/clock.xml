@@ -1,18 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+	<item
+	    android:id="@+id/action_pause_clock"
+	    android:orderInCategory="0"
+	    android:showAsAction="ifRoom"
+	    android:title="@string/pause_clock"/>
 	<item
 	    android:id="@+id/action_reset_clock"
-	    android:orderInCategory="0"
+	    android:orderInCategory="1"
 	    android:showAsAction="ifRoom"
 	    android:title="@string/reset_clock"/>
 	<item
 	    android:id="@+id/action_presets"
-	    android:orderInCategory="1"
+	    android:orderInCategory="2"
 	    android:showAsAction="ifRoom"
 	    android:title="@string/use_preset"/>
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="3"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
 </menu>

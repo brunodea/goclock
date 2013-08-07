@@ -67,7 +67,7 @@ public class DBStructure {
 	public static class PresetTable extends BaseTable {
 		public static final String TABLE_NAME = "presets";
 		public static final String TIME_RULE_COLUMN = "time_rule_id";
-		public static final String PRESET_NAME = "name";
+		public static final String NAME = "name";
 		public static final String MAIN_TIME = "main_time";
 		public static final String EXTRA_TIME = "extra_time";
 		public static final String EXTRA_INFO = "extra_info";
@@ -76,7 +76,7 @@ public class DBStructure {
 		public String creationScript() {
 			return createScript(
 					createPair(TIME_RULE_COLUMN, "integer"),
-					createPair(PRESET_NAME, "text not null"),
+					createPair(NAME, "text not null"),
 					createPair(MAIN_TIME, "text not null"),
 					createPair(EXTRA_TIME, "text not null"),
 					createPair(EXTRA_INFO, "text"),
