@@ -1,8 +1,10 @@
 package br.brunodea.goclock;
 
+import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,6 +47,7 @@ public class ClockFragment extends Fragment {
 		mClock = new Clock(time_rule, mTimeHandler);
 	}
 	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void setUpsideDown() {
 		mClockView.setScaleX(-1.f);
 		mClockView.setScaleY(-1.f);

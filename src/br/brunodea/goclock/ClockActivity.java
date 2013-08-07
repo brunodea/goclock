@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.preferences.TimePreferenceActivity;
 import br.brunodea.goclock.util.Util;
+import br.brunodea.goclock.api10.*;
 
 public class ClockActivity extends FragmentActivity {
 	public static final int SHOW_PREFERENCES_REQUEST_CODE = 0;
@@ -41,10 +43,16 @@ public class ClockActivity extends FragmentActivity {
 		if(GoClockPreferences.getKeepScreenOn()) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
-		setContentView(R.layout.activity_clock);
-		
-		mClockFragmentBlack = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.black_frag);
-		mClockFragmentWhite = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.white_frag);
+				
+		if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			setContentView(R.layout.activity_clock);
+			mClockFragmentBlack = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.black_frag);
+			mClockFragmentWhite = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.white_frag);
+		} else {
+			setContentView(R.layout.activity_clock_api10);
+			mClockFragmentBlack = (ClockFragmentApi10) getSupportFragmentManager().findFragmentById(R.id.black_frag_api10);
+			mClockFragmentWhite = (ClockFragmentApi10) getSupportFragmentManager().findFragmentById(R.id.white_frag_api10);
+		}
 		
 		mClockFragmentBlack.setBaseColorBlack();
 		mClockFragmentWhite.setUpsideDown();
