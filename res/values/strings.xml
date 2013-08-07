@@ -37,4 +37,10 @@
 	<string name="button_sound_on_tap">Button sound on tap</string>
 	<string name="button_sound_on_tap_summary">Play a push button sound when tapping the clock.</string>
 	<string name="use_preset">Use preset</string>
+	<string name="add_new_preset">New preset from current time rule added.</string>
+	<string name="add">Add</string>
+	<string name="new_preset_name">Preset name</string>
+	<string name="preset_name_already_taken">Preset name already taken.</string>
+	<string name="error">Error</string>
+	<string name="name_cannot_be_empty">Name cannot be empty.</string>
 </resources>

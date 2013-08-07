@@ -61,4 +61,8 @@ public class CanadianTimeRule extends TimeRule {
 
 		return false;
 	}
+	
+	public int getStones() {
+		return mStonesPerByoYomi;
+	}
 }

@@ -60,4 +60,8 @@ public class ByoYomiTimeRule extends TimeRule {
 		
 		return false;
 	}
+	
+	public int getPeriods() {
+		return mByoYomiPeriods;
+	}
 }
