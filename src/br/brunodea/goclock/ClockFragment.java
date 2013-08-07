@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.timerule.TimeRule;
@@ -49,8 +50,12 @@ public class ClockFragment extends Fragment {
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void setUpsideDown() {
-		mClockView.setScaleX(-1.f);
-		mClockView.setScaleY(-1.f);
+		if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			mClockView.setScaleX(-1.f);
+			mClockView.setScaleY(-1.f);
+		} else {
+			mClockView.setAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_anim));
+		}
 	}
 	
 	public void setBaseColorBlack() {
