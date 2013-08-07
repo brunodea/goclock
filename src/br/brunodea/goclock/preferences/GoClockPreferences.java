@@ -15,6 +15,11 @@ public class GoClockPreferences {
 		SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(c);
 		return s.getString(key, def);
 	}
+	private static void setStringPreference(Context c, String key, String value) {
+		SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(c);
+		s.edit().putString(key, value)
+			.commit();
+	}
 	private static boolean getBooleanPreference(Context c, String key, boolean def) {
 		SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(c);
 		return s.getBoolean(key, def);
