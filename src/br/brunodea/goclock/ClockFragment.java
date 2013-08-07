@@ -53,13 +53,17 @@ public class ClockFragment extends Fragment {
 	public void setBaseColorBlack() {
 		mTextViewTimeLeft.setTextColor(Color.WHITE);
 		mTextViewByoYomiInfo.setTextColor(Color.WHITE);
-		getView().setBackgroundColor(Color.BLACK);
+		if(getView() != null) {
+			getView().setBackgroundColor(Color.BLACK);
+		}
 		mCurrBaseColorBlack = true;
 	}
 	public void setBaseColorWhite() {
 		mTextViewTimeLeft.setTextColor(Color.BLACK);
 		mTextViewByoYomiInfo.setTextColor(Color.BLACK);
-		getView().setBackgroundColor(Color.WHITE);
+		if(getView() != null) {
+			getView().setBackgroundColor(Color.WHITE);
+		}
 		mCurrBaseColorBlack = false;
 	}
 	
