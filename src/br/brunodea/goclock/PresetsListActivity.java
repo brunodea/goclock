@@ -84,6 +84,10 @@ public class PresetsListActivity extends ListActivity {
 					
 					getContentResolver().insert(GoClockContentProvider.CONTENT_URI_PRESETS, values);
 					msg = getResources().getString(R.string.add_new_preset);
+					
+					mEditTextNewPreset.setText("");
+					//getCurrentFocus().clearFocus();
+					//((CursorAdapter)getListAdapter()).notifyDataSetChanged();
 				}
 				Toast.makeText(PresetsListActivity.this, msg, Toast.LENGTH_LONG).show();
 			}
