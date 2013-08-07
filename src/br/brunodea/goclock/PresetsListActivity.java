@@ -109,36 +109,16 @@ public class PresetsListActivity extends ListActivity {
 
 		@Override
 		public void bindView(View v, Context context, Cursor c) {
+			TimeRule t = Util.timeRuleFromCursor(c, getContentResolver());
+							
+			String name = c.getString(c.getColumnIndex(PresetTable.NAME));
+			String maintime = Util.formattedTime(t.getMainTime());
 			
-			int time_rule_id = c.getInt(c.getColumnIndex(PresetTable.TIME_RULE_COLUMN));
+			TextView tv_name = (TextView)v.findViewById(R.id.textview_preset_name);
+			TextView tv_info = (TextView)v.findViewById(R.id.textview_preset_info);
 			
-			Uri rowAddress = ContentUris.withAppendedId(GoClockContentProvider.CONTENT_URI_TIME_RULES, 
-					time_rule_id);
-			
-			Cursor time_rule_cursor = getContentResolver().query(rowAddress,
-					new String[] {TimeRulesTable.TIME_RULE_COLUMN}, null, null, null);
-			if(time_rule_cursor.moveToFirst()) {
-				String time_rule_key = time_rule_cursor.getString(time_rule_cursor
-						.getColumnIndex(TimeRulesTable.TIME_RULE_COLUMN));
-				
-				time_rule_cursor.close();
-				
-				String name = c.getString(c.getColumnIndex(PresetTable.NAME));
-				String maintime = c.getString(c.getColumnIndex(PresetTable.MAIN_TIME));
-				String extratime = c.getString(c.getColumnIndex(PresetTable.EXTRA_TIME));
-				String extrainfo = c.getString(c.getColumnIndex(PresetTable.EXTRA_INFO));
-				
-				TimeRule time_rule = Util.timeRuleFactory(time_rule_key, maintime, 
-						extratime, extrainfo);
-			
-				TextView tv_name = (TextView)v.findViewById(R.id.textview_preset_name);
-				TextView tv_info = (TextView)v.findViewById(R.id.textview_preset_info);
-				
-				tv_name.setText(name);
-				tv_info.setText(time_rule.extraInfo().replace("\n", " "));
-			} else {
-				Log.e("PresetCursorAdapter.bindView", "time_rule with id "+time_rule_id+" not found.");
-			}
+			tv_name.setText(name);
+			tv_info.setText(maintime+"\n"+t.extraInfo().replace("\n", " "));
 		}
 
 		@Override
