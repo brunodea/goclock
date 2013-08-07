@@ -21,7 +21,7 @@ public class ClockFragment extends Fragment {
 	private TextView mTextViewTimeLeft;
 	private TextView mTextViewByoYomiInfo;
 	
-	private View mClockView;
+	protected View mClockView;
 	
 	private boolean mCurrBaseColorBlack;
 	private boolean mIsBGRed;
@@ -191,6 +191,8 @@ public class ClockFragment extends Fragment {
 					}
 				} else if(msg.what == Clock.NOT_SUDDEN_DEATH) {
 				}
+				
+				mClockView.postInvalidate();
 			}
 		};
 	}
