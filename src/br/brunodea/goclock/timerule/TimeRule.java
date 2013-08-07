@@ -47,6 +47,7 @@ public abstract class TimeRule {
 		return false;
 	}
 	
+	public abstract String getTimeRuleKey();
 	public abstract void onByoYomiTimeOver();
 	public abstract long onPause(long millisUntilFinished);
 	public abstract String currentExtraInfo(); //informações atuais sobre a regra (e.g. número de pedras).

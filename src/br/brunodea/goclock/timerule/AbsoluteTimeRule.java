@@ -28,4 +28,8 @@ public class AbsoluteTimeRule extends TimeRule {
 	public String extraInfo() {
 		return ABSOLUTE_RULE;
 	}
+	@Override
+	public String getTimeRuleKey() {
+		return ABSOLUTE_KEY;
+	}
 }

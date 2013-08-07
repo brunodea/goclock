@@ -65,4 +65,9 @@ public class CanadianTimeRule extends TimeRule {
 	public int getStones() {
 		return mStonesPerByoYomi;
 	}
+
+	@Override
+	public String getTimeRuleKey() {
+		return CANADIAN_KEY;
+	}
 }

@@ -64,4 +64,9 @@ public class ByoYomiTimeRule extends TimeRule {
 	public int getPeriods() {
 		return mByoYomiPeriods;
 	}
+
+	@Override
+	public String getTimeRuleKey() {
+		return BYOYOMI_KEY;
+	}
 }
