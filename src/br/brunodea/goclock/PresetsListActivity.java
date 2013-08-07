@@ -103,7 +103,15 @@ public class PresetsListActivity extends ListActivity {
 		cursor.close();
 		return taken;
 	}
-	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		Cursor c = (Cursor)l.getItemAtPosition(position);
+		TimeRule t = Util.timeRuleFromCursor(c, getContentResolver());
+		GoClockPreferences.setTimeRule(t);
+		setResult(Activity.RESULT_OK);
+		finish();
+	}
 	private class PresetCursorAdapter extends CursorAdapter {
 		private LayoutInflater mLayoutInflater;
 		public PresetCursorAdapter(Context context, Cursor c, int flags) {
