@@ -1,14 +1,12 @@
 package br.brunodea.goclock;
 
+import android.app.Activity;
 import android.app.ListActivity;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,10 +14,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import br.brunodea.goclock.db.DBStructure.PresetTable;
-import br.brunodea.goclock.db.DBStructure.TimeRulesTable;
 import br.brunodea.goclock.db.GoClockContentProvider;
 import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;

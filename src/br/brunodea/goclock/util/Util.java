@@ -5,7 +5,15 @@ import java.text.NumberFormat;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.database.Cursor;
+import android.net.Uri;
+import android.util.Log;
 import android.view.WindowManager;
+import br.brunodea.goclock.db.DBStructure.PresetTable;
+import br.brunodea.goclock.db.DBStructure.TimeRulesTable;
+import br.brunodea.goclock.db.GoClockContentProvider;
 import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.timerule.AbsoluteTimeRule;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;

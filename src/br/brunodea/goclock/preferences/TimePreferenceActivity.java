@@ -1,11 +1,11 @@
 package br.brunodea.goclock.preferences;
 
-import br.brunodea.goclock.preferences.TimePreferenceFragment.MyOnFullscreenModePreferenceChangeListener;
-import br.brunodea.goclock.util.Util;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import br.brunodea.goclock.preferences.TimePreferenceFragment.MyOnFullscreenModePreferenceChangeListener;
+import br.brunodea.goclock.util.Util;
 
 public class TimePreferenceActivity extends Activity implements MyOnFullscreenModePreferenceChangeListener {
 	@Override
