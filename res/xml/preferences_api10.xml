@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory 
+	    android:key="timerule_category_key"
+	    android:title="@string/timerule">
+		<ListPreference 
+		    android:key="timerules_key"
+		    android:title="@string/time_rule_to_use"/>
+	</PreferenceCategory>
+    <PreferenceCategory 
+        android:key="byoyomi_category_key"
+        android:title="@string/byoyomi">
+         <br.brunodea.goclock.preferences.TimeDialogPreference
+            android:key="byoyomi_maintime_key"
+            android:title="@string/main_time"/>
+         <br.brunodea.goclock.preferences.TimeDialogPreference
+            android:key="byoyomi_extratime_key"
+            android:title="@string/extra_time"/>
+         <EditTextPreference
+             android:key="byoyomi_periods_key"
+             android:title="@string/periods"
+             android:numeric="integer"/>
+	</PreferenceCategory>
+	<PreferenceCategory 
+	    android:key="canadian_category_key"
+	    android:title="@string/canadian">
+         <br.brunodea.goclock.preferences.TimeDialogPreference
+            android:key="canadian_maintime_key"
+            android:title="@string/main_time"/>
+         <br.brunodea.goclock.preferences.TimeDialogPreference
+            android:key="canadian_extratime_key"
+            android:title="@string/extra_time"/>
+         <EditTextPreference
+             android:key="canadian_stones_key"
+             android:title="@string/stones"
+             android:numeric="integer"/>
+	</PreferenceCategory>
+	
+	<PreferenceCategory 
+	    android:key="absolute_category_key"
+	    android:title="@string/absolute">
+         <br.brunodea.goclock.preferences.TimeDialogPreference
+            android:key="absolute_maintime_key"
+            android:title="@string/main_time"/>
+	</PreferenceCategory>
+	
+	<PreferenceCategory 
+	    android:key="general_category_key"
+	    android:title="@string/general"
+	    android:persistent="false">
+	    
+	    <CheckBoxPreference
+	        android:key="fullscreen_key"
+	        android:title="@string/fullscreen_mode"
+	        android:summaryOn="@string/fullscreen_summary_on"
+	        android:summaryOff="@string/fullscreen_summary_off"
+	        android:defaultValue="true"/>
+	    <CheckBoxPreference 
+	        android:key="keep_screen_on_key"
+	        android:title="@string/keep_screen_on"
+	        android:summaryOn="@string/keep_screen_on_summary_on"
+	        android:summaryOff="@string/keep_screen_on_summary_off"
+	        android:defaultValue="true"/>
+	    
+	    <CheckBoxPreference 
+	        android:key="blink_on_sudden_death_key"
+	        android:title="@string/blink_on_sudden_death"
+	        android:summary="@string/blink_on_sd_summary"
+	        android:defaultValue="true"/>
+	    <CheckBoxPreference 
+	        android:key="beep_on_sudden_death_key"
+	        android:title="@string/beep_on_sudden_death"
+	        android:summary="@string/beep_on_sudden_death_summary"
+	        android:defaultValue="true"/>
+	    
+	    <CheckBoxPreference 
+	        android:key="button_sound_on_tap_key"
+	        android:title="@string/button_sound_on_tap"
+	        android:summary="@string/button_sound_on_tap_summary"
+	        android:defaultValue="true"/>
+	</PreferenceCategory>
+</PreferenceScreen>

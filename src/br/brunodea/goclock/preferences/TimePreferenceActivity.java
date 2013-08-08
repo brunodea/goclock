@@ -17,6 +17,7 @@ public class TimePreferenceActivity extends Activity implements MyOnFullscreenMo
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
+		
 		getFragmentManager().beginTransaction()
 			.replace(android.R.id.content, new TimePreferenceFragment())
 			.commit();

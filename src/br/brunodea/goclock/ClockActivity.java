@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.preferences.TimePreferenceActivity;
+import br.brunodea.goclock.preferences.TimePreferenceActivityApi10;
 import br.brunodea.goclock.util.Util;
 
 public class ClockActivity extends FragmentActivity {
@@ -104,8 +104,14 @@ public class ClockActivity extends FragmentActivity {
 		switch(item.getItemId()) {
 		case R.id.action_settings:
 			resetClocks();
-			startActivityForResult(new Intent(this, TimePreferenceActivity.class),
-					SHOW_PREFERENCES_REQUEST_CODE);
+			
+			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+				startActivityForResult(new Intent(this, TimePreferenceActivity.class),
+						SHOW_PREFERENCES_REQUEST_CODE);
+			} else {
+				startActivityForResult(new Intent(this, TimePreferenceActivityApi10.class),
+						SHOW_PREFERENCES_REQUEST_CODE);
+			}
 			break;
 		case R.id.action_reset_clock:
 			resetClocks();
