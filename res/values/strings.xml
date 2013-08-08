@@ -46,4 +46,5 @@
 	<string name="pause_clock">Pause clock</string>
 	<string name="delete">Delete</string>
 	<string name="delete_success">Deleted with success!</string>
+	<string name="presets_listactivity_label">Presets</string>
 </resources>
