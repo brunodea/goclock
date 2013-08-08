@@ -74,13 +74,15 @@ public class ClockActivity extends FragmentActivity {
 		});
 	}
 	
+	private void swapCurrTurn() {
+		mCurrentTurn = (mCurrentTurn == Turn.BLACK) ? Turn.WHITE : Turn.BLACK; 
+	}
+	
 	public void nextTurn() {
 		if(mCurrentTurn == Turn.NONE) {
-			mCurrentTurn = Turn.BLACK;
 			mClockFragmentBlack.resumeTimer();
 			mClockFragmentWhite.setTimeTextInfos();
 		} else if(mCurrentTurn == Turn.BLACK) {
-			mCurrentTurn = Turn.WHITE;
 			mClockFragmentBlack.pauseTimer();
 			mClockFragmentBlack.setTimeTextInfos();
 			mClockFragmentWhite.resumeTimer();
@@ -90,6 +92,7 @@ public class ClockActivity extends FragmentActivity {
 			mClockFragmentWhite.setTimeTextInfos();
 			mClockFragmentBlack.resumeTimer();
 		}
+		swapCurrTurn();
 	}
 
 	@Override
