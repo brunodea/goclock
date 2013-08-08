@@ -45,7 +45,6 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 	public void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
 
-		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		Util.adjustActivityFullscreenMode(this);
 		
 		setContentView(R.layout.preset_activity);
