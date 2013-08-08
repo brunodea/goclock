@@ -6,15 +6,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -41,6 +38,8 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 	
 	private ActionMode mActionMode;
 	
+	private int mSelectedItemPos;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
@@ -51,6 +50,7 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 		initGUI();
 
 		mActionMode = null;
+		mSelectedItemPos = -1;
 		
 		Cursor cursor = getContentResolver().query(GoClockContentProvider.CONTENT_URI_PRESETS, 
 				null, null, null, PresetTable.NAME);
@@ -103,18 +103,22 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 			}
 		});
 		
-		getListView().setOnLongClickListener(new OnLongClickListener() {
+		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
-			public boolean onLongClick(View v) {
+			public boolean onItemLongClick(AdapterView<?> parent, View v,
+					int position, long id) {
 				if(mActionMode != null) {
 					return false;
 				}
-				
+				mSelectedItemPos = position;
 				mActionMode = startActionMode(PresetsListActivity.this);
 				v.setSelected(true);
-				return false;
+				return true;
 			}
 		});
+		
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		getListView().setSelector(android.R.color.darker_gray);
 	}
 	
 	private boolean presetNameAlreadyTaken(String name) {
@@ -136,7 +140,7 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 		setResult(Activity.RESULT_OK);
 		finish();
 	}
-
+	
 	// Called when the action mode is created; startActionMode() was called
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -148,7 +152,6 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
     // may be called multiple times if the mode is invalidated.
 	@Override
 	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-		
 		return false;
 	}
 
@@ -156,14 +159,7 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		switch(item.getItemId()) {
 		case R.id.action_delete_preset:
-			AdapterView.AdapterContextMenuInfo info;
-			try {
-				info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-			} catch (ClassCastException e) {
-				Log.e("", "bad menuInfo", e);
-				return false;
-			}
-			Cursor c = (Cursor) getListAdapter().getItem(info.position);
+			Cursor c = (Cursor) getListAdapter().getItem(mSelectedItemPos);
 			int id = c.getInt(c.getColumnIndex(PresetTable.ID_COLUMN));
 			int count = getContentResolver().delete(GoClockContentProvider.CONTENT_URI_PRESETS, 
 					PresetTable.ID_COLUMN+"=?", new String[]{String.valueOf(id)});
@@ -183,12 +179,8 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 	@Override
 	public void onDestroyActionMode(ActionMode mode) {
 		mActionMode = null;
+		mSelectedItemPos = -1;
 	}
-	
-	
-	
-	
-	
 
 	private class PresetCursorAdapter extends CursorAdapter {
 		private LayoutInflater mLayoutInflater;
