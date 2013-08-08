@@ -21,12 +21,12 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name="br.brunodea.goclock.preferences.TimePreferenceActivity"/>
-        <activity android:name="br.brunodea.goclock.PresetsListActivity"/>
+        <activity android:name="br.brunodea.goclock.PresetsListActivity"
+            android:label="@string/presets_listactivity_label"/>
         <provider android:name="br.brunodea.goclock.db.GoClockContentProvider"
             android:authorities="br.brunodea.provider.goclock"/>
     </application>
