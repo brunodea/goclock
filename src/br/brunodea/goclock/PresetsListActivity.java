@@ -1,7 +1,6 @@
 package br.brunodea.goclock;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,10 +9,9 @@ import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -30,10 +28,18 @@ import br.brunodea.goclock.timerule.CanadianTimeRule;
 import br.brunodea.goclock.timerule.TimeRule;
 import br.brunodea.goclock.util.Util;
 
-public class PresetsListActivity extends ListActivity {
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
+public class PresetsListActivity extends SherlockListActivity implements ActionMode.Callback {
 	
 	private Button mButtonAdd;
 	private EditText mEditTextNewPreset;
+	
+	private ActionMode mActionMode;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {		
@@ -44,8 +50,8 @@ public class PresetsListActivity extends ListActivity {
 		
 		setContentView(R.layout.preset_activity);
 		initGUI();
-		
-		registerForContextMenu(getListView());
+
+		mActionMode = null;
 		
 		Cursor cursor = getContentResolver().query(GoClockContentProvider.CONTENT_URI_PRESETS, 
 				null, null, null, PresetTable.NAME);
@@ -97,6 +103,19 @@ public class PresetsListActivity extends ListActivity {
 				Toast.makeText(PresetsListActivity.this, msg, Toast.LENGTH_LONG).show();
 			}
 		});
+		
+		getListView().setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				if(mActionMode != null) {
+					return false;
+				}
+				
+				mActionMode = startActionMode(PresetsListActivity.this);
+				v.setSelected(true);
+				return false;
+			}
+		});
 	}
 	
 	private boolean presetNameAlreadyTaken(String name) {
@@ -108,6 +127,7 @@ public class PresetsListActivity extends ListActivity {
 		cursor.close();
 		return taken;
 	}
+
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -117,30 +137,60 @@ public class PresetsListActivity extends ListActivity {
 		setResult(Activity.RESULT_OK);
 		finish();
 	}
+
+	// Called when the action mode is created; startActionMode() was called
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-		MenuInflater inflater = getMenuInflater();
+	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+		MenuInflater inflater = mode.getMenuInflater();
 		inflater.inflate(R.menu.preset_context_menu, menu);
-    }
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		AdapterView.AdapterContextMenuInfo info;
-		try {
-			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		} catch (ClassCastException e) {
-			Log.e("", "bad menuInfo", e);
-			return false;
-		}
-		Cursor c = (Cursor) getListAdapter().getItem(info.position);
-		int id = c.getInt(c.getColumnIndex(PresetTable.ID_COLUMN));
-		int count = getContentResolver().delete(GoClockContentProvider.CONTENT_URI_PRESETS, 
-				PresetTable.ID_COLUMN+"=?", new String[]{String.valueOf(id)});
-		if(count > 0) {
-			Toast.makeText(this, getResources().getString(R.string.delete_success),
-					Toast.LENGTH_SHORT).show();
-		}
 		return true;
 	}
+	// Called each time the action mode is shown. Always called after onCreateActionMode, but
+    // may be called multiple times if the mode is invalidated.
+	@Override
+	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.action_delete_preset:
+			AdapterView.AdapterContextMenuInfo info;
+			try {
+				info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+			} catch (ClassCastException e) {
+				Log.e("", "bad menuInfo", e);
+				return false;
+			}
+			Cursor c = (Cursor) getListAdapter().getItem(info.position);
+			int id = c.getInt(c.getColumnIndex(PresetTable.ID_COLUMN));
+			int count = getContentResolver().delete(GoClockContentProvider.CONTENT_URI_PRESETS, 
+					PresetTable.ID_COLUMN+"=?", new String[]{String.valueOf(id)});
+			if(count > 0) {
+			// para debug:
+			//	Toast.makeText(this, getResources().getString(R.string.delete_success),
+			//			Toast.LENGTH_SHORT).show();
+			}
+			mode.finish();
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	// Called when the user exits the action mode
+	@Override
+	public void onDestroyActionMode(ActionMode mode) {
+		mActionMode = null;
+	}
+	
+	
+	
+	
+	
+
 	private class PresetCursorAdapter extends CursorAdapter {
 		private LayoutInflater mLayoutInflater;
 		public PresetCursorAdapter(Context context, Cursor c, int flags) {
