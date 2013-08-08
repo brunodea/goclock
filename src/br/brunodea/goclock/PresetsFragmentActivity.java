@@ -37,6 +37,7 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 	private ActionMode mActionMode;
 	
 	private ListView mListView;
+	private PresetCursorAdapter mPresetCursorAdapter;
 	private int mSelectedItemPos;
 	
 	@Override
@@ -52,12 +53,12 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 		mActionMode = null;
 		mSelectedItemPos = -1;
 		
-		Cursor cursor = getContentResolver().query(GoClockContentProvider.CONTENT_URI_PRESETS, 
-				null, null, null, PresetTable.NAME);
+		Cursor cursor = createQueryCursor();
 		cursor.setNotificationUri(getContentResolver(), GoClockContentProvider.CONTENT_URI_PRESETS);
 		
-		mListView.setAdapter(new PresetCursorAdapter(this, cursor, 
-				CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER));
+		mPresetCursorAdapter = new PresetCursorAdapter(this, cursor, 
+				CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+		mListView.setAdapter(mPresetCursorAdapter);
 	}
 	
 	private void initGUI(){
@@ -65,6 +66,12 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 		mListView = (ListView)findViewById(R.id.listview_presets);
 		
 		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		mListView.setSelector(android.R.color.darker_gray);
+	}
+	
+	private Cursor createQueryCursor() {
+		return getContentResolver().query(GoClockContentProvider.CONTENT_URI_PRESETS, 
+				null, null, null, PresetTable.NAME);
 	}
 	
 	private void initListeners() {
@@ -76,7 +83,6 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 				if(mActionMode != null) {
 					return false;
 				}
-				mListView.setSelector(android.R.color.darker_gray);
 				mSelectedItemPos = position;
 				mActionMode = startActionMode(PresetsFragmentActivity.this);
 				v.setSelected(true);
@@ -148,13 +154,8 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 		case R.id.action_delete_preset:
 			Cursor c = (Cursor) mListView.getAdapter().getItem(mSelectedItemPos);
 			int id = c.getInt(c.getColumnIndex(PresetTable.ID_COLUMN));
-			int count = getContentResolver().delete(GoClockContentProvider.CONTENT_URI_PRESETS, 
+			getContentResolver().delete(GoClockContentProvider.CONTENT_URI_PRESETS, 
 					PresetTable.ID_COLUMN+"=?", new String[]{String.valueOf(id)});
-			if(count > 0) {
-			// para debug:
-			//	Toast.makeText(this, getResources().getString(R.string.delete_success),
-			//			Toast.LENGTH_SHORT).show();
-			}
 			mode.finish();
 			return true;
 		default:
@@ -167,7 +168,7 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 	public void onDestroyActionMode(ActionMode mode) {
 		mActionMode = null;
 		mSelectedItemPos = -1;
-		mListView.setSelector(android.R.color.transparent);
+		mPresetCursorAdapter.changeCursor(createQueryCursor());
 	}
 
 	@Override
@@ -200,8 +201,7 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 			values.put(PresetTable.EXTRA_INFO, extra);
 			
 			getContentResolver().insert(GoClockContentProvider.CONTENT_URI_PRESETS, values);
-			//getCurrentFocus().clearFocus();
-			//((CursorAdapter)getListAdapter()).notifyDataSetChanged();
+			mPresetCursorAdapter.changeCursor(createQueryCursor());
 			dialog.dismiss();
 		} else {
 			Toast.makeText(PresetsFragmentActivity.this, msg, Toast.LENGTH_LONG).show();
