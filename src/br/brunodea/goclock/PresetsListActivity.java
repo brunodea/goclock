@@ -5,15 +5,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,21 +22,21 @@ import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
 import br.brunodea.goclock.timerule.TimeRule;
+import br.brunodea.goclock.util.AddPresetDialog;
+import br.brunodea.goclock.util.AddPresetDialog.OnPresetAddedListener;
 import br.brunodea.goclock.util.Util;
 
-import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class PresetsListActivity extends SherlockListActivity implements ActionMode.Callback {
-	
-	private Button mButtonAdd;
-	private EditText mEditTextNewPreset;
-	
+public class PresetsListActivity extends SherlockFragmentActivity 
+	implements ActionMode.Callback, OnPresetAddedListener {	
 	private ActionMode mActionMode;
 	
+	private ListView mListView;
 	private int mSelectedItemPos;
 	
 	@Override
@@ -48,6 +47,7 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 		
 		setContentView(R.layout.preset_activity);
 		initGUI();
+		initListeners();
 
 		mActionMode = null;
 		mSelectedItemPos = -1;
@@ -55,61 +55,28 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 		Cursor cursor = getContentResolver().query(GoClockContentProvider.CONTENT_URI_PRESETS, 
 				null, null, null, PresetTable.NAME);
 		cursor.setNotificationUri(getContentResolver(), GoClockContentProvider.CONTENT_URI_PRESETS);
-		setListAdapter(new PresetCursorAdapter(this, cursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER));
+		
+		mListView.setAdapter(new PresetCursorAdapter(this, cursor, 
+				CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER));
 	}
 	
 	private void initGUI(){
-		mButtonAdd = (Button)findViewById(R.id.button_add_preset);
-		mEditTextNewPreset = (EditText)findViewById(R.id.edittext_new_preset);
 
-		mButtonAdd.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String name = mEditTextNewPreset.getText().toString();
-				String msg = "";
-				if(name == null || name.equals("")) {
-					msg = getResources().getString(R.string.name_cannot_be_empty);
-				} else if(presetNameAlreadyTaken(name)) {
-					msg = getResources().getString(R.string.preset_name_already_taken);
-				}
-				if(msg.equals("")) {
-					TimeRule curr = GoClockPreferences.getTimeRule();
-					String extra = "0";
-					String time_rule_key = GoClockPreferences.getTimeRuleKeyString(); 
-					if(time_rule_key.equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
-						ByoYomiTimeRule b = (ByoYomiTimeRule) curr;
-						extra = b.getPeriods()+"";
-					} else if(time_rule_key.equals(CanadianTimeRule.CANADIAN_KEY)) {
-						CanadianTimeRule c = (CanadianTimeRule) curr;
-						extra = c.getStones()+"";
-					}
-					String maintime = Util.formattedTime(curr.getMainTime());
-					String extratime = Util.formattedTime(curr.getByoYomiTime());
-					
-					ContentValues values = new ContentValues();
-					values.put(PresetTable.NAME, name);
-					values.put(PresetTable.MAIN_TIME, maintime);
-					values.put(PresetTable.EXTRA_TIME, extratime);
-					values.put(PresetTable.EXTRA_INFO, extra);
-					
-					getContentResolver().insert(GoClockContentProvider.CONTENT_URI_PRESETS, values);
-					msg = getResources().getString(R.string.add_new_preset);
-					
-					mEditTextNewPreset.setText("");
-					//getCurrentFocus().clearFocus();
-					//((CursorAdapter)getListAdapter()).notifyDataSetChanged();
-				}
-				Toast.makeText(PresetsListActivity.this, msg, Toast.LENGTH_LONG).show();
-			}
-		});
+		mListView = (ListView)findViewById(R.id.listview_presets);
 		
-		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+	}
+	
+	private void initListeners() {
+
+		mListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v,
 					int position, long id) {
 				if(mActionMode != null) {
 					return false;
 				}
+				mListView.setSelector(android.R.color.darker_gray);
 				mSelectedItemPos = position;
 				mActionMode = startActionMode(PresetsListActivity.this);
 				v.setSelected(true);
@@ -117,8 +84,18 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 			}
 		});
 		
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		getListView().setSelector(android.R.color.darker_gray);
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				Cursor c = (Cursor)mListView.getItemAtPosition(position);
+				TimeRule t = Util.timeRuleFromCursor(c, getContentResolver());
+				GoClockPreferences.setTimeRule(t);
+				c.close();
+				setResult(Activity.RESULT_OK);
+				finish();
+			}
+		});
 	}
 	
 	private boolean presetNameAlreadyTaken(String name) {
@@ -130,15 +107,25 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 		cursor.close();
 		return taken;
 	}
-
+	
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		Cursor c = (Cursor)l.getItemAtPosition(position);
-		TimeRule t = Util.timeRuleFromCursor(c, getContentResolver());
-		GoClockPreferences.setTimeRule(t);
-		setResult(Activity.RESULT_OK);
-		finish();
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.preset_action_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.action_add_preset:
+			AddPresetDialog preset_dialog = new AddPresetDialog();
+			preset_dialog.setNoticeDialogListener(this);
+			preset_dialog.show(getSupportFragmentManager(), "add_preset");
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	// Called when the action mode is created; startActionMode() was called
@@ -159,7 +146,7 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		switch(item.getItemId()) {
 		case R.id.action_delete_preset:
-			Cursor c = (Cursor) getListAdapter().getItem(mSelectedItemPos);
+			Cursor c = (Cursor) mListView.getAdapter().getItem(mSelectedItemPos);
 			int id = c.getInt(c.getColumnIndex(PresetTable.ID_COLUMN));
 			int count = getContentResolver().delete(GoClockContentProvider.CONTENT_URI_PRESETS, 
 					PresetTable.ID_COLUMN+"=?", new String[]{String.valueOf(id)});
@@ -180,6 +167,45 @@ public class PresetsListActivity extends SherlockListActivity implements ActionM
 	public void onDestroyActionMode(ActionMode mode) {
 		mActionMode = null;
 		mSelectedItemPos = -1;
+		mListView.setSelector(android.R.color.transparent);
+	}
+
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog, String preset_name) {
+		String name = preset_name;
+		String msg = "";
+		if(name == null || name.equals("")) {
+			msg = getResources().getString(R.string.name_cannot_be_empty);
+		} else if(presetNameAlreadyTaken(name)) {
+			msg = getResources().getString(R.string.preset_name_already_taken);
+		}
+		if(msg.equals("")) {
+			TimeRule curr = GoClockPreferences.getTimeRule();
+			String extra = "0";
+			String time_rule_key = GoClockPreferences.getTimeRuleKeyString(); 
+			if(time_rule_key.equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
+				ByoYomiTimeRule b = (ByoYomiTimeRule) curr;
+				extra = b.getPeriods()+"";
+			} else if(time_rule_key.equals(CanadianTimeRule.CANADIAN_KEY)) {
+				CanadianTimeRule c = (CanadianTimeRule) curr;
+				extra = c.getStones()+"";
+			}
+			String maintime = Util.formattedTime(curr.getMainTime());
+			String extratime = Util.formattedTime(curr.getByoYomiTime());
+			
+			ContentValues values = new ContentValues();
+			values.put(PresetTable.NAME, name);
+			values.put(PresetTable.MAIN_TIME, maintime);
+			values.put(PresetTable.EXTRA_TIME, extratime);
+			values.put(PresetTable.EXTRA_INFO, extra);
+			
+			getContentResolver().insert(GoClockContentProvider.CONTENT_URI_PRESETS, values);
+			//getCurrentFocus().clearFocus();
+			//((CursorAdapter)getListAdapter()).notifyDataSetChanged();
+			dialog.dismiss();
+		} else {
+			Toast.makeText(PresetsListActivity.this, msg, Toast.LENGTH_LONG).show();
+		}
 	}
 
 	private class PresetCursorAdapter extends CursorAdapter {

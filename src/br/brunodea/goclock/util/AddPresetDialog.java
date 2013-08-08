@@ -8,17 +8,22 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import br.brunodea.goclock.R;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class AddPresetDialog extends SherlockDialogFragment {
-	public interface NoticeDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
+	public interface OnPresetAddedListener {
+        public void onDialogPositiveClick(DialogFragment dialog, String preset_name);
     }
 	
-	private NoticeDialogListener mNoticeDialogListener;
+	private OnPresetAddedListener mNoticeDialogListener;
+	
+	public void setNoticeDialogListener(OnPresetAddedListener listener) {
+		mNoticeDialogListener = listener;
+	}
 	
 	@Override
     public void onAttach(Activity activity) {
@@ -26,7 +31,7 @@ public class AddPresetDialog extends SherlockDialogFragment {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-        	mNoticeDialogListener = (NoticeDialogListener) activity;
+        	mNoticeDialogListener = (OnPresetAddedListener) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
@@ -40,12 +45,16 @@ public class AddPresetDialog extends SherlockDialogFragment {
 		builder.setTitle(getActivity().getResources().getString(R.string.add_new_preset_dialog_title));
 		
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		builder.setView(inflater.inflate(R.layout.add_preset_dialog, null));
+		final View v = inflater.inflate(R.layout.add_preset_dialog, null);
+		builder.setView(v);
 		builder.setPositiveButton(getActivity().getString(R.string.add), 
 				new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				mNoticeDialogListener.onDialogPositiveClick(AddPresetDialog.this);
+				EditText et = (EditText) v.findViewById(R.id.edittext_new_preset);
+				mNoticeDialogListener.onDialogPositiveClick(AddPresetDialog.this,
+						et.getText().toString());
+				et.setText("");
 			}
 		});
 		builder.setNegativeButton(getActivity().getResources().getString(R.string.cancel), 
@@ -53,7 +62,6 @@ public class AddPresetDialog extends SherlockDialogFragment {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				AddPresetDialog.this.getDialog().cancel();
-				mNoticeDialogListener.onDialogNegativeClick(AddPresetDialog.this);
 			}
 		});
 		
