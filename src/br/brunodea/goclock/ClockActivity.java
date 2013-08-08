@@ -111,7 +111,7 @@ public class ClockActivity extends FragmentActivity {
 			break;
 		case R.id.action_presets:
 			resetClocks();
-			startActivityForResult(new Intent(this, PresetsListActivity.class),
+			startActivityForResult(new Intent(this, PresetsFragmentActivity.class),
 					PRESETS_REQUEST_CODE);
 			break;
 		default:
