@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:orientation="vertical" >
+
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_preset_dialog_description"
+        android:textSize="@dimen/default_text_size"
+        android:layout_marginBottom="@dimen/add_preset_descr_to_edittext_margin"/>
+    
+	<EditText
+	    android:id="@+id/edittext_new_preset"
+	    android:hint="@string/new_preset_name"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:ems="30"
+	    android:layout_gravity="center"/>
+
+</LinearLayout>
