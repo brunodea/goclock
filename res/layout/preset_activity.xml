@@ -1,35 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listview_presets"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="@dimen/activity_horizontal_margin" >
-    
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/add_new_preset"
-        android:textSize="@dimen/preset_name"/>
-    <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-	    <Button 
-	        android:id="@+id/button_add_preset"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/add"/>
-	    <EditText
-	        android:id="@+id/edittext_new_preset"
-	        android:hint="@string/new_preset_name"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <ListView
-	  android:id="@android:id/list"
-	  android:layout_width="match_parent"
-	  android:layout_height="wrap_content" >
-	</ListView> 
-
-</LinearLayout>
+    android:layout_height="wrap_content"/> 
