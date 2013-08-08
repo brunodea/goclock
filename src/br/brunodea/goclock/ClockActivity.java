@@ -117,6 +117,14 @@ public class ClockActivity extends FragmentActivity {
 			startActivityForResult(new Intent(this, PresetsFragmentActivity.class),
 					PRESETS_REQUEST_CODE);
 			break;
+		case R.id.action_pause_clock:
+			//ideia:
+			//dialog ou textview bem no meio dizendo PAUSE.
+			//embaixo dizendo: White to Play ; ou Black to Play dependendo do caso.
+			swapCurrTurn();
+			mClockFragmentBlack.pauseTimer();
+			mClockFragmentWhite.pauseTimer();
+			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
