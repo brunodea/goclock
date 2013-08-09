@@ -94,7 +94,6 @@ public class ClockActivity extends FragmentActivity {
 			}
 		} else if(mCurrentTurn == Turn.WHITE) {
 			if(mClockFragmentBlack.isClockPaused()) {
-				mCurrentTurn = Turn.BLACK;
 				mClockFragmentWhite.pauseTimer();
 				mClockFragmentWhite.setTimeTextInfos();
 				mClockFragmentBlack.resumeTimer();
