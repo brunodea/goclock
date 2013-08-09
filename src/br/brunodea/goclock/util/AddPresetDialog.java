@@ -10,7 +10,9 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import br.brunodea.goclock.R;
+import br.brunodea.goclock.preferences.GoClockPreferences;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
@@ -46,6 +48,10 @@ public class AddPresetDialog extends SherlockDialogFragment {
 		
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		final View v = inflater.inflate(R.layout.add_preset_dialog, null);
+		
+		TextView tv = (TextView)v.findViewById(R.id.textview_curr_time_rule_addpreset_dialog);
+		tv.setText(GoClockPreferences.getTimeRule().info());
+		
 		builder.setView(v);
 		builder.setPositiveButton(getActivity().getString(R.string.add), 
 				new OnClickListener() {

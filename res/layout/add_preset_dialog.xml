@@ -5,6 +5,13 @@
     android:padding="@dimen/activity_horizontal_margin"
     android:orientation="vertical" >
 
+    <TextView
+        android:id="@+id/textview_curr_time_rule_addpreset_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="@dimen/default_text_size"/>
+    
 	<EditText
 	    android:id="@+id/edittext_new_preset"
 	    android:hint="@string/new_preset_name"

@@ -1,5 +1,7 @@
 package br.brunodea.goclock.timerule;
 
+import br.brunodea.goclock.util.Util;
+
 
 public abstract class TimeRule {	
 	private long mMainTimeMilliS;	
@@ -45,6 +47,10 @@ public abstract class TimeRule {
 	
 	public boolean isSuddenDeath(long millisUntilFinished) {
 		return false;
+	}
+	
+	public String info() {
+		return Util.formattedTime(mMainTimeMilliS)+"\n"+extraInfo();
 	}
 	
 	public abstract String getTimeRuleKey();
