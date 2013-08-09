@@ -6,8 +6,6 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
-import android.view.Window;
 import android.view.WindowManager;
 import br.brunodea.goclock.R;
 import br.brunodea.goclock.preferences.TimePreferenceFragment.MyOnFullscreenModePreferenceChangeListener;
@@ -15,7 +13,10 @@ import br.brunodea.goclock.timerule.AbsoluteTimeRule;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
 
-public class TimePreferenceActivityApi10 extends PreferenceActivity implements OnPreferenceChangeListener {
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
+
+public class TimePreferenceActivityApi10 extends SherlockPreferenceActivity implements OnPreferenceChangeListener {
 	private MyOnFullscreenModePreferenceChangeListener mListener;
 	
 	private TimeDialogPreference mByoYomiMainTime;
@@ -36,12 +37,12 @@ public class TimePreferenceActivityApi10 extends PreferenceActivity implements O
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		if(GoClockPreferences.getFullscreen()) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}		
-		
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		addPreferencesFromResource(R.xml.preferences_api10);
 		bindGUI();
 		setValues();
@@ -142,6 +143,19 @@ public class TimePreferenceActivityApi10 extends PreferenceActivity implements O
 		} else if(preference == mFullscrenMode) {
 			mListener.onFullscreenModePreferenceChange((Boolean)newValue);
 		}
+		return true;
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch(item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			return super.onMenuItemSelected(featureId, item);
+		}
+		
 		return true;
 	}
 }
