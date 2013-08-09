@@ -47,6 +47,8 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 		Util.adjustActivityFullscreenMode(this);
 		
 		setContentView(R.layout.preset_activity);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		initGUI();
 		initListeners();
 

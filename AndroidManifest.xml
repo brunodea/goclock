@@ -24,9 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="br.brunodea.goclock.preferences.TimePreferenceActivity"/>
         <activity android:name="br.brunodea.goclock.PresetsFragmentActivity"
-            android:label="@string/presets_listactivity_label"/>
+            android:label="@string/presets_listactivity_label"
+            android:parentActivityName="br.brunodea.goclock.ClockActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.brunodea.goclock.ClockActivity"/>
+        </activity>
+        <activity android:name="br.brunodea.goclock.preferences.TimePreferenceActivity"/>
         <provider android:name="br.brunodea.goclock.db.GoClockContentProvider"
             android:authorities="br.brunodea.provider.goclock"/>
     </application>
