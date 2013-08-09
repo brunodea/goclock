@@ -110,7 +110,7 @@ public class Util {
 		if(timerule_key.equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
 			int periods = 1;
 			if(!extra_info.equals(""))
-				Integer.parseInt(extra_info);
+				periods = Integer.parseInt(extra_info);
 			tr = new ByoYomiTimeRule(main_millis, extra_millis, periods);
 		} else if(timerule_key.equals(CanadianTimeRule.CANADIAN_KEY)) {
 			int stones = 1;
