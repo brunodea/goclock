@@ -121,6 +121,18 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 	}
 	
 	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch(item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			return super.onMenuItemSelected(featureId, item);
+		}
+		return true;
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.preset_action_menu, menu);

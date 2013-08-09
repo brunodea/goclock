@@ -2,28 +2,45 @@ package br.brunodea.goclock.preferences;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Window;
 import android.view.WindowManager;
 import br.brunodea.goclock.preferences.TimePreferenceFragment.MyOnFullscreenModePreferenceChangeListener;
 import br.brunodea.goclock.util.Util;
 
-public class TimePreferenceActivity extends Activity implements MyOnFullscreenModePreferenceChangeListener {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
+
+public class TimePreferenceActivity extends SherlockFragmentActivity implements MyOnFullscreenModePreferenceChangeListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+		
 		if(GoClockPreferences.getFullscreen()) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getFragmentManager().beginTransaction()
 			.replace(android.R.id.content, new TimePreferenceFragment())
 			.commit();
 		setResult(Activity.RESULT_OK);
 	}
+	
 	@Override
 	public void onFullscreenModePreferenceChange(boolean fullscreen) {
 		Util.adjustActivityFullscreenMode(this, fullscreen);
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch(item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			return super.onMenuItemSelected(featureId, item);
+		}
+		
+		return true;
 	}
 }
