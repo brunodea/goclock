@@ -205,7 +205,13 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 		if(msg.equals("")) {
 			TimeRule curr = GoClockPreferences.getTimeRule();
 			String extra = "0";
-			String time_rule_key = GoClockPreferences.getTimeRuleKeyString(); 
+			String time_rule_key = curr.getTimeRuleKey();
+			
+			Cursor curs = getContentResolver().query(GoClockContentProvider.CONTENT_URI_TIME_RULES,
+					new String[]{TimeRulesTable.ID_COLUMN}, TimeRulesTable.TIME_RULE_COLUMN+"=?", 
+					new String[]{time_rule_key}, null);
+			int time_rule_id = curs.moveToFirst() ? curs.getInt(0) : 0;
+			curs.close();
 			if(time_rule_key.equals(ByoYomiTimeRule.BYOYOMI_KEY)) {
 				ByoYomiTimeRule b = (ByoYomiTimeRule) curr;
 				extra = b.getPeriods()+"";
@@ -221,6 +227,7 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 			values.put(PresetTable.MAIN_TIME, maintime);
 			values.put(PresetTable.EXTRA_TIME, extratime);
 			values.put(PresetTable.EXTRA_INFO, extra);
+			values.put(PresetTable.TIME_RULE_COLUMN, time_rule_id);
 			
 			getContentResolver().insert(GoClockContentProvider.CONTENT_URI_PRESETS, values);
 			mPresetCursorAdapter.changeCursor(createQueryCursor());
