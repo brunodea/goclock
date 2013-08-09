@@ -23,7 +23,7 @@ public class ClockActivity extends FragmentActivity {
 	private ClockFragment mClockFragmentWhite;
 	private MediaPlayer mMediaPlayerSuddenDeath;
 	private MediaPlayer mMediaPlayerPushButton;
-	
+		
 	private enum Turn {
 		NONE, WHITE, BLACK;
 	}
@@ -68,6 +68,7 @@ public class ClockActivity extends FragmentActivity {
 						if(GoClockPreferences.buttonSoundOnTap()) {
 							mMediaPlayerPushButton.start();
 						}
+
 						nextTurn();
 					}
 				}
@@ -81,17 +82,23 @@ public class ClockActivity extends FragmentActivity {
 	
 	public void nextTurn() {
 		if(mCurrentTurn == Turn.NONE) {
-			mClockFragmentBlack.resumeTimer();
-			mClockFragmentWhite.setTimeTextInfos();
+			if(mClockFragmentBlack.isClockPaused()) {
+				mClockFragmentBlack.resumeTimer();
+				mClockFragmentWhite.setTimeTextInfos();
+			}
 		} else if(mCurrentTurn == Turn.BLACK) {
-			mClockFragmentBlack.pauseTimer();
-			mClockFragmentBlack.setTimeTextInfos();
-			mClockFragmentWhite.resumeTimer();
+			if(mClockFragmentWhite.isClockPaused()) {
+				mClockFragmentBlack.pauseTimer();
+				mClockFragmentBlack.setTimeTextInfos();
+				mClockFragmentWhite.resumeTimer();
+			}
 		} else if(mCurrentTurn == Turn.WHITE) {
-			mCurrentTurn = Turn.BLACK;
-			mClockFragmentWhite.pauseTimer();
-			mClockFragmentWhite.setTimeTextInfos();
-			mClockFragmentBlack.resumeTimer();
+			if(mClockFragmentBlack.isClockPaused()) {
+				mCurrentTurn = Turn.BLACK;
+				mClockFragmentWhite.pauseTimer();
+				mClockFragmentWhite.setTimeTextInfos();
+				mClockFragmentBlack.resumeTimer();
+			}
 		}
 		swapCurrTurn();
 	}

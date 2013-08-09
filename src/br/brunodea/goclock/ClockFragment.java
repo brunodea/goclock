@@ -48,6 +48,9 @@ public class ClockFragment extends Fragment {
 		mClock = new Clock(time_rule, mTimeHandler);
 	}
 	
+	public boolean isClockPaused() {
+		return mClock.isPaused();
+	}
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void setUpsideDown() {
 		if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {

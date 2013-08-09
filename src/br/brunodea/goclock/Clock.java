@@ -21,23 +21,32 @@ public class Clock {
 	private Handler mTimeHandler;
 	
 	private int mTicks;
+	
+	private boolean mIsPaused;
 
 	public Clock(TimeRule time_rule, Handler time_handler) {
 		mTimeRule = time_rule;
 		mMillisUntilFinished = time_rule.getMainTime();
 		mTimeHandler = time_handler;
 		mTicks = 0;
+		mIsPaused = true;
+	}
+	
+	public boolean isPaused() {
+		return mIsPaused;
 	}
 	
 	public void pauseTimer() {
 		if(mTimeRule.isTimeOver())
-			return;	
+			return;
 		if(mCountDownTimer != null)
 			mCountDownTimer.cancel();
 		mMillisUntilFinished = mTimeRule.onPause(mMillisUntilFinished);
+		mIsPaused = true;
 	}
 	
 	private void initCountDownTimer() {
+		mIsPaused = false;
 		mCountDownTimer = new CountDownTimer(mMillisUntilFinished, 100) {
 			@Override
 			public void onTick(long millisUntilFinished) {
