@@ -22,6 +22,7 @@ import br.brunodea.goclock.db.DBStructure.TimeRulesTable;
 import br.brunodea.goclock.db.GoClockContentProvider;
 import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.preferences.TimePreferenceActivity;
+import br.brunodea.goclock.preferences.TimePreferenceActivityApi10;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
 import br.brunodea.goclock.timerule.TimeRule;
@@ -150,9 +151,13 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 					"br.brunodea.goclock.util.AddPresetDialog");
 			return true;
 		case R.id.action_settings:
-			Intent i = new Intent(this, TimePreferenceActivity.class);
-			startActivityForResult(i, PRESETS_SHOW_PREFERENCES);
-			//TODO: actionbar em settings.
+			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+				startActivityForResult(new Intent(this, TimePreferenceActivity.class),
+						PRESETS_SHOW_PREFERENCES);
+			} else {
+				startActivityForResult(new Intent(this, TimePreferenceActivityApi10.class),
+						PRESETS_SHOW_PREFERENCES);
+			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

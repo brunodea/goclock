@@ -1,27 +1,21 @@
 package br.brunodea.goclock.preferences;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
+import android.preference.PreferenceActivity;
+import android.view.Window;
+import android.view.WindowManager;
 import br.brunodea.goclock.R;
+import br.brunodea.goclock.preferences.TimePreferenceFragment.MyOnFullscreenModePreferenceChangeListener;
 import br.brunodea.goclock.timerule.AbsoluteTimeRule;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class TimePreferenceFragment extends PreferenceFragment implements OnPreferenceChangeListener {
-	
-	public interface MyOnFullscreenModePreferenceChangeListener {
-		public void onFullscreenModePreferenceChange(boolean fullscreen);
-	}
-	
+public class TimePreferenceActivityApi10 extends PreferenceActivity implements OnPreferenceChangeListener {
 	private MyOnFullscreenModePreferenceChangeListener mListener;
 	
 	private TimeDialogPreference mByoYomiMainTime;
@@ -36,27 +30,23 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 	
 	private ListPreference mTimeRuleList;
 	
-	private SwitchPreference mFullscrenMode;
+	private CheckBoxPreference mFullscrenMode;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.preferences);
+
+		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		if(GoClockPreferences.getFullscreen()) {
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}		
+		
+		addPreferencesFromResource(R.xml.preferences_api10);
 		bindGUI();
 		setValues();
 		setListeners();
 		setSummaries();
-	}
-	
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		try {
-			mListener = (MyOnFullscreenModePreferenceChangeListener) activity;
-		} catch(ClassCastException	e) {
-			throw new ClassCastException(activity.toString()+ 
-					" must implement MyOnPreferenceChangeListener");
-		}
 	}
 	
 	private void bindGUI() {
@@ -80,7 +70,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mTimeRuleList = (ListPreference)
 				getPreferenceScreen().findPreference("timerules_key");
 
-		mFullscrenMode = (SwitchPreference)
+		mFullscrenMode = (CheckBoxPreference)
 				getPreferenceScreen().findPreference("fullscreen_key");
 		
 		String []entries = {ByoYomiTimeRule.BYOYOMI_RULE, CanadianTimeRule.CANADIAN_RULE,

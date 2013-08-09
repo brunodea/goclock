@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.preferences.TimePreferenceActivity;
+import br.brunodea.goclock.preferences.TimePreferenceActivityApi10;
 import br.brunodea.goclock.util.Util;
 
 public class ClockActivity extends FragmentActivity {
@@ -41,11 +42,11 @@ public class ClockActivity extends FragmentActivity {
 		if(GoClockPreferences.getKeepScreenOn()) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
-		setContentView(R.layout.activity_clock);
 		
+		setContentView(R.layout.activity_clock);
 		mClockFragmentBlack = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.black_frag);
 		mClockFragmentWhite = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.white_frag);
-		
+
 		mClockFragmentBlack.setBaseColorBlack();
 		mClockFragmentWhite.setUpsideDown();
 
@@ -106,8 +107,14 @@ public class ClockActivity extends FragmentActivity {
 		switch(item.getItemId()) {
 		case R.id.action_settings:
 			resetClocks();
-			startActivityForResult(new Intent(this, TimePreferenceActivity.class),
-					SHOW_PREFERENCES_REQUEST_CODE);
+			
+			if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+				startActivityForResult(new Intent(this, TimePreferenceActivity.class),
+						SHOW_PREFERENCES_REQUEST_CODE);
+			} else {
+				startActivityForResult(new Intent(this, TimePreferenceActivityApi10.class),
+						SHOW_PREFERENCES_REQUEST_CODE);
+			}
 			break;
 		case R.id.action_reset_clock:
 			resetClocks();

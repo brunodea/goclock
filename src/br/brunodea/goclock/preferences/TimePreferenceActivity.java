@@ -1,6 +1,8 @@
 package br.brunodea.goclock.preferences;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
 import br.brunodea.goclock.preferences.TimePreferenceFragment.MyOnFullscreenModePreferenceChangeListener;
@@ -9,6 +11,7 @@ import br.brunodea.goclock.util.Util;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TimePreferenceActivity extends SherlockFragmentActivity implements MyOnFullscreenModePreferenceChangeListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -18,7 +21,7 @@ public class TimePreferenceActivity extends SherlockFragmentActivity implements 
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
-		
+
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getFragmentManager().beginTransaction()
 			.replace(android.R.id.content, new TimePreferenceFragment())

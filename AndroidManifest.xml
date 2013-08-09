@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="10"
         android:targetSdkVersion="18" />
 
     <application
@@ -28,6 +28,8 @@
             android:label="@string/presets_listactivity_label">
         </activity>
         <activity android:name="br.brunodea.goclock.preferences.TimePreferenceActivity"
+            android:label="@string/settings"/>
+        <activity android:name="br.brunodea.goclock.preferences.TimePreferenceActivityApi10"
             android:label="@string/settings"/>
         <provider android:name="br.brunodea.goclock.db.GoClockContentProvider"
             android:authorities="br.brunodea.provider.goclock"/>

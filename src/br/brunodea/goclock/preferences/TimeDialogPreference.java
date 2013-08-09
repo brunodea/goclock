@@ -2,17 +2,24 @@ package br.brunodea.goclock.preferences;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.NumberPicker;
+import android.widget.Spinner;
 import br.brunodea.goclock.App;
 import br.brunodea.goclock.R;
 import br.brunodea.goclock.util.Util;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TimeDialogPreference extends DialogPreference {
   private int lastHour=0;
   private int lastMinute=0;
@@ -21,6 +28,10 @@ public class TimeDialogPreference extends DialogPreference {
   private NumberPicker mHourPicker;
   private NumberPicker mMinPicker;
   private NumberPicker mSecPicker;
+  
+  private Spinner mHourSpinner;
+  private Spinner mMinSpinner;
+  private Spinner mSecSpinner;
   
 
   public TimeDialogPreference(Context ctxt, AttributeSet attrs) {
@@ -33,18 +44,41 @@ public class TimeDialogPreference extends DialogPreference {
   @Override
   protected View onCreateDialogView() {
     View v = View.inflate(getContext(), R.layout.time_picker, null);
-    mHourPicker = (NumberPicker) v.findViewById(R.id.np_hour);
-    mMinPicker = (NumberPicker) v.findViewById(R.id.np_min);
-    mSecPicker = (NumberPicker) v.findViewById(R.id.np_sec);
-
-    mHourPicker.setMinValue(0);
-    mHourPicker.setMaxValue(72);
     
-    mMinPicker.setMinValue(0);
-    mMinPicker.setMaxValue(59);
-    
-    mSecPicker.setMinValue(0);
-    mSecPicker.setMaxValue(59);
+    if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+    	mHourPicker = (NumberPicker) v.findViewById(R.id.np_hour);
+        mMinPicker = (NumberPicker) v.findViewById(R.id.np_min);
+        mSecPicker = (NumberPicker) v.findViewById(R.id.np_sec);
+    	
+	    mHourPicker.setMinValue(0);
+	    mHourPicker.setMaxValue(72);
+	    
+	    mMinPicker.setMinValue(0);
+	    mMinPicker.setMaxValue(59);
+	    
+	    mSecPicker.setMinValue(0);
+	    mSecPicker.setMaxValue(59);
+    }
+    else {
+    	mHourSpinner = (Spinner) v.findViewById(R.id.s_hour);
+    	mMinSpinner = (Spinner) v.findViewById(R.id.s_min);
+    	mSecSpinner = (Spinner) v.findViewById(R.id.s_sec);
+    	
+    	List<String> hours = new ArrayList<String>();
+    	for(int i=0; i<=72; i++) {
+    		hours.add(new String(""+i));
+    	}
+    	ArrayAdapter<String> hourArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, hours);
+    	mHourSpinner.setAdapter(hourArrayAdapter);
+    	
+    	List<String> mins = new ArrayList<String>();
+    	for(int i=0; i<=59; i++) {
+    		mins.add(new String(""+i));
+    	}
+    	ArrayAdapter<String> minsArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mins);
+    	mMinSpinner.setAdapter(minsArrayAdapter);
+    	mSecSpinner.setAdapter(minsArrayAdapter);
+    }
     
     return v;
   }
@@ -53,9 +87,15 @@ public class TimeDialogPreference extends DialogPreference {
   protected void onBindDialogView(View v) {
     super.onBindDialogView(v);
     
-    mHourPicker.setValue(lastHour);
-    mMinPicker.setValue(lastMinute);
-    mSecPicker.setValue(lastSecond);
+    if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+	    mHourPicker.setValue(lastHour);
+	    mMinPicker.setValue(lastMinute);
+	    mSecPicker.setValue(lastSecond);
+    } else {
+    	mHourSpinner.setSelection(lastHour);
+    	mMinSpinner.setSelection(lastMinute);
+    	mSecSpinner.setSelection(lastSecond);
+    }
   }
   
   @Override
@@ -63,16 +103,22 @@ public class TimeDialogPreference extends DialogPreference {
     super.onDialogClosed(positiveResult);
 
     if (positiveResult) {
-      lastHour=mHourPicker.getValue();
-      lastMinute=mMinPicker.getValue();
-      lastSecond=mSecPicker.getValue();
-      
-      NumberFormat nf = new DecimalFormat("00");
-      String time = nf.format(lastHour)+":"+nf.format(lastMinute)+":"+nf.format(lastSecond);
-      
-      if (callChangeListener(time)) {
-    	  persistString(time);
-      }
+    	if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+    		lastHour=mHourPicker.getValue();
+            lastMinute=mMinPicker.getValue();
+            lastSecond=mSecPicker.getValue();
+    	} else {
+    		lastHour = mHourSpinner.getSelectedItemPosition();
+    		lastMinute = mMinSpinner.getSelectedItemPosition();
+    		lastSecond = mSecSpinner.getSelectedItemPosition();
+    	}
+    	
+        NumberFormat nf = new DecimalFormat("00");
+        String time = nf.format(lastHour)+":"+nf.format(lastMinute)+":"+nf.format(lastSecond);
+  
+        if (callChangeListener(time)) {
+    	    persistString(time);
+        }
     }
   }
 

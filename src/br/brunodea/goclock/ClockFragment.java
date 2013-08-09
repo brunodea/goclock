@@ -1,8 +1,10 @@
 package br.brunodea.goclock;
 
+import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.timerule.TimeRule;
@@ -19,7 +22,7 @@ public class ClockFragment extends Fragment {
 	private TextView mTextViewTimeLeft;
 	private TextView mTextViewByoYomiInfo;
 	
-	private View mClockView;
+	protected View mClockView;
 	
 	private boolean mCurrBaseColorBlack;
 	private boolean mIsBGRed;
@@ -45,9 +48,14 @@ public class ClockFragment extends Fragment {
 		mClock = new Clock(time_rule, mTimeHandler);
 	}
 	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void setUpsideDown() {
-		mClockView.setScaleX(-1.f);
-		mClockView.setScaleY(-1.f);
+		if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			mClockView.setScaleX(-1.f);
+			mClockView.setScaleY(-1.f);
+		} else {
+			mClockView.setAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_anim));
+		}
 	}
 	
 	public void setBaseColorBlack() {
@@ -188,6 +196,8 @@ public class ClockFragment extends Fragment {
 					}
 				} else if(msg.what == Clock.NOT_SUDDEN_DEATH) {
 				}
+				
+				mClockView.postInvalidate();
 			}
 		};
 	}
