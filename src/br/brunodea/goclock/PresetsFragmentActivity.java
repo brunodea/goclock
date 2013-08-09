@@ -3,6 +3,7 @@ package br.brunodea.goclock;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,8 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import br.brunodea.goclock.db.DBStructure.PresetTable;
+import br.brunodea.goclock.db.DBStructure.TimeRulesTable;
 import br.brunodea.goclock.db.GoClockContentProvider;
 import br.brunodea.goclock.preferences.GoClockPreferences;
+import br.brunodea.goclock.preferences.TimePreferenceActivity;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
 import br.brunodea.goclock.timerule.TimeRule;
@@ -32,8 +35,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class PresetsFragmentActivity extends SherlockFragmentActivity 
-	implements ActionMode.Callback, OnPresetAddedListener {	
+public class PresetsFragmentActivity extends SherlockFragmentActivity
+	implements ActionMode.Callback, OnPresetAddedListener {
+	private static final int PRESETS_SHOW_PREFERENCES = 2;
 	private ActionMode mActionMode;
 	
 	private ListView mListView;
@@ -127,12 +131,28 @@ public class PresetsFragmentActivity extends SherlockFragmentActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case R.id.action_add_preset:
-			AddPresetDialog preset_dialog = new AddPresetDialog();
+			AddPresetDialog preset_dialog = (AddPresetDialog) AddPresetDialog.instantiate(this, 
+					"br.brunodea.goclock.util.AddPresetDialog");
 			preset_dialog.setNoticeDialogListener(this);
-			preset_dialog.show(getSupportFragmentManager(), "add_preset");
+			preset_dialog.show(getSupportFragmentManager(), 
+					"br.brunodea.goclock.util.AddPresetDialog");
+			return true;
+		case R.id.action_settings:
+			Intent i = new Intent(this, TimePreferenceActivity.class);
+			startActivityForResult(i, PRESETS_SHOW_PREFERENCES);
+			//TODO: actionbar em settings.
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == PRESETS_SHOW_PREFERENCES) {
+			if(resultCode == RESULT_OK) {
+				Util.adjustActivityFullscreenMode(this);
+			}
 		}
 	}
 	
