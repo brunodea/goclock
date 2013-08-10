@@ -5,17 +5,26 @@
     android:gravity="center"
     android:orientation="vertical">
 
-	<TextView android:id="@+id/textview_time_left"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="@string/tap_to_start"
-	    android:layout_gravity="center"
-	    android:textSize="@dimen/time_left_font_size"/>
+    <LinearLayout android:id="@+id/layout_display"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/display"
+        android:padding="10sp"
+        android:orientation="vertical"
+        android:gravity="center">
+        
+		<TextView android:id="@+id/textview_time_left"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/tap_to_start"
+		    android:layout_gravity="center"
+		    android:textSize="@dimen/time_left_font_size"/>
+	</LinearLayout>
     
 	<TextView android:id="@+id/textview_byoyomi_info"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:gravity="center"
 	    android:layout_marginBottom="@dimen/byoyomi_info_margin"
-	    android:textSize="@dimen/byoyomi_curr_info_font_size"/>  
+	    android:textSize="@dimen/byoyomi_curr_info_font_size"/>
 </LinearLayout>
