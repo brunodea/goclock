@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="horizontal" >
-   <!-- 
-    <NumberPicker
+   
+    <net.simonvt.numberpicker.NumberPicker
         android:id="@+id/np_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:text=":"/>
     
-    <NumberPicker
+    <net.simonvt.numberpicker.NumberPicker
         android:id="@+id/np_min"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -25,29 +25,9 @@
         android:layout_height="wrap_content"
         android:text=":"/>
     
-    <NumberPicker
+    <net.simonvt.numberpicker.NumberPicker
         android:id="@+id/np_sec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
--->
-    <Spinner
-        android:id="@+id/s_hour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=":"/>
-    <Spinner
-        android:id="@+id/s_min"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=":"/>
-    <Spinner
-        android:id="@+id/s_sec"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    
 </LinearLayout>
