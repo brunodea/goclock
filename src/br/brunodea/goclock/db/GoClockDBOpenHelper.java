@@ -13,7 +13,7 @@ import br.brunodea.goclock.timerule.CanadianTimeRule;
 
 public class GoClockDBOpenHelper extends SQLiteOpenHelper {
 	public static final String DB_NAME = "goclock.db";
-	public static final int DB_VERSION = 2;
+	public static final int DB_VERSION = 1;
 	
 	public GoClockDBOpenHelper(Context context, String name,
 			CursorFactory factory, int version) {

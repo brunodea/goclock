@@ -72,8 +72,8 @@ public class GoClockPreferences {
 				"10"));
 				
 	}
-	public static int getCanadianStonesPerSecond() {
-		return Integer.parseInt(getStringPreference(App.instance(), "canadian_stones_per_second_key", 
+	public static int getCanadianSecondsPerStone() {
+		return Integer.parseInt(getStringPreference(App.instance(), "canadian_seconds_per_stone_key", 
 				"5"));
 				
 	}

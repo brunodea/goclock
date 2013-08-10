@@ -33,7 +33,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 	private TimeDialogPreference mCanadianMainTime;
 	private TimeDialogPreference mCanadianExtraTime;
 	private EditTextPreference mCanadianStones;
-	private EditTextPreference mCanadianStonesPerSecond;
+	private EditTextPreference mCanadianSecondsPerStone;
 	
 	private TimeDialogPreference mAbsoluteMainTime;
 	
@@ -78,8 +78,8 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 				getPreferenceScreen().findPreference("canadian_extratime_key");
 		mCanadianStones = (EditTextPreference)
 				getPreferenceManager().findPreference("canadian_stones_key");
-		mCanadianStonesPerSecond = (EditTextPreference)
-				getPreferenceManager().findPreference("canadian_stones_per_second_key");
+		mCanadianSecondsPerStone = (EditTextPreference)
+				getPreferenceManager().findPreference("canadian_seconds_per_stone_key");
 		
 		mAbsoluteMainTime = (TimeDialogPreference)
 				getPreferenceScreen().findPreference("absolute_maintime_key");
@@ -107,7 +107,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mCanadianMainTime.setOnPreferenceChangeListener(this);
 		mCanadianExtraTime.setOnPreferenceChangeListener(this);
 		mCanadianStones.setOnPreferenceChangeListener(this);
-		mCanadianStonesPerSecond.setOnPreferenceChangeListener(this);
+		mCanadianSecondsPerStone.setOnPreferenceChangeListener(this);
 		mAbsoluteMainTime.setOnPreferenceChangeListener(this);
 		
 		mTimeRuleList.setOnPreferenceChangeListener(this);
@@ -124,7 +124,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mCanadianMainTime.setValues(GoClockPreferences.getCanadianMainTimeString());
 		mCanadianExtraTime.setValues(GoClockPreferences.getCanadianExtraTimeString());
 		mCanadianStones.setText(GoClockPreferences.getCanadianStones()+"");
-		mCanadianStonesPerSecond.setText(GoClockPreferences.getCanadianStonesPerSecond()+"");
+		mCanadianSecondsPerStone.setText(GoClockPreferences.getCanadianSecondsPerStone()+"");
 		
 		mAbsoluteMainTime.setValues(GoClockPreferences.getAbsoluteMainTimeString());
 
@@ -135,12 +135,12 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mByoYomiMainTime.setSummary(GoClockPreferences.getByoYomiMainTimeString());
 		mByoYomiExtraTime.setSummary(GoClockPreferences.getByoYomiExtraTimeString());
 		mByoYomiPeriods.setSummary(GoClockPreferences.getByoYomiPeriods()+"");
-		mByoYomiAlertTime.setSummary(GoClockPreferences.getByoYomiAlertTimeString());
+		setByoYomiAlertSummary(GoClockPreferences.getByoYomiAlertTimeString());
 		
 		mCanadianMainTime.setSummary(GoClockPreferences.getCanadianMainTimeString());
 		mCanadianExtraTime.setSummary(GoClockPreferences.getCanadianExtraTimeString());
 		mCanadianStones.setSummary(GoClockPreferences.getCanadianStones()+"");
-		setStonesPerSecondSummary(GoClockPreferences.getCanadianStonesPerSecond());
+		setCanadianAlertSummary(GoClockPreferences.getCanadianSecondsPerStone());
 
 		mAbsoluteMainTime.setSummary(GoClockPreferences.getAbsoluteMainTimeString());
 		
@@ -157,28 +157,36 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mTimeRuleList.setSummary(summary);
 	}
 	
-	private void setStonesPerSecondSummary(int value) {
-		String s = getActivity().getString(R.string.stones_ps_summary);
-		mCanadianStonesPerSecond.setSummary(
+	private void setCanadianAlertSummary(int value) {
+		String s = getActivity().getString(R.string.canadian_alert_summary);
+		mCanadianSecondsPerStone.setSummary(
 				String.format(s, value));
 	}
-
+	private void setByoYomiAlertSummary(String value) {
+		mByoYomiAlertTime.setSummary(
+				String.format(
+						getActivity()
+						.getString(R.string.byoyomi_alert_summary), value));
+	}
 	@Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 		if(!TextUtils.isEmpty(newValue.toString())) {
-			preference.setSummary(newValue.toString());
 			if(preference == mTimeRuleList) {
 				setTimeRuleListSummaryFromValue(newValue.toString());
 			} else if(preference == mFullscrenMode) {
 				mListener.onFullscreenModePreferenceChange((Boolean)newValue);
-			} else if(preference == mCanadianStonesPerSecond) {
-				setStonesPerSecondSummary(Integer.parseInt(newValue.toString()));
+			} else if(preference == mCanadianSecondsPerStone) {
+				setCanadianAlertSummary(Integer.parseInt(newValue.toString()));
+			} else if(preference == mByoYomiAlertTime) {
+				setByoYomiAlertSummary(newValue.toString());
+			} else {
+				preference.setSummary(newValue.toString());
 			}
 		} else {
 			if(preference == mByoYomiPeriods || preference == mCanadianStones) {
 				preference.setSummary(0);
-			} else if(preference == mCanadianStonesPerSecond) {
-				setStonesPerSecondSummary(0);
+			} else if(preference == mCanadianSecondsPerStone) {
+				setCanadianAlertSummary(0);
 			}
 		}
 		return true;
