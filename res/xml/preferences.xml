@@ -33,7 +33,7 @@
          <br.brunodea.goclock.preferences.NonEmptyEditTextPreference
              android:key="canadian_stones_key"
              android:title="@string/stones"
-             android:numeric="integer"/>
+             android:inputType="numberDecimal"/>
 	</PreferenceCategory>
 	
 	<PreferenceCategory 
@@ -44,19 +44,15 @@
             android:title="@string/main_time"/>
 	</PreferenceCategory>
 	
+	
 	<PreferenceCategory 
-	    android:key="general_category_key"
-	    android:title="@string/general"
+	    android:key="alerts_category_key"
+	    android:title="@string/alerts_title"
 	    android:persistent="false">
-	    
-	    <CheckBoxPreference
-	        android:key="first_to_play_key"
-	        android:title="@string/first_to_play_title"
-	        android:defaultValue="true"/>
-         <br.brunodea.goclock.preferences.TimeDialogPreference
+        <br.brunodea.goclock.preferences.TimeDialogPreference
             android:key="byoyomi_alert_key"
             android:title="@string/byoyomi_alert_title"/>
-         <br.brunodea.goclock.preferences.NonEmptyEditTextPreference
+        <br.brunodea.goclock.preferences.NonEmptyEditTextPreference
              android:key="canadian_seconds_per_stone_key"
              android:title="@string/canadian_alert_title"
              android:numeric="integer"/>
@@ -70,7 +66,16 @@
 	        android:title="@string/beep_on_sudden_death"
 	        android:summary="@string/beep_on_sudden_death_summary"
 	        android:defaultValue="true"/>
+	</PreferenceCategory>
+	<PreferenceCategory 
+	    android:key="general_category_key"
+	    android:title="@string/general"
+	    android:persistent="false">
 	    
+	    <CheckBoxPreference
+	        android:key="first_to_play_key"
+	        android:title="@string/first_to_play_title"
+	        android:defaultValue="true"/>
 	    <CheckBoxPreference 
 	        android:key="button_sound_on_tap_key"
 	        android:title="@string/button_sound_on_tap"

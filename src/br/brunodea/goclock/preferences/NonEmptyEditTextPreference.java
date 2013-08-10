@@ -24,7 +24,7 @@ public class NonEmptyEditTextPreference extends EditTextPreference {
 	
 	@Override
 	public void setText(String text) {
-		if(TextUtils.isEmpty(text)) {
+		if(TextUtils.isEmpty(text) || Float.parseFloat(text) < 0) {
 			text = "0";
 		}
 		super.setText(text);

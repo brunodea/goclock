@@ -55,5 +55,6 @@
 	<string name="byoyomi_alert_title">Byo-Yomi Alert</string>
 	<string name="byoyomi_alert_summary">Alert starts %s before the end of the period.</string>
 	<string name="canadian_alert_title">Canadian Alert</string>
-	<string name="canadian_alert_summary">Alert starts with %d seconds per stone.</string>
+	<string name="canadian_alert_summary">Alert starts with %.2f seconds per stone.</string>
+	<string name="alerts_title">Alerts</string>
 </resources>

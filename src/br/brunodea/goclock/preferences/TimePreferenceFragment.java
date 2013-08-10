@@ -80,7 +80,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 				getPreferenceManager().findPreference("canadian_stones_key");
 		mCanadianSecondsPerStone = (EditTextPreference)
 				getPreferenceManager().findPreference("canadian_seconds_per_stone_key");
-		
+
 		mAbsoluteMainTime = (TimeDialogPreference)
 				getPreferenceScreen().findPreference("absolute_maintime_key");
 		
@@ -157,7 +157,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mTimeRuleList.setSummary(summary);
 	}
 	
-	private void setCanadianAlertSummary(int value) {
+	private void setCanadianAlertSummary(float value) {
 		String s = getActivity().getString(R.string.canadian_alert_summary);
 		mCanadianSecondsPerStone.setSummary(
 				String.format(s, value));
@@ -176,7 +176,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 			} else if(preference == mFullscrenMode) {
 				mListener.onFullscreenModePreferenceChange((Boolean)newValue);
 			} else if(preference == mCanadianSecondsPerStone) {
-				setCanadianAlertSummary(Integer.parseInt(newValue.toString()));
+				setCanadianAlertSummary(Float.parseFloat(newValue.toString()));
 			} else if(preference == mByoYomiAlertTime) {
 				setByoYomiAlertSummary(newValue.toString());
 			} else {

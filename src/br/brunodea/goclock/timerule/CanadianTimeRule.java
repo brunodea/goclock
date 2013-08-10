@@ -2,6 +2,7 @@ package br.brunodea.goclock.timerule;
 
 import br.brunodea.goclock.App;
 import br.brunodea.goclock.R;
+import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.util.Util;
 
 public class CanadianTimeRule extends TimeRule {
@@ -53,9 +54,11 @@ public class CanadianTimeRule extends TimeRule {
 	
 	@Override
 	public boolean isSuddenDeath(long millisUntilFinished) {
+		if(mCurrStones == 0)
+			return true;
 		float secPerStone = ((float)(millisUntilFinished/1000L)/mCurrStones);
 		
-		if(secPerStone <= 5.f) {
+		if(secPerStone <= GoClockPreferences.getCanadianSecondsPerStone()) {
 			return true;
 		}
 
