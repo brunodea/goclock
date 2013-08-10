@@ -132,8 +132,8 @@ public class ClockFragment extends Fragment {
 	
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		pauseTimer();
+		super.onDestroy();
 	}
 	
 	private void initialTextValues() {
