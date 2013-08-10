@@ -199,7 +199,7 @@ public class ClockFragment extends Fragment {
 				} else if(msg.what == Clock.BYO_YOMI_TIME_OVER) {
 				} else if(msg.what == Clock.ON_TICK) {
 					setTimeTextInfos();
-				} else if(msg.what == Clock.IS_SUDDEN_DEATH && mClock.getTimeRule().isMainTimeOver()) {
+				} else if(msg.what == Clock.IS_ALERT_TIME && mClock.getTimeRule().isMainTimeOver()) {
 					if(GoClockPreferences.blinkOnSuddenDeath()) {
 						adjustBaseColor();
 						if(!mIsBGRed) {
@@ -215,7 +215,7 @@ public class ClockFragment extends Fragment {
 							mMediaPlayer.start();
 						}
 					}
-				} else if(msg.what == Clock.NOT_SUDDEN_DEATH) {
+				} else if(msg.what == Clock.NOT_ALERT_TIME) {
 				}
 				
 				mClockView.postInvalidate();

@@ -53,7 +53,7 @@ public class CanadianTimeRule extends TimeRule {
 	}
 	
 	@Override
-	public boolean isSuddenDeath(long millisUntilFinished) {
+	public boolean isAlertTime(long millisUntilFinished) {
 		if(mCurrStones == 0)
 			return true;
 		float secPerStone = ((float)(millisUntilFinished/1000L)/mCurrStones);
