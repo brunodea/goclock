@@ -16,7 +16,7 @@
          <br.brunodea.goclock.preferences.TimeDialogPreference
             android:key="byoyomi_extratime_key"
             android:title="@string/extra_time"/>
-         <EditTextPreference
+         <br.brunodea.goclock.preferences.NonEmptyEditTextPreference
              android:key="byoyomi_periods_key"
              android:title="@string/periods"
              android:numeric="integer"/>
@@ -30,10 +30,10 @@
          <br.brunodea.goclock.preferences.TimeDialogPreference
             android:key="canadian_extratime_key"
             android:title="@string/extra_time"/>
-         <EditTextPreference
+         <br.brunodea.goclock.preferences.NonEmptyEditTextPreference
              android:key="canadian_stones_key"
              android:title="@string/stones"
-             android:numeric="integer"/>
+             android:inputType="numberDecimal"/>
 	</PreferenceCategory>
 	
 	<PreferenceCategory 
@@ -44,6 +44,29 @@
             android:title="@string/main_time"/>
 	</PreferenceCategory>
 	
+	
+	<PreferenceCategory 
+	    android:key="alerts_category_key"
+	    android:title="@string/alerts_title"
+	    android:persistent="false">
+        <br.brunodea.goclock.preferences.TimeDialogPreference
+            android:key="byoyomi_alert_key"
+            android:title="@string/byoyomi_alert_title"/>
+        <br.brunodea.goclock.preferences.NonEmptyEditTextPreference
+             android:key="canadian_seconds_per_stone_key"
+             android:title="@string/canadian_alert_title"
+             android:numeric="integer"/>
+	    <CheckBoxPreference 
+	        android:key="blink_on_sudden_death_key"
+	        android:title="@string/blink_on_sudden_death"
+	        android:summary="@string/blink_on_sd_summary"
+	        android:defaultValue="true"/>
+	    <CheckBoxPreference 
+	        android:key="beep_on_sudden_death_key"
+	        android:title="@string/beep_on_sudden_death"
+	        android:summary="@string/beep_on_sudden_death_summary"
+	        android:defaultValue="true"/>
+	</PreferenceCategory>
 	<PreferenceCategory 
 	    android:key="general_category_key"
 	    android:title="@string/general"
@@ -52,6 +75,11 @@
 	    <CheckBoxPreference
 	        android:key="first_to_play_key"
 	        android:title="@string/first_to_play_title"
+	        android:defaultValue="true"/>
+	    <CheckBoxPreference 
+	        android:key="button_sound_on_tap_key"
+	        android:title="@string/button_sound_on_tap"
+	        android:summary="@string/button_sound_on_tap_summary"
 	        android:defaultValue="true"/>
 	    <CheckBoxPreference
 	        android:key="fullscreen_key"
@@ -64,23 +92,6 @@
 	        android:title="@string/keep_screen_on"
 	        android:summaryOn="@string/keep_screen_on_summary_on"
 	        android:summaryOff="@string/keep_screen_on_summary_off"
-	        android:defaultValue="true"/>
-	    
-	    <CheckBoxPreference 
-	        android:key="blink_on_sudden_death_key"
-	        android:title="@string/blink_on_sudden_death"
-	        android:summary="@string/blink_on_sd_summary"
-	        android:defaultValue="true"/>
-	    <CheckBoxPreference 
-	        android:key="beep_on_sudden_death_key"
-	        android:title="@string/beep_on_sudden_death"
-	        android:summary="@string/beep_on_sudden_death_summary"
-	        android:defaultValue="true"/>
-	    
-	    <CheckBoxPreference 
-	        android:key="button_sound_on_tap_key"
-	        android:title="@string/button_sound_on_tap"
-	        android:summary="@string/button_sound_on_tap_summary"
 	        android:defaultValue="true"/>
 	</PreferenceCategory>
 </PreferenceScreen>

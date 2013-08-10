@@ -30,10 +30,10 @@
 	<string name="keep_screen_on">Keep screen on</string>
 	<string name="keep_screen_on_summary_on">Clock screen always on.</string>
 	<string name="keep_screen_on_summary_off">Clock screen always off.</string>
-	<string name="blink_on_sudden_death">Blink on sudden death</string>
-	<string name="blink_on_sd_summary">When it is the last period of time, the screen will blink.</string>
-	<string name="beep_on_sudden_death_summary">Play a beep sound when on sudden death time.</string>
-	<string name="beep_on_sudden_death">Beep on sudden death</string>
+	<string name="blink_on_sudden_death">Blink on alert</string>
+	<string name="blink_on_sd_summary">Blink on alert.</string>
+	<string name="beep_on_sudden_death_summary">Play a beep sound on alert.</string>
+	<string name="beep_on_sudden_death">Beep on alert</string>
 	<string name="button_sound_on_tap">Button sound on tap</string>
 	<string name="button_sound_on_tap_summary">Play a push button sound when tapping the clock.</string>
 	<string name="use_preset">Presets</string>
@@ -45,11 +45,16 @@
 	<string name="preset_name_already_taken">Preset name already taken.</string>
 	<string name="error">Error</string>
 	<string name="name_cannot_be_empty">Name cannot be empty.</string>
-	<string name="pause_clock">Pause clock</string>
+	<string name="pause_clock">Pause Clock</string>
 	<string name="delete">Delete</string>
 	<string name="delete_success">Deleted with success!</string>
 	<string name="presets_listactivity_label">Presets</string>
 	<string name="cancel">Cancel</string>
 	<string name="settings">Settings</string>
 	<string name="first_to_play_title">Black is first to play</string>
+	<string name="byoyomi_alert_title">Byo-Yomi Alert</string>
+	<string name="byoyomi_alert_summary">Alert starts %s before the end of the period.</string>
+	<string name="canadian_alert_title">Canadian Alert</string>
+	<string name="canadian_alert_summary">Alert starts with %.2f seconds per stone.</string>
+	<string name="alerts_title">Alerts</string>
 </resources>

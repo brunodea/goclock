@@ -2,6 +2,7 @@ package br.brunodea.goclock.timerule;
 
 import br.brunodea.goclock.App;
 import br.brunodea.goclock.R;
+import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.util.Util;
 
 public class ByoYomiTimeRule extends TimeRule {
@@ -26,7 +27,7 @@ public class ByoYomiTimeRule extends TimeRule {
 		}
 	}
 	/**
-	 * retorna o tempo que o relógio vai começar depois que for despausado.
+	 * retorna o tempo que o relï¿½gio vai comeï¿½ar depois que for despausado.
 	 */
 	@Override
 	public long onPause(long millisUntilFinished) {
@@ -54,7 +55,7 @@ public class ByoYomiTimeRule extends TimeRule {
 	
 	@Override
 	public boolean isSuddenDeath(long millisUntilFinished) {
-		if(mByoYomiPeriodsLeft == 1) {
+		if(millisUntilFinished < GoClockPreferences.getByoYomiAlertTimeMillis()) {
 			return true;
 		}
 		
