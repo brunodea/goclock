@@ -197,10 +197,17 @@ public class ClockFragment extends Fragment {
 					mTextViewByoYomiInfo.setText("");
 				} else if(msg.what == Clock.MAIN_TIME_OVER) {
 				} else if(msg.what == Clock.BYO_YOMI_TIME_OVER) {
+					mIsBGRed = false;
+					mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display));
 				} else if(msg.what == Clock.ON_TICK) {
 					setTimeTextInfos();
 				} else if(msg.what == Clock.IS_ALERT_TIME && mClock.getTimeRule().isMainTimeOver()) {
 					if(GoClockPreferences.blinkOnSuddenDeath()) {
+						if(GoClockPreferences.beepOnSuddenDeath()) {
+							if(mMediaPlayer != null) {
+								mMediaPlayer.start();
+							}
+						}
 						adjustBaseColor();
 						if(!mIsBGRed) {
 							mIsBGRed = true;
@@ -208,11 +215,6 @@ public class ClockFragment extends Fragment {
 						} else {
 							mIsBGRed = false;
 							mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display));
-						}
-					}
-					if(GoClockPreferences.beepOnSuddenDeath()) {
-						if(mMediaPlayer != null) {
-							mMediaPlayer.start();
 						}
 					}
 				} else if(msg.what == Clock.NOT_ALERT_TIME) {
