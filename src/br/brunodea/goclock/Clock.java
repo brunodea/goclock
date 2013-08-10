@@ -1,5 +1,8 @@
 package br.brunodea.goclock;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
@@ -20,7 +23,8 @@ public class Clock {
 	
 	private Handler mTimeHandler;
 	
-	private long mSecond;
+	private boolean mIsOnAlert;
+	Timer alert_timer = null;
 	
 	private boolean mIsPaused;
 
@@ -28,7 +32,7 @@ public class Clock {
 		mTimeRule = time_rule;
 		mMillisUntilFinished = time_rule.getMainTime();
 		mTimeHandler = time_handler;
-		mSecond = 0;
+		mIsOnAlert = false;
 		mIsPaused = true;
 	}
 	
@@ -43,27 +47,38 @@ public class Clock {
 			mCountDownTimer.cancel();
 		mMillisUntilFinished = mTimeRule.onPause(mMillisUntilFinished);
 		mIsPaused = true;
+		mIsOnAlert = false;
+		if(alert_timer != null) {
+			alert_timer.cancel();
+		}
 	}
 	
 	private void initCountDownTimer() {
 		mIsPaused = false;
+
 		mCountDownTimer = new CountDownTimer(mMillisUntilFinished, 100) {
 			@Override
-			public void onTick(long millisUntilFinished) {				
-				long t = 600;
-				long delta = mMillisUntilFinished-millisUntilFinished;
-				mSecond += delta;
-				if(mTimeRule.isAlertTime(millisUntilFinished-1000) && mSecond >= t) {
-					mTimeHandler.sendEmptyMessage(IS_ALERT_TIME);
+			public void onTick(long millisUntilFinished) {
+				if(mTimeRule.isAlertTime(millisUntilFinished-1000) && !mIsOnAlert) {
+					mIsOnAlert = true;
+					alert_timer = new Timer();
+					alert_timer.schedule(new TimerTask() {
+						@Override
+						public void run() {
+							mTimeHandler.sendEmptyMessage(IS_ALERT_TIME);
+						}
+					}, 0, 1000);
 				} else if(!mTimeRule.isAlertTime(millisUntilFinished-1000)) {
 					mTimeHandler.sendEmptyMessage(NOT_ALERT_TIME);
+					if(alert_timer != null) {
+						alert_timer.cancel();
+						alert_timer = null;
+					}
+					mIsOnAlert = false;
 				}
 
 				mMillisUntilFinished = millisUntilFinished;
 				mTimeHandler.sendEmptyMessage(ON_TICK);
-				if(mSecond >= t) {
-					mSecond = 0;
-				}
 			}
 			
 			@Override
@@ -75,7 +90,11 @@ public class Clock {
 				} else {
 					msg.what = BYO_YOMI_TIME_OVER;
 				}
-				
+				if(alert_timer != null) {
+					alert_timer.cancel();
+					alert_timer = null;
+				}
+				mIsOnAlert = false;
 				time_over_handler.sendEmptyMessage(msg.what);
 			}
 		};

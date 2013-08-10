@@ -55,7 +55,7 @@ public class ByoYomiTimeRule extends TimeRule {
 	
 	@Override
 	public boolean isAlertTime(long millisUntilFinished) {
-		if(millisUntilFinished < GoClockPreferences.getByoYomiAlertTimeMillis()) {
+		if(millisUntilFinished <= GoClockPreferences.getByoYomiAlertTimeMillis()) {
 			return true;
 		}
 		
