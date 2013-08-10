@@ -10,7 +10,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
 import br.brunodea.goclock.R;
 import br.brunodea.goclock.timerule.AbsoluteTimeRule;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
@@ -28,6 +27,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 	private TimeDialogPreference mByoYomiMainTime;
 	private TimeDialogPreference mByoYomiExtraTime;
 	private EditTextPreference mByoYomiPeriods;
+	private TimeDialogPreference mByoYomiAlertTime;
 	
 	private TimeDialogPreference mCanadianMainTime;
 	private TimeDialogPreference mCanadianExtraTime;
@@ -67,6 +67,8 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 				getPreferenceScreen().findPreference("byoyomi_extratime_key");
 		mByoYomiPeriods = (EditTextPreference)
 				getPreferenceScreen().findPreference("byoyomi_periods_key");
+		mByoYomiAlertTime = (TimeDialogPreference)
+				getPreferenceScreen().findPreference("byoyomi_alert_key");
 		
 		mCanadianMainTime = (TimeDialogPreference)
 				getPreferenceScreen().findPreference("canadian_maintime_key");
@@ -96,6 +98,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mByoYomiMainTime.setOnPreferenceChangeListener(this);
 		mByoYomiExtraTime.setOnPreferenceChangeListener(this);
 		mByoYomiPeriods.setOnPreferenceChangeListener(this);
+		mByoYomiAlertTime.setOnPreferenceChangeListener(this);
 
 		mCanadianMainTime.setOnPreferenceChangeListener(this);
 		mCanadianExtraTime.setOnPreferenceChangeListener(this);
@@ -112,6 +115,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mByoYomiMainTime.setValues(GoClockPreferences.getByoYomiMainTimeString());
 		mByoYomiExtraTime.setValues(GoClockPreferences.getByoYomiExtraTimeString());
 		mByoYomiPeriods.setText(GoClockPreferences.getByoYomiPeriods()+"");
+		mByoYomiAlertTime.setValues(GoClockPreferences.getByoYomiAlertTimeString());
 		
 		mCanadianMainTime.setValues(GoClockPreferences.getCanadianMainTimeString());
 		mCanadianExtraTime.setValues(GoClockPreferences.getCanadianExtraTimeString());
@@ -126,6 +130,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mByoYomiMainTime.setSummary(GoClockPreferences.getByoYomiMainTimeString());
 		mByoYomiExtraTime.setSummary(GoClockPreferences.getByoYomiExtraTimeString());
 		mByoYomiPeriods.setSummary(GoClockPreferences.getByoYomiPeriods()+"");
+		mByoYomiAlertTime.setSummary(GoClockPreferences.getByoYomiAlertTimeString());
 		
 		mCanadianMainTime.setSummary(GoClockPreferences.getCanadianMainTimeString());
 		mCanadianExtraTime.setSummary(GoClockPreferences.getCanadianExtraTimeString());

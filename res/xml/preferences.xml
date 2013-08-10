@@ -20,6 +20,9 @@
              android:key="byoyomi_periods_key"
              android:title="@string/periods"
              android:numeric="integer"/>
+         <br.brunodea.goclock.preferences.TimeDialogPreference
+            android:key="byoyomi_alert_key"
+            android:title="@string/byoyomi_alert_time"/>
 	</PreferenceCategory>
 	<PreferenceCategory 
 	    android:key="canadian_category_key"
