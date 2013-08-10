@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -36,7 +37,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 	
 	private ListPreference mTimeRuleList;
 	
-	private SwitchPreference mFullscrenMode;
+	private CheckBoxPreference mFullscrenMode;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class TimePreferenceFragment extends PreferenceFragment implements OnPref
 		mTimeRuleList = (ListPreference)
 				getPreferenceScreen().findPreference("timerules_key");
 
-		mFullscrenMode = (SwitchPreference)
+		mFullscrenMode = (CheckBoxPreference)
 				getPreferenceScreen().findPreference("fullscreen_key");
 		
 		String []entries = {ByoYomiTimeRule.BYOYOMI_RULE, CanadianTimeRule.CANADIAN_RULE,
