@@ -54,7 +54,7 @@ public class ByoYomiTimeRule extends TimeRule {
 	}
 	
 	@Override
-	public boolean isSuddenDeath(long millisUntilFinished) {
+	public boolean isAlertTime(long millisUntilFinished) {
 		if(millisUntilFinished < GoClockPreferences.getByoYomiAlertTimeMillis()) {
 			return true;
 		}

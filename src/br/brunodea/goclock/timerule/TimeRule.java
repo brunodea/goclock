@@ -45,7 +45,7 @@ public abstract class TimeRule {
 		return mTimeOver;
 	}
 	
-	public boolean isSuddenDeath(long millisUntilFinished) {
+	public boolean isAlertTime(long millisUntilFinished) {
 		return false;
 	}
 	
@@ -56,6 +56,6 @@ public abstract class TimeRule {
 	public abstract String getTimeRuleKey();
 	public abstract void onByoYomiTimeOver();
 	public abstract long onPause(long millisUntilFinished);
-	public abstract String currentExtraInfo(); //informações atuais sobre a regra (e.g. número de pedras).
-	public abstract String extraInfo(); //informações extra sobre a regra.
+	public abstract String currentExtraInfo(); //informaï¿½ï¿½es atuais sobre a regra (e.g. nï¿½mero de pedras).
+	public abstract String extraInfo(); //informaï¿½ï¿½es extra sobre a regra.
 }
