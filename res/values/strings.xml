@@ -30,10 +30,10 @@
 	<string name="keep_screen_on">Keep screen on</string>
 	<string name="keep_screen_on_summary_on">Clock screen always on.</string>
 	<string name="keep_screen_on_summary_off">Clock screen always off.</string>
-	<string name="blink_on_sudden_death">Blink on sudden death</string>
-	<string name="blink_on_sd_summary">When it is the last period of time, the screen will blink.</string>
-	<string name="beep_on_sudden_death_summary">Play a beep sound when on sudden death time.</string>
-	<string name="beep_on_sudden_death">Beep on sudden death</string>
+	<string name="blink_on_sudden_death">Blink on alert</string>
+	<string name="blink_on_sd_summary">Blink on alert.</string>
+	<string name="beep_on_sudden_death_summary">Play a beep sound on alert.</string>
+	<string name="beep_on_sudden_death">Beep on alert</string>
 	<string name="button_sound_on_tap">Button sound on tap</string>
 	<string name="button_sound_on_tap_summary">Play a push button sound when tapping the clock.</string>
 	<string name="use_preset">Presets</string>
