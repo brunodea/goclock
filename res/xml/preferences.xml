@@ -49,13 +49,13 @@
 	    android:title="@string/general"
 	    android:persistent="false">
 	    
-	    <SwitchPreference 
+	    <CheckBoxPreference
 	        android:key="fullscreen_key"
 	        android:title="@string/fullscreen_mode"
 	        android:summaryOn="@string/fullscreen_summary_on"
 	        android:summaryOff="@string/fullscreen_summary_off"
 	        android:defaultValue="true"/>
-	    <SwitchPreference 
+	    <CheckBoxPreference 
 	        android:key="keep_screen_on_key"
 	        android:title="@string/keep_screen_on"
 	        android:summaryOn="@string/keep_screen_on_summary_on"
