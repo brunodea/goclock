@@ -20,7 +20,7 @@ public class Clock {
 	
 	private Handler mTimeHandler;
 	
-	private int mTicks;
+	private long mSecond;
 	
 	private boolean mIsPaused;
 
@@ -28,7 +28,7 @@ public class Clock {
 		mTimeRule = time_rule;
 		mMillisUntilFinished = time_rule.getMainTime();
 		mTimeHandler = time_handler;
-		mTicks = 0;
+		mSecond = 0;
 		mIsPaused = true;
 	}
 	
@@ -49,20 +49,20 @@ public class Clock {
 		mIsPaused = false;
 		mCountDownTimer = new CountDownTimer(mMillisUntilFinished, 100) {
 			@Override
-			public void onTick(long millisUntilFinished) {
-				mTicks += 1;
-				
-				
-				if(mTimeRule.isAlertTime(millisUntilFinished) && mTicks >= 9) {
+			public void onTick(long millisUntilFinished) {				
+				long t = 600;
+				long delta = mMillisUntilFinished-millisUntilFinished;
+				mSecond += delta;
+				if(mTimeRule.isAlertTime(millisUntilFinished-1000) && mSecond >= t) {
 					mTimeHandler.sendEmptyMessage(IS_ALERT_TIME);
-				} else if(!mTimeRule.isAlertTime(millisUntilFinished)) {
+				} else if(!mTimeRule.isAlertTime(millisUntilFinished-1000)) {
 					mTimeHandler.sendEmptyMessage(NOT_ALERT_TIME);
 				}
 
 				mMillisUntilFinished = millisUntilFinished;
 				mTimeHandler.sendEmptyMessage(ON_TICK);
-				if(mTicks >= 9) {
-					mTicks = 0;
+				if(mSecond >= t) {
+					mSecond = 0;
 				}
 			}
 			
