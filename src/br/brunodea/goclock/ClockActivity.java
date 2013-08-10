@@ -162,7 +162,9 @@ public class ClockActivity extends FragmentActivity {
 	private void resetClocks() {
 		mCurrentTurn = Turn.NONE;
 		mClockFragmentBlack.reset();
+		mClockFragmentBlack.setBaseColorBlack();
 		mClockFragmentWhite.reset();
+		mClockFragmentWhite.setBaseColorWhite();
 	}
 	@Override
 	public void onDestroy() {

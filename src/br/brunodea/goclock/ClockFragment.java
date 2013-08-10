@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import br.brunodea.goclock.preferences.GoClockPreferences;
 import br.brunodea.goclock.timerule.TimeRule;
@@ -21,6 +22,8 @@ public class ClockFragment extends Fragment {
 
 	private TextView mTextViewTimeLeft;
 	private TextView mTextViewByoYomiInfo;
+	
+	private LinearLayout mDisplayBackgroundLayout;
 	
 	protected View mClockView;
 	
@@ -62,7 +65,8 @@ public class ClockFragment extends Fragment {
 	}
 	
 	public void setBaseColorBlack() {
-		mTextViewTimeLeft.setTextColor(Color.WHITE);
+		mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
+		mTextViewTimeLeft.setTextColor(Color.GREEN);
 		mTextViewByoYomiInfo.setTextColor(Color.WHITE);
 		if(getView() != null) {
 			getView().setBackgroundColor(Color.BLACK);
@@ -71,7 +75,8 @@ public class ClockFragment extends Fragment {
 		mCurrBaseColorBlack = true;
 	}
 	public void setBaseColorWhite() {
-		mTextViewTimeLeft.setTextColor(Color.BLACK);
+		mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
+		mTextViewTimeLeft.setTextColor(Color.GREEN);
 		mTextViewByoYomiInfo.setTextColor(Color.BLACK);
 		if(getView() != null) {
 			getView().setBackgroundColor(Color.WHITE);
@@ -126,6 +131,7 @@ public class ClockFragment extends Fragment {
 		mClockView = v;
 		mTextViewTimeLeft = (TextView) v.findViewById(R.id.textview_time_left);
 		mTextViewByoYomiInfo = (TextView) v.findViewById(R.id.textview_byoyomi_info);
+		mDisplayBackgroundLayout = (LinearLayout) v.findViewById(R.id.layout_display);
 		
 		Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "fonts/digital_clock.ttf");
 		mTextViewTimeLeft.setTypeface(tf);
@@ -190,12 +196,13 @@ public class ClockFragment extends Fragment {
 					if(GoClockPreferences.blinkOnSuddenDeath()) {
 						adjustBaseColor();
 						if(!mIsBGRed) {
-							getView().setBackgroundColor(Color.RED);
 							mIsBGRed = true;
+							mTextViewTimeLeft.setTextColor(Color.WHITE);
+							mDisplayBackgroundLayout.setBackgroundColor(Color.RED);
 						} else {
 							mIsBGRed = false;
 							mTextViewTimeLeft.setTextColor(Color.RED);
-							mTextViewByoYomiInfo.setTextColor(Color.RED);
+							mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
 						}
 					}
 					if(GoClockPreferences.beepOnSuddenDeath()) {
