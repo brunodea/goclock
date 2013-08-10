@@ -56,7 +56,6 @@ public class ClockActivity extends FragmentActivity {
 		mClockFragmentWhite.setMediaPlayer(mMediaPlayerSuddenDeath);
 		
 		mCurrentTurn = Turn.NONE;
-		
 		final LinearLayout l = (LinearLayout) findViewById(R.id.linearlayout_clockactivity);
 		l.setOnClickListener(new OnClickListener() {
 			@Override
@@ -68,7 +67,9 @@ public class ClockActivity extends FragmentActivity {
 						if(GoClockPreferences.buttonSoundOnTap()) {
 							mMediaPlayerPushButton.start();
 						}
-
+						if(mCurrentTurn == Turn.NONE) {
+							mCurrentTurn = GoClockPreferences.isBlackFirstToPlay() ? Turn.BLACK : Turn.WHITE;
+						}
 						nextTurn();
 					}
 				}
@@ -81,25 +82,30 @@ public class ClockActivity extends FragmentActivity {
 	}
 	
 	public void nextTurn() {
-		if(mCurrentTurn == Turn.NONE) {
-			if(mClockFragmentBlack.isClockPaused()) {
-				mClockFragmentBlack.resumeTimer();
-				mClockFragmentWhite.setTimeTextInfos();
-			}
-		} else if(mCurrentTurn == Turn.BLACK) {
-			if(mClockFragmentWhite.isClockPaused()) {
-				mClockFragmentBlack.pauseTimer();
-				mClockFragmentBlack.setTimeTextInfos();
-				mClockFragmentWhite.resumeTimer();
-			}
+		ClockFragment to_start = null;
+		ClockFragment to_pause = null;
+		if(mCurrentTurn == Turn.BLACK) {
+			to_start = mClockFragmentBlack;
+			to_pause = mClockFragmentWhite;
 		} else if(mCurrentTurn == Turn.WHITE) {
-			if(mClockFragmentBlack.isClockPaused()) {
-				mClockFragmentWhite.pauseTimer();
-				mClockFragmentWhite.setTimeTextInfos();
-				mClockFragmentBlack.resumeTimer();
-			}
+			to_start = mClockFragmentWhite;
+			to_pause = mClockFragmentBlack;
 		}
-		swapCurrTurn();
+		boolean first_move = mClockFragmentBlack.isClockPaused() && mClockFragmentWhite.isClockPaused();
+		toggleClockFragmentClock(to_start);
+		if(!first_move) {
+			toggleClockFragmentClock(to_pause);
+			swapCurrTurn();
+		}
+	}
+	
+	private void toggleClockFragmentClock(ClockFragment clock) {
+		if(clock.isClockPaused()) {
+			clock.resumeTimer();
+		} else {
+			clock.pauseTimer();
+		}
+		clock.setTimeTextInfos();
 	}
 
 	@Override
@@ -134,9 +140,10 @@ public class ClockActivity extends FragmentActivity {
 			//ideia:
 			//dialog ou textview bem no meio dizendo PAUSE.
 			//embaixo dizendo: White to Play ; ou Black to Play dependendo do caso.
-			swapCurrTurn();
 			mClockFragmentBlack.pauseTimer();
+			mClockFragmentBlack.setTimeTextInfos();
 			mClockFragmentWhite.pauseTimer();
+			mClockFragmentWhite.setTimeTextInfos();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
