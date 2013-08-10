@@ -43,7 +43,7 @@ public class TimePreferenceActivityApi10 extends SherlockPreferenceActivity impl
 		}		
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		addPreferencesFromResource(R.xml.preferences_api10);
+		addPreferencesFromResource(R.xml.preferences);
 		bindGUI();
 		setValues();
 		setListeners();
