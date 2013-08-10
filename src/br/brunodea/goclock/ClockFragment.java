@@ -182,6 +182,7 @@ public class ClockFragment extends Fragment {
 		initTimeHandler();
 		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
 		initialTextValues();
+		mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display));
 	}
 
 	private void initTimeHandler() {
