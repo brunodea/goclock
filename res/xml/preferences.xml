@@ -16,7 +16,7 @@
          <br.brunodea.goclock.preferences.TimeDialogPreference
             android:key="byoyomi_extratime_key"
             android:title="@string/extra_time"/>
-         <EditTextPreference
+         <br.brunodea.goclock.preferences.NonEmptyEditTextPreference
              android:key="byoyomi_periods_key"
              android:title="@string/periods"
              android:numeric="integer"/>
@@ -33,9 +33,13 @@
          <br.brunodea.goclock.preferences.TimeDialogPreference
             android:key="canadian_extratime_key"
             android:title="@string/extra_time"/>
-         <EditTextPreference
+         <br.brunodea.goclock.preferences.NonEmptyEditTextPreference
              android:key="canadian_stones_key"
              android:title="@string/stones"
+             android:numeric="integer"/>
+         <br.brunodea.goclock.preferences.NonEmptyEditTextPreference
+             android:key="canadian_stones_per_second_key"
+             android:title="@string/stones_per_second"
              android:numeric="integer"/>
 	</PreferenceCategory>
 	

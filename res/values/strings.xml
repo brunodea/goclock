@@ -52,5 +52,7 @@
 	<string name="cancel">Cancel</string>
 	<string name="settings">Settings</string>
 	<string name="first_to_play_title">Black is first to play</string>
-	<string name="byoyomi_alert_time">Alerts Start</string>
+	<string name="byoyomi_alert_time">Alert Starts</string>
+	<string name="stones_per_second">Stones per second</string>
+	<string name="stones_ps_summary">Alert starts when there is %d stones per second.</string>
 </resources>

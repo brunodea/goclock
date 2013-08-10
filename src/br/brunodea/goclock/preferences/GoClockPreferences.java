@@ -46,7 +46,7 @@ public class GoClockPreferences {
 	}
 	public static String getByoYomiAlertTimeString() {
 		return getStringPreference(App.instance(), "byoyomi_alert_key", 
-				"00:00:00");
+				"00:00:10");
 	}
 	public static long getByoYomiAlertTimeMillis() {
 		return Util.timeStringToMillis(getByoYomiAlertTimeString());
@@ -70,6 +70,11 @@ public class GoClockPreferences {
 	public static int getCanadianStones() {
 		return Integer.parseInt(getStringPreference(App.instance(), "canadian_stones_key", 
 				"10"));
+				
+	}
+	public static int getCanadianStonesPerSecond() {
+		return Integer.parseInt(getStringPreference(App.instance(), "canadian_stones_per_second_key", 
+				"5"));
 				
 	}
 	
