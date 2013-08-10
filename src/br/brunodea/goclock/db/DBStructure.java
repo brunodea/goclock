@@ -38,7 +38,7 @@ public class DBStructure {
 		}
 		/**
 		 * 
-		 * @return script de criação da tabela.
+		 * @return script de criaÃ§Ã£o da tabela.
 		 */
 		public abstract String creationScript();
 		protected Pair<String,String> createPair(String col, String info) {
