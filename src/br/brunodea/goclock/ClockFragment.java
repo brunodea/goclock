@@ -66,6 +66,7 @@ public class ClockFragment extends Fragment {
 		mTextViewByoYomiInfo.setTextColor(Color.WHITE);
 		if(getView() != null) {
 			getView().setBackgroundColor(Color.BLACK);
+			setBackgroundDrawable(R.drawable.bg_black);
 		}
 		mCurrBaseColorBlack = true;
 	}
@@ -74,8 +75,13 @@ public class ClockFragment extends Fragment {
 		mTextViewByoYomiInfo.setTextColor(Color.BLACK);
 		if(getView() != null) {
 			getView().setBackgroundColor(Color.WHITE);
+			setBackgroundDrawable(R.drawable.bg_white);
 		}
 		mCurrBaseColorBlack = false;
+	}
+	
+	public void setBackgroundDrawable(int drawableId) {
+		getView().setBackgroundDrawable(getResources().getDrawable(drawableId));
 	}
 	
 	private void adjustBaseColor() {

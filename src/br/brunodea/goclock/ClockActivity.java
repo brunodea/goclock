@@ -48,6 +48,7 @@ public class ClockActivity extends FragmentActivity {
 		mClockFragmentWhite = (ClockFragment) getSupportFragmentManager().findFragmentById(R.id.white_frag);
 
 		mClockFragmentBlack.setBaseColorBlack();
+		mClockFragmentWhite.setBaseColorWhite();
 		mClockFragmentWhite.setUpsideDown();
 
 		mMediaPlayerPushButton = MediaPlayer.create(getApplicationContext(), R.raw.pushbutton_amp);

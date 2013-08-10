@@ -31,7 +31,7 @@ public class TimeDialogPreference extends DialogPreference {
   private NumberPicker mSecPicker;
   
   public TimeDialogPreference(Context ctxt, AttributeSet attrs) {
-    super(ctxt, attrs);
+    super(ctxt, attrs, R.style.AppTheme);
     
     setPositiveButtonText(App.instance().getString(R.string.set));
     setNegativeButtonText(App.instance().getString(R.string.cancel));
