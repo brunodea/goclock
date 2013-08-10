@@ -23,6 +23,7 @@ public class ClockActivity extends FragmentActivity {
 	private ClockFragment mClockFragmentWhite;
 	private MediaPlayer mMediaPlayerSuddenDeath;
 	private MediaPlayer mMediaPlayerPushButton;
+	private MediaPlayer mMediaPlayerTimeOver;
 		
 	private enum Turn {
 		NONE, WHITE, BLACK;
@@ -53,8 +54,13 @@ public class ClockActivity extends FragmentActivity {
 
 		mMediaPlayerPushButton = MediaPlayer.create(getApplicationContext(), R.raw.pushbutton_amp);
 		mMediaPlayerSuddenDeath = MediaPlayer.create(getApplicationContext(), R.raw.snd002_amp);
+		mMediaPlayerTimeOver = MediaPlayer.create(getApplicationContext(), R.raw.snd_over_003);
+		
 		mClockFragmentBlack.setMediaPlayer(mMediaPlayerSuddenDeath);
 		mClockFragmentWhite.setMediaPlayer(mMediaPlayerSuddenDeath);
+		
+		mClockFragmentBlack.setTimeOverMediaPlayer(mMediaPlayerTimeOver);
+		mClockFragmentWhite.setTimeOverMediaPlayer(mMediaPlayerTimeOver);
 		
 		mCurrentTurn = Turn.NONE;
 		final LinearLayout l = (LinearLayout) findViewById(R.id.linearlayout_clockactivity);

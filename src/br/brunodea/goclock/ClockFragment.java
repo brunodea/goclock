@@ -34,6 +34,8 @@ public class ClockFragment extends Fragment {
 	private Handler mTimeHandler;
 	
 	private MediaPlayer mMediaPlayer;
+	private MediaPlayer mMediaPlayerTimeOver;
+	
 	@Override
 	public void onCreate(Bundle savedInstancesState) {
 		super.onCreate(savedInstancesState);
@@ -45,6 +47,10 @@ public class ClockFragment extends Fragment {
 	
 	public void setMediaPlayer(MediaPlayer mp) {
 		mMediaPlayer = mp;
+	}
+	
+	public void setTimeOverMediaPlayer(MediaPlayer mp) {
+		mMediaPlayerTimeOver = mp;
 	}
 	
 	public void setTimeRule(TimeRule time_rule) {
@@ -65,7 +71,6 @@ public class ClockFragment extends Fragment {
 	}
 	
 	public void setBaseColorBlack() {
-		//mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
 		mTextViewTimeLeft.setTextColor(Color.BLACK);
 		mTextViewByoYomiInfo.setTextColor(Color.WHITE);
 		if(getView() != null) {
@@ -75,7 +80,6 @@ public class ClockFragment extends Fragment {
 		mCurrBaseColorBlack = true;
 	}
 	public void setBaseColorWhite() {
-		//mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
 		mTextViewTimeLeft.setTextColor(Color.BLACK);
 		mTextViewByoYomiInfo.setTextColor(Color.BLACK);
 		if(getView() != null) {
@@ -150,6 +154,7 @@ public class ClockFragment extends Fragment {
 	
 	private void initialTextValues() {
 		mTextViewTimeLeft.setText(mClock.formattedTimeLeft());
+		mTextViewTimeLeft.setTextSize(getResources().getDimension(R.dimen.time_left_font_size));
 		mTextViewByoYomiInfo.setText(mClock.getTimeRule().extraInfo());
 		mTextViewByoYomiInfo.setTextSize(getActivity().getResources().getDimension(R.dimen.byoyomi_info_font_size));
 		if(mCurrBaseColorBlack) {
@@ -184,9 +189,10 @@ public class ClockFragment extends Fragment {
 			@Override
 			public void handleMessage(Message msg) {
 				if(msg.what == Clock.TIME_OVER) {
+					mMediaPlayerTimeOver.start();
 					adjustBaseColor();
 					mTextViewTimeLeft.setText(getResources().getString(R.string.time_over));
-					mTextViewTimeLeft.setTextColor(Color.RED);
+					mTextViewTimeLeft.setTextSize(getResources().getDimension(R.dimen.time_over));
 					mTextViewByoYomiInfo.setText("");
 				} else if(msg.what == Clock.MAIN_TIME_OVER) {
 				} else if(msg.what == Clock.BYO_YOMI_TIME_OVER) {
@@ -197,12 +203,9 @@ public class ClockFragment extends Fragment {
 						adjustBaseColor();
 						if(!mIsBGRed) {
 							mIsBGRed = true;
-							//mTextViewTimeLeft.setTextColor(Color.WHITE);
 							mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display_red));
 						} else {
 							mIsBGRed = false;
-							//mTextViewTimeLeft.setTextColor(Color.RED);
-							//mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
 							mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display));
 						}
 					}
