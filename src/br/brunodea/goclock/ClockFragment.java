@@ -65,8 +65,8 @@ public class ClockFragment extends Fragment {
 	}
 	
 	public void setBaseColorBlack() {
-		mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
-		mTextViewTimeLeft.setTextColor(Color.GREEN);
+		//mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
+		mTextViewTimeLeft.setTextColor(Color.BLACK);
 		mTextViewByoYomiInfo.setTextColor(Color.WHITE);
 		if(getView() != null) {
 			getView().setBackgroundColor(Color.BLACK);
@@ -75,8 +75,8 @@ public class ClockFragment extends Fragment {
 		mCurrBaseColorBlack = true;
 	}
 	public void setBaseColorWhite() {
-		mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
-		mTextViewTimeLeft.setTextColor(Color.GREEN);
+		//mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
+		mTextViewTimeLeft.setTextColor(Color.BLACK);
 		mTextViewByoYomiInfo.setTextColor(Color.BLACK);
 		if(getView() != null) {
 			getView().setBackgroundColor(Color.WHITE);
@@ -135,7 +135,7 @@ public class ClockFragment extends Fragment {
 		
 		Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "fonts/digital_clock.ttf");
 		mTextViewTimeLeft.setTypeface(tf);
-		mTextViewByoYomiInfo.setTypeface(tf);
+		//mTextViewByoYomiInfo.setTypeface(tf);
 		
 		initialTextValues();
 		
@@ -197,12 +197,13 @@ public class ClockFragment extends Fragment {
 						adjustBaseColor();
 						if(!mIsBGRed) {
 							mIsBGRed = true;
-							mTextViewTimeLeft.setTextColor(Color.WHITE);
-							mDisplayBackgroundLayout.setBackgroundColor(Color.RED);
+							//mTextViewTimeLeft.setTextColor(Color.WHITE);
+							mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display_red));
 						} else {
 							mIsBGRed = false;
-							mTextViewTimeLeft.setTextColor(Color.RED);
-							mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
+							//mTextViewTimeLeft.setTextColor(Color.RED);
+							//mDisplayBackgroundLayout.setBackgroundColor(Color.BLACK);
+							mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display));
 						}
 					}
 					if(GoClockPreferences.beepOnSuddenDeath()) {

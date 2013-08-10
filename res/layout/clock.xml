@@ -8,7 +8,7 @@
     <LinearLayout android:id="@+id/layout_display"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#000000"
+        android:background="@drawable/display"
         android:padding="10sp"
         android:orientation="vertical"
         android:gravity="center">
