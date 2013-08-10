@@ -50,6 +50,10 @@
 	    android:persistent="false">
 	    
 	    <CheckBoxPreference
+	        android:key="first_to_play_key"
+	        android:title="@string/first_to_play_title"
+	        android:defaultValue="true"/>
+	    <CheckBoxPreference
 	        android:key="fullscreen_key"
 	        android:title="@string/fullscreen_mode"
 	        android:summaryOn="@string/fullscreen_summary_on"

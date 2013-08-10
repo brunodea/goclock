@@ -150,6 +150,9 @@ public class GoClockPreferences {
 	}
 	/////////////////////////////////////////////////////////////
 	/* General */
+	public static boolean isBlackFirstToPlay() {
+		return getBooleanPreference(App.instance(), "first_to_play_key", true);
+	}
 	public static boolean getFullscreen() {
 		return getBooleanPreference(App.instance(), "fullscreen_key", true);
 	}
