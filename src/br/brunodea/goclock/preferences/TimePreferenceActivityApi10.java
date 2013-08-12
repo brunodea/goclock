@@ -12,13 +12,12 @@ import br.brunodea.goclock.preferences.TimePreferenceFragment.MyOnFullscreenMode
 import br.brunodea.goclock.timerule.AbsoluteTimeRule;
 import br.brunodea.goclock.timerule.ByoYomiTimeRule;
 import br.brunodea.goclock.timerule.CanadianTimeRule;
+import br.brunodea.goclock.util.Util;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 public class TimePreferenceActivityApi10 extends SherlockPreferenceActivity implements OnPreferenceChangeListener {
-	private MyOnFullscreenModePreferenceChangeListener mListener;
-	
 	private TimeDialogPreference mByoYomiMainTime;
 	private TimeDialogPreference mByoYomiExtraTime;
 	private EditTextPreference mByoYomiPeriods;
@@ -141,7 +140,7 @@ public class TimePreferenceActivityApi10 extends SherlockPreferenceActivity impl
 		if(preference == mTimeRuleList) {
 			setTimeRuleListSummaryFromValue(newValue.toString());
 		} else if(preference == mFullscrenMode) {
-			mListener.onFullscreenModePreferenceChange((Boolean)newValue);
+			Util.adjustActivityFullscreenMode(this, (Boolean)newValue);
 		}
 		return true;
 	}
