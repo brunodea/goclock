@@ -35,7 +35,7 @@ public class ClockActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+		//getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		if(GoClockPreferences.getFullscreen()) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
