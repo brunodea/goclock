@@ -170,6 +170,12 @@ public class ClockFragment extends Fragment {
 		adjustBaseColor();
 		mIsBGRed = false;
 		mClock.pauseTimer();
+		
+		if(mClock.getTimeRule().isMainTimeOver() && mClock.getTimeRule().isAlertTime(mClock.getTimeRule().getByoYomiTime())) {
+			mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display_red));
+		} else {
+			mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display));
+		}
 	}
 	public void resumeTimer() {
 		mClock.resumeTimer();
@@ -218,6 +224,7 @@ public class ClockFragment extends Fragment {
 						}
 					}
 				} else if(msg.what == Clock.NOT_ALERT_TIME) {
+					mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display));
 				}
 				
 				mClockView.postInvalidate();
