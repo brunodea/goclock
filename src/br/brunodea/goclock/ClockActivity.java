@@ -23,6 +23,7 @@ public class ClockActivity extends FragmentActivity {
 	private MediaPlayer mMediaPlayerSuddenDeath;
 	private MediaPlayer mMediaPlayerPushButton;
 	private MediaPlayer mMediaPlayerTimeOver;
+	private MediaPlayer mMediaPlayerTransition;
 		
 	private enum Turn {
 		NONE, WHITE, BLACK;
@@ -53,13 +54,17 @@ public class ClockActivity extends FragmentActivity {
 		mMediaPlayerPushButton = MediaPlayer.create(getApplicationContext(), R.raw.pushbutton_amp);
 		mMediaPlayerSuddenDeath = MediaPlayer.create(getApplicationContext(), R.raw.snd002_amp);
 		mMediaPlayerTimeOver = MediaPlayer.create(getApplicationContext(), R.raw.snd_over_003);
+		mMediaPlayerTransition = MediaPlayer.create(getApplicationContext(), R.raw.transition_beep_amp);
 		
-		mClockFragmentBlack.setMediaPlayer(mMediaPlayerSuddenDeath);
-		mClockFragmentWhite.setMediaPlayer(mMediaPlayerSuddenDeath);
+		mClockFragmentBlack.setSuddenDeathMediaPlayer(mMediaPlayerSuddenDeath);
+		mClockFragmentWhite.setSuddenDeathMediaPlayer(mMediaPlayerSuddenDeath);
 		
 		mClockFragmentBlack.setTimeOverMediaPlayer(mMediaPlayerTimeOver);
 		mClockFragmentWhite.setTimeOverMediaPlayer(mMediaPlayerTimeOver);
 		
+		mClockFragmentBlack.setTransitionMediaPlayer(mMediaPlayerTransition);
+		mClockFragmentWhite.setTransitionMediaPlayer(mMediaPlayerTransition);
+
 		mCurrentTurn = Turn.NONE;
 		final LinearLayout l = (LinearLayout) findViewById(R.id.linearlayout_clockactivity);
 		l.setOnClickListener(new OnClickListener() {
@@ -184,5 +189,9 @@ public class ClockActivity extends FragmentActivity {
 			mMediaPlayerSuddenDeath.release();
 		if(mMediaPlayerPushButton != null)
 			mMediaPlayerPushButton.release();
+		if(mMediaPlayerTransition != null)
+			mMediaPlayerTransition.release();
+		if(mMediaPlayerTimeOver != null)
+			mMediaPlayerTimeOver.release();
 	}
 }

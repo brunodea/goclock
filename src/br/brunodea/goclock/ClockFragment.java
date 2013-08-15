@@ -33,8 +33,9 @@ public class ClockFragment extends Fragment {
 	private Clock mClock;
 	private Handler mTimeHandler;
 	
-	private MediaPlayer mMediaPlayer;
+	private MediaPlayer mMediaPlayerSuddenDeath;
 	private MediaPlayer mMediaPlayerTimeOver;
+	private MediaPlayer mMediaPlayerTransition;
 	
 	@Override
 	public void onCreate(Bundle savedInstancesState) {
@@ -43,14 +44,21 @@ public class ClockFragment extends Fragment {
 		initTimeHandler();
 		mClock = new Clock(GoClockPreferences.getTimeRule(), mTimeHandler);
 		mIsBGRed = false;
+		mMediaPlayerSuddenDeath = null;
+		mMediaPlayerTimeOver = null;
+		mMediaPlayerTransition = null;
 	}
 	
-	public void setMediaPlayer(MediaPlayer mp) {
-		mMediaPlayer = mp;
+	public void setSuddenDeathMediaPlayer(MediaPlayer mp) {
+		mMediaPlayerSuddenDeath = mp;
 	}
 	
 	public void setTimeOverMediaPlayer(MediaPlayer mp) {
 		mMediaPlayerTimeOver = mp;
+	}
+	
+	public void setTransitionMediaPlayer(MediaPlayer mp) {
+		mMediaPlayerTransition = mp;
 	}
 	
 	public void setTimeRule(TimeRule time_rule) {
@@ -139,7 +147,6 @@ public class ClockFragment extends Fragment {
 		
 		Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "fonts/digital_clock.ttf");
 		mTextViewTimeLeft.setTypeface(tf);
-		//mTextViewByoYomiInfo.setTypeface(tf);
 		
 		initialTextValues();
 		
@@ -154,7 +161,7 @@ public class ClockFragment extends Fragment {
 	
 	private void initialTextValues() {
 		mTextViewTimeLeft.setText(mClock.formattedTimeLeft());
-		mTextViewTimeLeft.setTextSize(getResources().getDimension(R.dimen.time_left_font_size));
+		mTextViewTimeLeft.setTextSize(getResources().getDimension(R.dimen.byoyomi_curr_info_font_size));
 		mTextViewByoYomiInfo.setText(mClock.getTimeRule().extraInfo());
 		mTextViewByoYomiInfo.setTextSize(getActivity().getResources().getDimension(R.dimen.byoyomi_info_font_size));
 		if(mCurrBaseColorBlack) {
@@ -196,13 +203,23 @@ public class ClockFragment extends Fragment {
 			@Override
 			public void handleMessage(Message msg) {
 				if(msg.what == Clock.TIME_OVER) {
-					mMediaPlayerTimeOver.start();
+					if(mMediaPlayerTimeOver != null) {
+						mMediaPlayerTimeOver.start();
+					}
 					adjustBaseColor();
 					mTextViewTimeLeft.setText(getResources().getString(R.string.time_over));
 					mTextViewTimeLeft.setTextSize(getResources().getDimension(R.dimen.time_over));
 					mTextViewByoYomiInfo.setText("");
 				} else if(msg.what == Clock.MAIN_TIME_OVER) {
+					if(mClock.getTimeRule().getByoYomiTime() > 0L) {
+						if(mMediaPlayerTransition != null && GoClockPreferences.beepOnTimeTransition()) {
+							mMediaPlayerTransition.start();
+						}
+					}
 				} else if(msg.what == Clock.BYO_YOMI_TIME_OVER) {
+					if(mMediaPlayerTransition != null && GoClockPreferences.beepOnTimeTransition()) {
+						mMediaPlayerTransition.start();
+					}
 					mIsBGRed = false;
 					mDisplayBackgroundLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.display));
 				} else if(msg.what == Clock.ON_TICK) {
@@ -210,8 +227,8 @@ public class ClockFragment extends Fragment {
 				} else if(msg.what == Clock.IS_ALERT_TIME && mClock.getTimeRule().isMainTimeOver()) {
 					if(GoClockPreferences.blinkOnSuddenDeath()) {
 						if(GoClockPreferences.beepOnSuddenDeath()) {
-							if(mMediaPlayer != null) {
-								mMediaPlayer.start();
+							if(mMediaPlayerSuddenDeath != null) {
+								mMediaPlayerSuddenDeath.start();
 							}
 						}
 						adjustBaseColor();

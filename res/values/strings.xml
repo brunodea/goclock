@@ -57,4 +57,6 @@
 	<string name="canadian_alert_title">Canadian Alert</string>
 	<string name="canadian_alert_summary">Alert starts with %.2f seconds per stone.</string>
 	<string name="alerts_title">Alerts</string>
+	<string name="beep_on_transition">Beep on transition</string>
+	<string name="beep_on_transition_summary">Beep on time transitions, such as when the main time or a byo-yomi period is over.</string>
 </resources>

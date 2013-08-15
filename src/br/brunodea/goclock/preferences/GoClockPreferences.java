@@ -179,4 +179,7 @@ public class GoClockPreferences {
 	public static boolean buttonSoundOnTap() {
 		return getBooleanPreference(App.instance(), "button_sound_on_tap_key", true);
 	}
+	public static boolean beepOnTimeTransition() {
+		return getBooleanPreference(App.instance(), "beep_on_time_transition_key", true);
+	}
 }
